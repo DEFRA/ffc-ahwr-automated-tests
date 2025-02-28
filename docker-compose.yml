@@ -1,0 +1,303 @@
+version: "3.8"
+
+services:
+  wdio-tests:
+    platform: linux/amd64
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./package.json:/app/package.json
+    depends_on:
+      database-up:
+        condition: service_completed_successfully
+    environment:
+      DOCKER_MODE: true
+
+  ffc-ahwr-dashboard:
+    platform: linux/amd64
+    image: ffc-ahwr-dashboard:latest
+    ports:
+      - "3003:3000"
+    depends_on:
+      - redis
+    environment:
+      APPINSIGHTS_CLOUDROLE: ffc-ahwr-dashboard-local
+      APPLICATIONINSIGHTS_CONNECTION_STRING: random-value
+      COOKIE_PASSWORD: who-likes-cookies-i-like-cookies-everybody-likes-cookies
+      EVENT_QUEUE_ADDRESS: ffc-ahwr-event-rmc
+      GOOGLE_TAG_MANAGER_KEY: random-value
+      MESSAGE_QUEUE_HOST: "SNDFFCINFSB1001.servicebus.windows.net"
+      MESSAGE_QUEUE_PASSWORD: ------PUT_VALUE_HERE------
+      MESSAGE_QUEUE_USER: "RootManageSharedAccessKey"
+      REDIS_HOSTNAME: redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: ""
+      SERVICE_URI: http://localhost:3003/
+      CLAIM_SERVICE_URI: http://localhost:3004/claim
+      APPLY_SERVICE_URI: http://localhost:3000/apply
+      APPLICATION_API_URI: http://host.docker.internal:3001/api
+      DEFRA_ID_TENANT: random-value
+      DEFRA_ID_POLICY: random-value
+      DEFRA_ID_REDIRECT_URI: http://localhost:3003/signin-oidc
+      DEFRA_ID_JWT_ISSUER_ID: random-value
+      DEFRA_ID_CLIENT_ID: random-value
+      DEFRA_ID_CLIENT_SECRET: random-value
+      DEFRA_ID_SERVICE_ID: random-value
+      RPA_HOST_NAME: random-value
+      RPA_GET_PERSON_SUMMARY_URL: random-value
+      RPA_GET_ORGANISATION_PERMISSIONS_URL: random-value
+      RPA_GET_ORGANISATION_URL: random-value
+      RPA_GET_CPH_NUMBERS_URL: random-value
+      APIM_OCP_SUBSCRIPTION_KEY: random-value
+      APIM_HOST_NAME: random-value
+      APIM_OAUTH_PATH: random-value
+      APIM_CLIENT_ID: random-value
+      APIM_CLIENT_SECRET: random-value
+      APIM_SCOPE: random-value
+      TERMS_AND_CONDITIONS_URL: http://localhost:3003/terms/v3
+      AZURE_STORAGE_CONNECTION_STRING: ------PUT_VALUE_HERE------
+      AZURE_STORAGE_ACCOUNT_NAME: ffcahwr
+      AZURE_STORAGE_APPLICATION_CONTAINER: documents
+      AZURE_STORAGE_USE_CONNECTION_STRING: false
+      MULTI_SPECIES_ENABLED: true
+      MULTI_SPECIES_RELEASE_DATE: "2025-02-20"
+      NODE_ENV: development
+
+  ffc-ahwr-application:
+    platform: linux/amd64
+    image: ffc-ahwr-application:latest
+    depends_on:
+      - ffc-ahwr-application-postgres
+    ports:
+      - "3001:3000"
+    environment:
+      APPLICATIONDOCCREATIONREQUEST_QUEUE_ADDRESS: ffc-ahwr-document-request-rmc
+      PAYMENTREQUEST_QUEUE_ADDRESS: ffc-ahwr-payment-request-rmc
+      POSTGRES_DB: ffc_ahwr_application
+      POSTGRES_HOST: ffc-ahwr-application-postgres
+      POSTGRES_PASSWORD: ppp
+      POSTGRES_PORT: 5432
+      POSTGRES_SCHEMA_NAME: public
+      POSTGRES_USERNAME: postgres
+      NOTIFY_TEMPLATE_ID_FARMER_ENDEMICS_REVIEW_COMPLETE: fe5ea908-dfcf-4b65-8514-2d4168b569a5
+      NOTIFY_TEMPLATE_ID_FARMER_ENDEMICS_FOLLOWUP_COMPLETE: fe5ea908-dfcf-4b65-8514-2d4168b569a5
+      SERVICE_URI: http://localhost:3000
+      AZURE_STORAGE_USE_CONNECTION_STRING: "true"
+      SFD_MESSAGE_QUEUE_ADDRESS: ffc-ahwr-sfd-message-rmc
+      NODE_ENV: development
+      MESSAGE_QUEUE_HOST: "SNDFFCINFSB1001.servicebus.windows.net"
+      MESSAGE_QUEUE_PASSWORD: ------PUT_VALUE_HERE------
+      MESSAGE_QUEUE_USER: "RootManageSharedAccessKey"
+      APPLICATIONREQUEST_QUEUE_ADDRESS: "ffc-ahwr-application-request-rmc"
+      APPLICATIONRESPONSE_QUEUE_ADDRESS: "ffc-ahwr-application-response-rmc"
+      NOTIFY_API_KEY: random-value
+      NOTIFY_TEMPLATE_ID_APPLICATION_COMPLETE: fe5ea908-dfcf-4b65-8514-2d4168b569a5
+      NOTIFY_TEMPLATE_ID_FARMER_LOGIN: fe5ea908-dfcf-4b65-8514-2d4168b569a5
+      NOTIFY_TEMPLATE_ID_VET_LOGIN: fe5ea908-dfcf-4b65-8514-2d4168b569a5
+      TEST_ENVIRONMENT_ROOT_URL: "http://host.docker.internal:3000"
+      AZURE_STORAGE_CONNECTION_STRING: ------PUT_VALUE_HERE------
+      AZURE_STORAGE_ACCOUNT_NAME: "ffcahwr"
+      AZURE_STORAGE_USERS_CONTAINER: "users"
+      NOTIFY_TEMPLATE_ID_FARMER_APPLY_LOGIN: fe5ea908-dfcf-4b65-8514-2d4168b569a5
+      NOTIFY_TEMPLATE_ID_FARMER_APPLICATION_COMPLETE: fe5ea908-dfcf-4b65-8514-2d4168b569a5
+      NOTIFY_TEMPLATE_ID_FARMER_APPLICATION_CLAIM: fe5ea908-dfcf-4b65-8514-2d4168b569a5
+      NOTIFY_TEMPLATE_ID_VET_APPLICATION_COMPLETE: fe5ea908-dfcf-4b65-8514-2d4168b569a5
+      NOTIFY_TEMPLATE_ID_FARMER_CLAIM_LOGIN: fe5ea908-dfcf-4b65-8514-2d4168b569a5
+      NOTIFY_TEMPLATE_ID_FARMER_CLAIM_COMPLETE: fe5ea908-dfcf-4b65-8514-2d4168b569a5
+      EVENT_QUEUE_ADDRESS: "ffc-ahwr-event-rmc"
+      NODE_TLS_REJECT_UNAUTHORIZED :  "0"
+      REGISTER_YOUR_INTEREST_ENABLED: "true"
+      COOKIE_PASSWORD: "12345678901234567890123456789012"
+      REGISTER_YOUR_INTEREST_REQUEST_QUEUE_ADDRESS: "ffc-ahwr-register-your-interest-request"
+      LIQUIBASE_CONTEXTS: "test"
+      WAITING_LIST_SCHEDULE: "*/30 * * * *"
+      WAITING_LIST_SCHEDULER_ENABLED: "true"
+      WAITING_LIST_THRESHOLD_UPPER_LIMIT: 2
+      APPLICATIONINSIGHTS_CONNECTION_STRING: random-value
+      APPINSIGHTS_CLOUDROLE: "ffc-ahwr-eligibility"
+      APPLY_SERVICE_URI: "http://localhost:3000/apply"
+      CLAIM_COMPLIANCE_CHECK_RATIO: 5
+      ENDEMICS_CLAIM_COMPLIANCE_CHECK_RATIO: 1
+      TEN_MONTH_RULE_ENABLED: "true"
+      ENDEMICS_ENABLED: "true"
+      OPTIONAL_PIHUNT_ENABLED: "true"
+      CARBON_COPY_EMAIL_ADDRESS: "rob.catton@equalexperts.com"
+
+  ffc-ahwr-application-postgres:
+    image: postgres:11.4-alpine
+    environment:
+      POSTGRES_DB: ffc_ahwr_application
+      POSTGRES_PASSWORD: ppp
+      POSTGRES_USERNAME: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  database-up:
+    platform: linux/amd64
+    image: liquibase/liquibase:3.10.x
+    environment:
+      POSTGRES_HOST: ffc-ahwr-application-postgres
+      SCHEMA_ROLE: postgres
+      SCHEMA_USERNAME: postgres
+      SCHEMA_PASSWORD: ppp
+      SCHEMA_NAME: public
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: ffc_ahwr_application
+      POSTGRES_PASSWORD: ppp
+      POSTGRES_USERNAME: postgres
+    entrypoint: >
+      sh -c "/scripts/database_up"
+    depends_on:
+      - ffc-ahwr-application-postgres
+    volumes:
+      - ./changelog:/liquibase/changelog
+      - ./scripts:/scripts
+
+  ffc-ahwr-farmer-apply:
+    platform: linux/amd64
+    image: ffc-ahwr-farmer-apply:latest
+    ports:
+      - "3000:3000"
+    depends_on:
+      - redis
+    environment:
+      APPINSIGHTS_CLOUDROLE: ffc-ahwr-farmer-apply-local
+      GOOGLE_TAG_MANAGER_KEY: random-value
+      REDIS_HOSTNAME: redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: ""
+      SERVICE_URI: http://localhost:3000/apply
+      CLAIM_SERVICE_URI: http://localhost:3004/claim
+      URL_PREFIX: "/apply"
+      APPLICATION_API_URI: http://host.docker.internal:3001/api
+      DEFRA_ID_SERVICE_ID: random-value
+      APIM_HOST_NAME: random-value
+      APIM_OAUTH_PATH: random-value
+      APIM_SCOPE: random-value
+      DATE_OF_TESTING_ENABLED: false
+      NODE_ENV: development
+      DEV_LOGIN_ENABLED: true
+      MESSAGE_QUEUE_HOST: "SNDFFCINFSB1001.servicebus.windows.net"
+      MESSAGE_QUEUE_PASSWORD: ------PUT_VALUE_HERE------
+      MESSAGE_QUEUE_USER: "RootManageSharedAccessKey"
+      APPLICATIONREQUEST_QUEUE_ADDRESS: ffc-ahwr-application-request-rmc
+      APPLICATIONRESPONSE_QUEUE_ADDRESS: ffc-ahwr-application-response-rmc
+      NOTIFY_API_KEY: random-value
+      NOTIFY_TEMPLATE_ID_APPLICATION_COMPLETE: fe5ea908-dfcf-4b65-8514-2d4168b569a5
+      TEST_ENVIRONMENT_ROOT_URL: "http://host.docker.internal:3000"
+      AZURE_STORAGE_CONNECTION_STRING: ------PUT_VALUE_HERE------
+      AZURE_STORAGE_ACCOUNT_NAME: "ffcahwr"
+      NOTIFY_TEMPLATE_ID_FARMER_APPLICATION_COMPLETE: fe5ea908-dfcf-4b65-8514-2d4168b569a5
+      EVENT_QUEUE_ADDRESS: "ffc-ahwr-event"
+      REGISTER_YOUR_INTEREST_ENABLED: "true"
+      COOKIE_PASSWORD: "12345678901234567890123456789012"
+      ELIGIBILITY_API_ENABLED: "true"
+      DASHBOARD_SERVICE_URI: "http://localhost:3003"
+      DEFRA_ID_CLIENT_SECRET: random-value
+      APIM_CLIENT_ID: random-value
+      APIM_CLIENT_SECRET: random-value
+      APIM_OCP_SUBSCRIPTION_KEY: random-value
+      DEFRA_ID_TENANT: random-value
+      DEFRA_ID_POLICY: random-value
+      DEFRA_ID_CLIENT_ID: random-value
+      DEFRA_ID_JWT_ISSUER_ID: random-value
+      DEFRA_ID_REDIRECT_URI: http://localhost:3003/signin-oidc
+      DEFRA_ID_DASHBOARD_REDIRECT_URI: http://localhost:3003/signin-oidc
+      TERMS_AND_CONDITIONS_URL: "http://localhost:3000/apply/terms/v3"
+      RPA_HOST_NAME: random-value
+      RPA_GET_PERSON_SUMMARY_URL: random-value
+      RPA_GET_ORGANISATION_PERMISSIONS_URL: random-value
+      RPA_GET_ORGANISATION_URL: random-value
+      RPA_GET_CPH_NUMBERS_URL: random-value
+      APPLICATIONINSIGHTS_CONNECTION_STRING: random-value
+      TEN_MONTH_RULE_ENABLED: "true"
+      ENDEMICS_ENABLED: "true"
+      MULTI_SPECIES_ENABLED: "true"
+  
+  ffc-ahwr-farmer-claim:
+    platform: linux/amd64
+    image: ffc-ahwr-farmer-claim:latest
+    ports:
+      - "3004:3000"
+    depends_on:
+      - redis
+    environment:
+      APPINSIGHTS_CLOUDROLE: ffc-ahwr-farmer-claim-local
+      APPLICATIONINSIGHTS_CONNECTION_STRING: random-value
+      APPLICATIONREQUEST_QUEUE_ADDRESS: ffc-ahwr-application-request-rmc
+      APPLICATIONRESPONSE_QUEUE_ADDRESS: ffc-ahwr-application-response-rmc
+      COOKIE_PASSWORD: who-likes-cookies-i-like-cookies-everybody-likes-cookies
+      EVENT_QUEUE_ADDRESS: ffc-ahwr-event-rmc
+      GOOGLE_TAG_MANAGER_KEY: random-value
+      MESSAGE_QUEUE_HOST: "SNDFFCINFSB1001.servicebus.windows.net"
+      MESSAGE_QUEUE_PASSWORD: ------PUT_VALUE_HERE------
+      MESSAGE_QUEUE_USER: "RootManageSharedAccessKey"
+      REDIS_HOSTNAME: redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: ""
+      SERVICE_URI: http://localhost:3004/claim
+      APPLY_SERVICE_URI: http://localhost:3000/apply
+      DASHBOARD_SERVICE_URI: http://localhost:3003
+      APPLICATION_API_URI: http://host.docker.internal:3001/api
+      DEFRA_ID_TENANT: random-value
+      DEFRA_ID_POLICY: random-value
+      DEFRA_ID_REDIRECT_URI: http://localhost:3003/signin-oidc
+      DEFRA_ID_DASHBOARD_REDIRECT_URI: http://localhost:3003/signin-oidc
+      DEFRA_ID_JWT_ISSUER_ID: random-value
+      DEFRA_ID_CLIENT_ID: random-value
+      DEFRA_ID_CLIENT_SECRET: random-value
+      DEFRA_ID_SERVICE_ID: random-value
+      RPA_HOST_NAME: random-value
+      RPA_GET_PERSON_SUMMARY_URL: random-value
+      RPA_GET_ORGANISATION_PERMISSIONS_URL: random-value
+      RPA_GET_ORGANISATION_URL: random-value
+      APIM_OCP_SUBSCRIPTION_KEY: random-value
+      APIM_HOST_NAME: random-value
+      APIM_OAUTH_PATH: random-value
+      APIM_CLIENT_ID: random-value
+      APIM_CLIENT_SECRET: random-value
+      APIM_SCOPE: random-value
+      DATE_OF_TESTING_ENABLED: false
+      ENDEMICS_ENABLED: true
+      OPTIONAL_PIHUNT_ENABLED: true
+      MULTI_SPECIES_ENABLED: true
+      NODE_ENV: development
+      DEV_LOGIN_ENABLED: true
+
+  ffc-ahwr-backoffice:
+    platform: linux/amd64
+    image: ffc-ahwr-backoffice:latest
+    ports:
+      - "3002:3000"
+    depends_on:
+      - redis
+    environment:
+      APPINSIGHTS_CLOUDROLE: ffc-ahwr-backoffice-local
+      APPLICATIONINSIGHTS_CONNECTION_STRING: random-value
+      AADAR_ENABLED: false
+      AADAR_CLIENT_SECRET: random-value
+      AADAR_CLIENT_ID: random-value
+      AADAR_REDIRECT_URL: http://localhost:3002/authenticate
+      AADAR_TENANT_ID: random-value
+      COOKIE_PASSWORD: who-likes-cookies-i-like-cookies-everybody-likes-cookies
+      REDIS_HOSTNAME: redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: ""
+      SERVICE_URI: http://localhost:3002
+      APPLICATION_API_URI: http://host.docker.internal:3001/api
+      DISPLAY_PAGE_SIZE: 20
+      DATE_OF_TESTING_ENABLED: false
+      ON_HOLD_APP_PROCESS_ENABLED: true
+      ON_HOLD_APP_PROCESS_SCHEDULE: "0 0 * * 2-5"
+      ENDEMICS_ENABLED: true
+      MULTI_SPECIES_ENABLED: true
+      NODE_ENV: development
+  
+  redis:
+    image: redis:4.0.14
+    ports:
+      - "6379:6379"
+
+volumes:
+  postgres_data: {}

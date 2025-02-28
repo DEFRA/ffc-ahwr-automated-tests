@@ -1,0 +1,45 @@
+{
+  "name": "ffc-ahwr-automated-tests",
+  "version": "1.0.0",
+  "description": "Automated tests for AHWR services",
+  "scripts": {
+    "wdio": "npm run lint && wdio",
+    "lint": "standard",
+    "lint:fix": "standard --fix"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DEFRA/ffc-ahwr-automated-tests.git"
+  },
+  "author": "Defra",
+  "contributors": [
+    "Rob Catton rob.catton@defra.gov.uk"
+  ],
+  "license": "OGL-UK-3.0",
+  "bugs": {
+    "url": "https://github.com/DEFRA/ffc-ahwr-automated-tests/issues"
+  },
+  "homepage": "https://github.com/DEFRA/ffc-ahwr-automated-tests#readme",
+  "devDependencies": {
+    "@wdio/cli": "^9.10.0",
+    "@wdio/local-runner": "^9.10.0",
+    "@wdio/mocha-framework": "^9.9.0",
+    "@wdio/spec-reporter": "^9.9.0",
+    "standard": "^16.0.4"
+  },
+  "standard": {
+    "env": {
+      "jest": true
+    },
+    "globals": [
+      "$",
+      "browser"
+    ],
+    "ignore": [
+      "app/frontend/dist/**/*.js",
+      "test/acceptance/**/*.js",
+      "test/acceptance/**/*.mjs",
+      "test/acceptance/**/*.cjs"
+    ]
+  }
+}
