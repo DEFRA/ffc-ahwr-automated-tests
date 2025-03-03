@@ -2,8 +2,9 @@
 
 ## 📝 Table of Contents
 - [📖 Overview](#-overview)
-- [⚙️ Prerequisites](#️-prerequisites)
+- [🚀 Prerequisites](#️-prerequisites)
 - [🧪 Running Automated Tests](#-running-automated-tests)
+- [🙈 Gotchas](#-gotchas)
 
 ---
 
@@ -18,10 +19,13 @@ we can use the run_tests script to set some env vars, and it uses docker compose
 ---
 
 ## 🚀 Prerequisites
+- macOS (this repo has been developed on a Macbook laptop, so if you are running Windows it probably needs some changes to get it to work)
 - Node version 20+
 - Azure login for Dev tenant
+- Make sure you are on the VPN
 - Docker
-- Make sure you have MESSAGE_QUEUE_PASSWORD, AZURE_STORAGE_CONNECTION_STRING and APPLICATIONINSIGHTS_CONNECTION_STRING in a .env file in the root of the repo
+- Create a .env file in the root of the repo
+- Make sure you have MESSAGE_QUEUE_PASSWORD, AZURE_STORAGE_CONNECTION_STRING and APPLICATIONINSIGHTS_CONNECTION_STRING in your .env file
 - You can find these values by speaking to a dev
 
 ## 🧪 Running Automated Tests
@@ -40,3 +44,12 @@ az login
 ./scripts/run_tests.sh
 
 ```
+
+## 🙈 Gotchas
+
+- We use the -auto queues that have been created in the SND2 environment. When the tests run in the pipeline, they will use the -pipe queues. This
+is to avoid clashes where if someone still has the images running locally, they might consume the messages for someone else running them. If wanted,
+this could be avoided by people creating their own -auto-INITIALS_HERE queues - but it likely wont be needed because its likely only 1 person is
+working on these tests at one moment.
+
+- The repo has been developed to work on macOS. This means you might struggle to run it on Windows, unless you can make alterations to scripts etc.

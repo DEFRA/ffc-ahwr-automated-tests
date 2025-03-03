@@ -1,6 +1,5 @@
 #!/bin/bash
 
-# Configuration
 ACR_NAME="DEVFFCINFAC1001"
 IMAGES=(
   "ffc-ahwr-dashboard"
@@ -17,7 +16,6 @@ az acr login --name "$ACR_NAME"
 TOKEN=$(az acr login --name "$ACR_NAME" --expose-token --output tsv --query accessToken)
 echo "$TOKEN" | docker login "$ACR_NAME.azurecr.io" --username 00000000-0000-0000-0000-000000000000 --password-stdin
 
-# Function to get the latest tag
 get_latest_tag() {
   az acr repository show-tags \
     --name "$ACR_NAME" \

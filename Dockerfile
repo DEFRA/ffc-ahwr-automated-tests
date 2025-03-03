@@ -28,4 +28,4 @@ USER appuser
 
 ENV PATH="$NVM_DIR/versions/node/v${NODE_VERSION}/bin/:$PATH"
 
-CMD ["npm", "run", "wdio"]
+CMD ["tail", "-f", "/dev/null"]
