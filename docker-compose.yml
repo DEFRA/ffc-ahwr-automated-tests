@@ -1,8 +1,8 @@
-version: "3.8"
-
 services:
   wdio-tests:
     platform: linux/amd64
+    networks:
+      - ffc-ahwr-network
     build:
       context: .
       dockerfile: Dockerfile
@@ -16,6 +16,8 @@ services:
 
   ffc-ahwr-dashboard:
     platform: linux/amd64
+    networks:
+      - ffc-ahwr-network
     image: ffc-ahwr-dashboard:latest
     ports:
       - "3003:3000"
@@ -25,11 +27,11 @@ services:
       APPINSIGHTS_CLOUDROLE: ffc-ahwr-dashboard-local
       APPLICATIONINSIGHTS_CONNECTION_STRING: random-value
       COOKIE_PASSWORD: who-likes-cookies-i-like-cookies-everybody-likes-cookies
-      EVENT_QUEUE_ADDRESS: ffc-ahwr-event-auto
+      EVENT_QUEUE_ADDRESS: ffc-ahwr-event${MESSAGE_QUEUE_SUFFIX}
       GOOGLE_TAG_MANAGER_KEY: random-value
-      MESSAGE_QUEUE_HOST: "SNDFFCINFSB2001.servicebus.windows.net"
-      MESSAGE_QUEUE_PASSWORD: ------PUT_VALUE_HERE------
-      MESSAGE_QUEUE_USER: "RootManageSharedAccessKey"
+      MESSAGE_QUEUE_HOST: SNDFFCINFSB2001.servicebus.windows.net
+      MESSAGE_QUEUE_PASSWORD: AnyOldString
+      MESSAGE_QUEUE_USER: RootManageSharedAccessKey
       REDIS_HOSTNAME: redis
       REDIS_PORT: 6379
       REDIS_PASSWORD: ""
@@ -56,7 +58,7 @@ services:
       APIM_CLIENT_SECRET: random-value
       APIM_SCOPE: random-value
       TERMS_AND_CONDITIONS_URL: http://localhost:3003/terms/v3
-      AZURE_STORAGE_CONNECTION_STRING: ------PUT_VALUE_HERE------
+      AZURE_STORAGE_CONNECTION_STRING: UseDevelopmentStorage=true
       AZURE_STORAGE_ACCOUNT_NAME: ffcahwr
       AZURE_STORAGE_APPLICATION_CONTAINER: documents
       AZURE_STORAGE_USE_CONNECTION_STRING: false
@@ -66,6 +68,8 @@ services:
 
   ffc-ahwr-application:
     platform: linux/amd64
+    networks:
+      - ffc-ahwr-network
     image: ffc-ahwr-application:latest
     depends_on:
       database-up:
@@ -73,8 +77,8 @@ services:
     ports:
       - "3001:3000"
     environment:
-      APPLICATIONDOCCREATIONREQUEST_QUEUE_ADDRESS: ffc-ahwr-document-request-auto
-      PAYMENTREQUEST_QUEUE_ADDRESS: ffc-ahwr-payment-request-auto
+      APPLICATIONDOCCREATIONREQUEST_QUEUE_ADDRESS: ffc-ahwr-document-request${MESSAGE_QUEUE_SUFFIX}
+      PAYMENTREQUEST_QUEUE_ADDRESS: ffc-ahwr-payment-request${MESSAGE_QUEUE_SUFFIX}
       POSTGRES_DB: ffc_ahwr_application
       POSTGRES_HOST: ffc-ahwr-application-postgres
       POSTGRES_PASSWORD: ppp
@@ -85,19 +89,19 @@ services:
       NOTIFY_TEMPLATE_ID_FARMER_ENDEMICS_FOLLOWUP_COMPLETE: fe5ea908-dfcf-4b65-8514-2d4168b569a5
       SERVICE_URI: http://localhost:3000
       AZURE_STORAGE_USE_CONNECTION_STRING: "true"
-      SFD_MESSAGE_QUEUE_ADDRESS: ffc-ahwr-sfd-message-auto
+      SFD_MESSAGE_QUEUE_ADDRESS: ffc-ahwr-sfd-message${MESSAGE_QUEUE_SUFFIX}
       NODE_ENV: development
-      MESSAGE_QUEUE_HOST: "SNDFFCINFSB2001.servicebus.windows.net"
-      MESSAGE_QUEUE_PASSWORD: ------PUT_VALUE_HERE------
-      MESSAGE_QUEUE_USER: "RootManageSharedAccessKey"
-      APPLICATIONREQUEST_QUEUE_ADDRESS: ffc-ahwr-application-request-auto
-      APPLICATIONRESPONSE_QUEUE_ADDRESS: ffc-ahwr-application-response-auto
+      MESSAGE_QUEUE_HOST: SNDFFCINFSB2001.servicebus.windows.net
+      MESSAGE_QUEUE_PASSWORD: AnyOldString
+      MESSAGE_QUEUE_USER: RootManageSharedAccessKey
+      APPLICATIONREQUEST_QUEUE_ADDRESS: ffc-ahwr-application-request${MESSAGE_QUEUE_SUFFIX}
+      APPLICATIONRESPONSE_QUEUE_ADDRESS: ffc-ahwr-application-response${MESSAGE_QUEUE_SUFFIX}
       NOTIFY_API_KEY: random-value
       NOTIFY_TEMPLATE_ID_APPLICATION_COMPLETE: fe5ea908-dfcf-4b65-8514-2d4168b569a5
       NOTIFY_TEMPLATE_ID_FARMER_LOGIN: fe5ea908-dfcf-4b65-8514-2d4168b569a5
       NOTIFY_TEMPLATE_ID_VET_LOGIN: fe5ea908-dfcf-4b65-8514-2d4168b569a5
       TEST_ENVIRONMENT_ROOT_URL: "http://host.docker.internal:3000"
-      AZURE_STORAGE_CONNECTION_STRING: ------PUT_VALUE_HERE------
+      AZURE_STORAGE_CONNECTION_STRING: UseDevelopmentStorage=true
       AZURE_STORAGE_ACCOUNT_NAME: "ffcahwr"
       AZURE_STORAGE_USERS_CONTAINER: "users"
       NOTIFY_TEMPLATE_ID_FARMER_APPLY_LOGIN: fe5ea908-dfcf-4b65-8514-2d4168b569a5
@@ -106,7 +110,7 @@ services:
       NOTIFY_TEMPLATE_ID_VET_APPLICATION_COMPLETE: fe5ea908-dfcf-4b65-8514-2d4168b569a5
       NOTIFY_TEMPLATE_ID_FARMER_CLAIM_LOGIN: fe5ea908-dfcf-4b65-8514-2d4168b569a5
       NOTIFY_TEMPLATE_ID_FARMER_CLAIM_COMPLETE: fe5ea908-dfcf-4b65-8514-2d4168b569a5
-      EVENT_QUEUE_ADDRESS: "ffc-ahwr-event-auto"
+      EVENT_QUEUE_ADDRESS: ffc-ahwr-event${MESSAGE_QUEUE_SUFFIX}
       NODE_TLS_REJECT_UNAUTHORIZED :  "0"
       REGISTER_YOUR_INTEREST_ENABLED: "true"
       COOKIE_PASSWORD: "12345678901234567890123456789012"
@@ -126,6 +130,8 @@ services:
       CARBON_COPY_EMAIL_ADDRESS: "rob.catton@equalexperts.com"
 
   ffc-ahwr-application-postgres:
+    networks:
+      - ffc-ahwr-network
     image: postgres:11.4-alpine
     environment:
       POSTGRES_DB: ffc_ahwr_application
@@ -134,6 +140,8 @@ services:
 
   database-up:
     platform: linux/amd64
+    networks:
+      - ffc-ahwr-network
     image: liquibase/liquibase:3.10.x
     environment:
       POSTGRES_HOST: ffc-ahwr-application-postgres
@@ -155,6 +163,8 @@ services:
 
   ffc-ahwr-farmer-apply:
     platform: linux/amd64
+    networks:
+      - ffc-ahwr-network
     image: ffc-ahwr-farmer-apply:latest
     ports:
       - "3000:3000"
@@ -177,18 +187,18 @@ services:
       DATE_OF_TESTING_ENABLED: false
       NODE_ENV: development
       DEV_LOGIN_ENABLED: true
-      MESSAGE_QUEUE_HOST: "SNDFFCINFSB2001.servicebus.windows.net"
-      MESSAGE_QUEUE_PASSWORD: ------PUT_VALUE_HERE------
-      MESSAGE_QUEUE_USER: "RootManageSharedAccessKey"
-      APPLICATIONREQUEST_QUEUE_ADDRESS: ffc-ahwr-application-request-auto
-      APPLICATIONRESPONSE_QUEUE_ADDRESS: ffc-ahwr-application-response-auto
+      MESSAGE_QUEUE_HOST: SNDFFCINFSB2001.servicebus.windows.net
+      MESSAGE_QUEUE_PASSWORD: AnyOldString
+      MESSAGE_QUEUE_USER: RootManageSharedAccessKey
+      APPLICATIONREQUEST_QUEUE_ADDRESS: ffc-ahwr-application-request${MESSAGE_QUEUE_SUFFIX}
+      APPLICATIONRESPONSE_QUEUE_ADDRESS: ffc-ahwr-application-response${MESSAGE_QUEUE_SUFFIX}
       NOTIFY_API_KEY: random-value
       NOTIFY_TEMPLATE_ID_APPLICATION_COMPLETE: fe5ea908-dfcf-4b65-8514-2d4168b569a5
       TEST_ENVIRONMENT_ROOT_URL: "http://host.docker.internal:3000"
-      AZURE_STORAGE_CONNECTION_STRING: ------PUT_VALUE_HERE------
+      AZURE_STORAGE_CONNECTION_STRING: UseDevelopmentStorage=true
       AZURE_STORAGE_ACCOUNT_NAME: "ffcahwr"
       NOTIFY_TEMPLATE_ID_FARMER_APPLICATION_COMPLETE: fe5ea908-dfcf-4b65-8514-2d4168b569a5
-      EVENT_QUEUE_ADDRESS: "ffc-ahwr-event"
+      EVENT_QUEUE_ADDRESS: ffc-ahwr-event${MESSAGE_QUEUE_SUFFIX}
       REGISTER_YOUR_INTEREST_ENABLED: "true"
       COOKIE_PASSWORD: "12345678901234567890123456789012"
       ELIGIBILITY_API_ENABLED: "true"
@@ -216,6 +226,8 @@ services:
   
   ffc-ahwr-farmer-claim:
     platform: linux/amd64
+    networks:
+      - ffc-ahwr-network
     image: ffc-ahwr-farmer-claim:latest
     ports:
       - "3004:3000"
@@ -224,14 +236,14 @@ services:
     environment:
       APPINSIGHTS_CLOUDROLE: ffc-ahwr-farmer-claim-local
       APPLICATIONINSIGHTS_CONNECTION_STRING: random-value
-      APPLICATIONREQUEST_QUEUE_ADDRESS: ffc-ahwr-application-request-auto
-      APPLICATIONRESPONSE_QUEUE_ADDRESS: ffc-ahwr-application-response-auto
+      APPLICATIONREQUEST_QUEUE_ADDRESS: ffc-ahwr-application-request${MESSAGE_QUEUE_SUFFIX}
+      APPLICATIONRESPONSE_QUEUE_ADDRESS: ffc-ahwr-application-response${MESSAGE_QUEUE_SUFFIX}
       COOKIE_PASSWORD: who-likes-cookies-i-like-cookies-everybody-likes-cookies
-      EVENT_QUEUE_ADDRESS: ffc-ahwr-event-auto
+      EVENT_QUEUE_ADDRESS: ffc-ahwr-event${MESSAGE_QUEUE_SUFFIX}
       GOOGLE_TAG_MANAGER_KEY: random-value
-      MESSAGE_QUEUE_HOST: "SNDFFCINFSB2001.servicebus.windows.net"
-      MESSAGE_QUEUE_PASSWORD: ------PUT_VALUE_HERE------
-      MESSAGE_QUEUE_USER: "RootManageSharedAccessKey"
+      MESSAGE_QUEUE_HOST: SNDFFCINFSB2001.servicebus.windows.net
+      MESSAGE_QUEUE_PASSWORD: AnyOldString
+      MESSAGE_QUEUE_USER: RootManageSharedAccessKey
       REDIS_HOSTNAME: redis
       REDIS_PORT: 6379
       REDIS_PASSWORD: ""
@@ -266,6 +278,8 @@ services:
 
   ffc-ahwr-backoffice:
     platform: linux/amd64
+    networks:
+      - ffc-ahwr-network
     image: ffc-ahwr-backoffice:latest
     ports:
       - "3002:3000"
@@ -294,7 +308,13 @@ services:
       NODE_ENV: development
   
   redis:
+    networks:
+      - ffc-ahwr-network
     image: redis:4.0.14
     ports:
       - "6379:6379"
 
+networks:
+  ffc-ahwr-network:
+    name: ffc-ahwr-network
+    external: true

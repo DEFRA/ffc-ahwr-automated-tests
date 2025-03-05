@@ -13,7 +13,7 @@ This project is home to the Vets Visits teams automated tests. We pull the image
 run them in a Docker container, and then run Webdriver IO automated tests to validate the key journeys work. These can be run in the pipeline
 as well as locally.
 
-We use the pull_lats_acr_images script inside the /scripts folder to pull the latest images from ACR in Azure for the services we need to run. Once we have these, 
+We use the pull_latest_acr_images.sh script inside the /scripts folder to pull the latest images from ACR in Azure for the services we need to run. Once we have these, 
 we can use the run_tests script to set some env vars, and it uses docker compose to start the needed services, before the Webdriver IO tests execute.
 
 ---
@@ -21,11 +21,12 @@ we can use the run_tests script to set some env vars, and it uses docker compose
 ## 🚀 Prerequisites
 - macOS (this repo has been developed on a Macbook laptop, so if you are running Windows it probably needs some changes to get it to work)
 - Node version 20+
-- Azure login for Dev tenant
+- Azure login for SND2 tenant
 - Make sure you are on the VPN
 - Docker
 - Create a .env file in the root of the repo
-- Make sure you have MESSAGE_QUEUE_PASSWORD, AZURE_STORAGE_CONNECTION_STRING and APPLICATIONINSIGHTS_CONNECTION_STRING in your .env file
+- Make sure you have MESSAGE_QUEUE_PASSWORD, MESSAGE_QUEUE_SUFFIX and APPLICATIONINSIGHTS_CONNECTION_STRING in your .env file
+- MESSAGE_QUEUE_SUFFIX should be whichever queues you want to use in SND2, e.g. -auto. The -pipe queues are reserved for the pipeline.
 - You can find these values by speaking to a dev
 
 ## 🧪 Running Automated Tests
@@ -34,7 +35,7 @@ we can use the run_tests script to set some env vars, and it uses docker compose
 # Install dependencies
 npm install
 
-# Log into Azure, and select the Dev tenant when prompted
+# Log into Azure, and select the SND2 tenant when prompted
 az login
 
 # Pull latest images
