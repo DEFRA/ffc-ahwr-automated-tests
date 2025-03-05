@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Automated tests for AHWR services",
   "scripts": {
-    "wdio": "npm run lint && wdio",
+    "wdio": "wdio",
     "lint": "standard",
     "lint:fix": "standard --fix"
   },
