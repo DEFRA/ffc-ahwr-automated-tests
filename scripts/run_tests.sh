@@ -7,15 +7,15 @@ APP_HEALTHCHECK_URL="http://localhost:3001/healthy"
 MAX_RETRIES=10
 
 if [ ! -f "$ENV_FILE" ]; then
-  echo "❌ Error: .env file not found!"
+  echo "No .env file found... assuming this is running on pipeline and required values are injected"
   exit 1
+else
+  MESSAGE_QUEUE_PASSWORD=$(grep -E '^MESSAGE_QUEUE_PASSWORD=' "$ENV_FILE" | cut -d '=' -f2-)
+  APPLICATIONINSIGHTS_CONNECTION_STRING=$(grep -E '^APPLICATIONINSIGHTS_CONNECTION_STRING=' "$ENV_FILE" | cut -d '=' -f2-)
 fi
 
-APPLICATIONINSIGHTS_CONNECTION_STRING=$(grep -E '^APPLICATIONINSIGHTS_CONNECTION_STRING=' "$ENV_FILE" | cut -d '=' -f2-)
-MESSAGE_QUEUE_PASSWORD=$(grep -E '^MESSAGE_QUEUE_PASSWORD=' "$ENV_FILE" | cut -d '=' -f2-)
-
 if [ -z "$MESSAGE_QUEUE_PASSWORD" ] || [ -z "$APPLICATIONINSIGHTS_CONNECTION_STRING" ]; then
-  echo "❌ Error: One or more values missing from .env!"
+  echo "❌ Error: One or more required environment variables are missing"
   exit 1
 fi
 
