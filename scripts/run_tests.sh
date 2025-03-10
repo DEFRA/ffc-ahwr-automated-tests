@@ -8,7 +8,6 @@ MAX_RETRIES=10
 
 if [ ! -f "$ENV_FILE" ]; then
   echo "No .env file found... assuming this is running on pipeline and required values are injected"
-  exit 1
 else
   MESSAGE_QUEUE_PASSWORD=$(grep -E '^MESSAGE_QUEUE_PASSWORD=' "$ENV_FILE" | cut -d '=' -f2-)
   APPLICATIONINSIGHTS_CONNECTION_STRING=$(grep -E '^APPLICATIONINSIGHTS_CONNECTION_STRING=' "$ENV_FILE" | cut -d '=' -f2-)
