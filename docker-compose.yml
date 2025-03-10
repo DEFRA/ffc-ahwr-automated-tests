@@ -317,4 +317,3 @@ services:
 networks:
   ffc-ahwr-network:
     name: ffc-ahwr-network
-    external: true
