@@ -8,6 +8,7 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./package.json:/app/package.json
+      - ./wdio.conf.js:/app/wdio.conf.js
     depends_on:
       database-up:
         condition: service_completed_successfully
