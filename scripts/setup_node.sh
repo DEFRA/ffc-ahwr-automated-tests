@@ -10,9 +10,7 @@ export NVM_DIR="/var/lib/jenkins/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" 
 
-sudo su - 
-apt update
-apt upgrade libc6
+# glibc 2.28 version missing
 
 nvm install 20.18.1
 nvm use 20.18.1

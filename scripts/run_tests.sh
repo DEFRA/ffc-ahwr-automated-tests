@@ -42,20 +42,20 @@ sed -E \
 
 # echo "✅ Application service is ready!"
 
-# WDIO_CONTAINER=$(docker ps -qf "name=wdio-tests")
+WDIO_CONTAINER=$(docker ps -qf "name=wdio-tests")
 
-# if [ -z "$WDIO_CONTAINER" ]; then
-#   echo "❌ Error: WDIO container not found!"
-#   exit 1
-# fi
+if [ -z "$WDIO_CONTAINER" ]; then
+  echo "❌ Error: WDIO container not found!"
+  exit 1
+fi
 
-# echo "🧪 Running WDIO tests..."
-# mkdir -p logs
-# docker exec -i "$WDIO_CONTAINER" npm run wdio | tee logs/wdio_test_output.log
-# EXIT_CODE=${PIPESTATUS[0]}
-
-npm run wdio | tee logs/wdio_test_output.log
+echo "🧪 Running WDIO tests..."
+mkdir -p logs
+docker exec -i "$WDIO_CONTAINER" npm run wdio | tee logs/wdio_test_output.log
 EXIT_CODE=${PIPESTATUS[0]}
+
+# npm run wdio | tee logs/wdio_test_output.log
+# EXIT_CODE=${PIPESTATUS[0]}
 
 echo "🛑 Stopping services..."
 docker compose down
