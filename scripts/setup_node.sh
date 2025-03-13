@@ -11,8 +11,7 @@ node --version
 # sudo apt-get update && sudo apt-get install -y curl bash
 # sudo touch ~/.bash_profile
 
-apt update
-apt upgrade libc6
+ldd --version
 
 export NVM_DIR="/var/lib/jenkins/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
