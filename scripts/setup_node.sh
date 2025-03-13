@@ -4,7 +4,7 @@ set -e
 NODE_VERSION=20.18.1
 export NVM_DIR="$HOME/.nvm"
 
-$SUDO apt-get update && $SUDO apt-get install -y curl bash
+# sudo apt-get update && sudo apt-get install -y curl bash
 
 if [ ! -d "$NVM_DIR" ]; then
   git clone https://github.com/nvm-sh/nvm.git "$NVM_DIR"
