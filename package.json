@@ -7,7 +7,7 @@
     "wdio": "wdio",
     "lint": "prettier . --check && eslint",
     "lint:fix": "prettier . --write && eslint --fix",
-    "precommit": "npm run lint"
+    "hooks": "cp -r hooks/. .git/hooks/ && chmod -R +x .git/hooks && echo 'hooks copied'"
   },
   "repository": {
     "type": "git",
