@@ -112,7 +112,7 @@ services:
       NOTIFY_TEMPLATE_ID_FARMER_CLAIM_LOGIN: fe5ea908-dfcf-4b65-8514-2d4168b569a5
       NOTIFY_TEMPLATE_ID_FARMER_CLAIM_COMPLETE: fe5ea908-dfcf-4b65-8514-2d4168b569a5
       EVENT_QUEUE_ADDRESS: ffc-ahwr-event${MESSAGE_QUEUE_SUFFIX}
-      NODE_TLS_REJECT_UNAUTHORIZED :  "0"
+      NODE_TLS_REJECT_UNAUTHORIZED: "0"
       REGISTER_YOUR_INTEREST_ENABLED: "true"
       COOKIE_PASSWORD: "12345678901234567890123456789012"
       REGISTER_YOUR_INTEREST_REQUEST_QUEUE_ADDRESS: "ffc-ahwr-register-your-interest-request"
@@ -224,7 +224,7 @@ services:
       TEN_MONTH_RULE_ENABLED: "true"
       ENDEMICS_ENABLED: "true"
       MULTI_SPECIES_ENABLED: "true"
-  
+
   ffc-ahwr-farmer-claim:
     platform: linux/amd64
     networks:
@@ -307,7 +307,7 @@ services:
       ENDEMICS_ENABLED: true
       MULTI_SPECIES_ENABLED: true
       NODE_ENV: development
-  
+
   redis:
     networks:
       - ffc-ahwr-network-auto

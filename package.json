@@ -2,10 +2,12 @@
   "name": "ffc-ahwr-automated-tests",
   "version": "1.0.0",
   "description": "Automated tests for AHWR services",
+  "type": "module",
   "scripts": {
     "wdio": "wdio",
-    "lint": "standard",
-    "lint:fix": "standard --fix"
+    "lint": "prettier . --check && eslint",
+    "lint:fix": "prettier . --write && eslint --fix",
+    "precommit": "npm run lint"
   },
   "repository": {
     "type": "git",
@@ -20,26 +22,16 @@
     "url": "https://github.com/DEFRA/ffc-ahwr-automated-tests/issues"
   },
   "homepage": "https://github.com/DEFRA/ffc-ahwr-automated-tests#readme",
-  "devDependencies": {
+  "dependencies": {
     "@wdio/cli": "9.10.0",
     "@wdio/local-runner": "9.10.0",
     "@wdio/mocha-framework": "9.9.0",
-    "@wdio/spec-reporter": "9.9.0",
-    "standard": "16.0.4"
+    "@wdio/spec-reporter": "9.9.0"
   },
-  "standard": {
-    "env": {
-      "jest": true
-    },
-    "globals": [
-      "$",
-      "browser"
-    ],
-    "ignore": [
-      "app/frontend/dist/**/*.js",
-      "test/acceptance/**/*.js",
-      "test/acceptance/**/*.mjs",
-      "test/acceptance/**/*.cjs"
-    ]
+  "devDependencies": {
+    "eslint": "^9.22.0",
+    "eslint-config-prettier": "^10.1.1",
+    "neostandard": "^0.12.1",
+    "prettier": "^3.5.3"
   }
 }

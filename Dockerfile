@@ -19,7 +19,7 @@ RUN apt-get update && apt-get install -y curl bash \
     && ln -s "$NVM_DIR/versions/node/v${NODE_VERSION}/bin/node" /usr/local/bin/node \
     && ln -s "$NVM_DIR/versions/node/v${NODE_VERSION}/bin/npm" /usr/local/bin/npm \
     && ln -s "$NVM_DIR/versions/node/v${NODE_VERSION}/bin/npx" /usr/local/bin/npx \
-    && npm install \
+    && npm install --omit=dev --ignore-scripts \
     && useradd -m appuser \
     && chown -R appuser:appuser /app
 
