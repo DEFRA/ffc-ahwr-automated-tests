@@ -3,9 +3,9 @@
 set -e
 
 NODE_VERSION="20.18.1"
-NVM_DIR="/app/.nvm"
+NVM_DIR="$HOME/.nvm"
 
-apt-get update && apt-get install -y curl bash
+sudo apt-get update && sudo apt-get install -y curl bash
 
 mkdir -p "$NVM_DIR"
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
