@@ -9,11 +9,11 @@ set -e
 
 # sudo apt-get update && sudo apt-get install -y curl bash
 # sudo touch ~/.bash_profile
-
+ls -la /var/lib/jenkins/.nvm
 
 export NVM_DIR="/var/lib/jenkins/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # Load nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # Load nvm bash_completion
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
 nvm install 20.18.1
 nvm use 20.18.1
