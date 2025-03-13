@@ -9,6 +9,7 @@ services:
     volumes:
       - ./package.json:/app/package.json
       - ./wdio.conf.js:/app/wdio.conf.js
+      - ./package-lock.json:/app.package-lock.json
     depends_on:
       database-up:
         condition: service_completed_successfully
