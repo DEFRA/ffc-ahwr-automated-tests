@@ -12,9 +12,9 @@ set -x
 # sudo touch ~/.bash_profile
 
 export NVM_DIR="/var/lib/jenkins/.nvm"
-ls -l $NVM_DIR/nvm.sh
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" 
+# ls -l $NVM_DIR/nvm.sh
+# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" 
 
 nvm install 20.18.1
 nvm use 20.18.1
