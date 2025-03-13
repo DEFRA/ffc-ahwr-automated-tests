@@ -1,4 +1,4 @@
-FROM --platform=linux/amd64 selenium/standalone-chrome:latest
+FROM --platform=linux/amd64 selenium/standalone-chrome:133.0-20250222
 
 WORKDIR /app
 ADD . /app

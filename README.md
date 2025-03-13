@@ -20,7 +20,8 @@ we can use the run_tests script to set some env vars, and it uses docker compose
 
 ## 🚀 Prerequisites
 - macOS (this repo has been developed on a Macbook laptop, so if you are running Windows it probably needs some changes to get it to work)
-- Node version 20+
+- Node version 20+ (see .nvmrc file for exact version)
+- NVM (Node Version manager)
 - Azure login for SND2 tenant
 - Make sure you are on the VPN
 - Docker
@@ -53,4 +54,4 @@ is to avoid clashes where if someone still has the images running locally, they 
 this could be avoided by people creating their own -auto-INITIALS_HERE queues - but it likely wont be needed because its likely only 1 person is
 working on these tests at one moment.
 
-- The repo has been developed to work on macOS. This means you might struggle to run it on Windows, unless you can make alterations to scripts etc.
+- The repo has been developed to work on macOS / Linux. This means you might struggle to run it on Windows, unless you can make alterations to scripts etc.

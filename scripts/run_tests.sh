@@ -31,7 +31,6 @@ RETRIES=0
 until [[ "$(curl -s -o /dev/null -w "%{http_code}" $APP_HEALTHCHECK_URL)" == "200" ]]; do
   if [[ $RETRIES -ge $MAX_RETRIES ]]; then
     echo "❌ Error: Application service did not become ready in time!"
-    #docker compose logs application  # Show logs for debugging
     exit 1
   fi
   sleep 1

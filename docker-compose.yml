@@ -2,7 +2,7 @@ services:
   wdio-tests:
     platform: linux/amd64
     networks:
-      - ffc-ahwr-network
+      - ffc-ahwr-network-auto
     build:
       context: .
       dockerfile: Dockerfile
@@ -18,7 +18,7 @@ services:
   ffc-ahwr-dashboard:
     platform: linux/amd64
     networks:
-      - ffc-ahwr-network
+      - ffc-ahwr-network-auto
     image: ffc-ahwr-dashboard:latest
     ports:
       - "3003:3000"
@@ -70,7 +70,7 @@ services:
   ffc-ahwr-application:
     platform: linux/amd64
     networks:
-      - ffc-ahwr-network
+      - ffc-ahwr-network-auto
     image: ffc-ahwr-application:latest
     depends_on:
       database-up:
@@ -132,7 +132,7 @@ services:
 
   ffc-ahwr-application-postgres:
     networks:
-      - ffc-ahwr-network
+      - ffc-ahwr-network-auto
     image: postgres:11.4-alpine
     environment:
       POSTGRES_DB: ffc_ahwr_application
@@ -142,7 +142,7 @@ services:
   database-up:
     platform: linux/amd64
     networks:
-      - ffc-ahwr-network
+      - ffc-ahwr-network-auto
     image: liquibase/liquibase:3.10.x
     environment:
       POSTGRES_HOST: ffc-ahwr-application-postgres
@@ -165,7 +165,7 @@ services:
   ffc-ahwr-farmer-apply:
     platform: linux/amd64
     networks:
-      - ffc-ahwr-network
+      - ffc-ahwr-network-auto
     image: ffc-ahwr-farmer-apply:latest
     ports:
       - "3000:3000"
@@ -228,7 +228,7 @@ services:
   ffc-ahwr-farmer-claim:
     platform: linux/amd64
     networks:
-      - ffc-ahwr-network
+      - ffc-ahwr-network-auto
     image: ffc-ahwr-farmer-claim:latest
     ports:
       - "3004:3000"
@@ -280,7 +280,7 @@ services:
   ffc-ahwr-backoffice:
     platform: linux/amd64
     networks:
-      - ffc-ahwr-network
+      - ffc-ahwr-network-auto
     image: ffc-ahwr-backoffice:latest
     ports:
       - "3002:3000"
@@ -310,11 +310,11 @@ services:
   
   redis:
     networks:
-      - ffc-ahwr-network
+      - ffc-ahwr-network-auto
     image: redis:4.0.14
     ports:
       - "6379:6379"
 
 networks:
-  ffc-ahwr-network:
-    name: ffc-ahwr-network
+  ffc-ahwr-network-auto:
+    name: ffc-ahwr-network-auto
