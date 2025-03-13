@@ -23,7 +23,7 @@ we can use the run_tests script to set some env vars, and it uses docker compose
 ## 🚀 Prerequisites
 
 - macOS (this repo has been developed on a Macbook laptop, so if you are running Windows it probably needs some changes to get it to work)
-- Node version 20+ (see .nvmrc file for exact version)
+- Node version 20.18.1
 - NVM (Node Version manager)
 - Azure login for SND2 tenant
 - Make sure you are on the VPN
