@@ -2,6 +2,8 @@
 
 set -e  # Exit script on error
 
+npm i
+
 ENV_FILE=".env"
 APP_HEALTHCHECK_URL="http://localhost:3001/healthy"
 MAX_RETRIES=10
