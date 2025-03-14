@@ -1,29 +1,17 @@
-FROM mcr.microsoft.com/azure-cli:2.62.0-cbl-mariner2.0
+FROM node:20.18.1-bullseye
 
-WORKDIR /app
-ADD . /app
+# Install required dependencies
+RUN apt-get update && apt-get install -y \
+    curl \
+    ca-certificates \
+    gnupg
 
-USER root
+# Add Microsoft's signing key and repository
+RUN curl -sL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > /usr/share/keyrings/microsoft.gpg && \
+    echo "deb [arch=amd64 signed-by=/usr/share/keyrings/microsoft.gpg] https://packages.microsoft.com/repos/azure-cli/ $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/azure-cli.list
 
-ENV NODE_VERSION=20.18.1
-ENV NVM_DIR=/app/.nvm
+# Install Azure CLI
+RUN apt-get update && apt-get install -y azure-cli
 
-# Install Node.js with NVM
-RUN apt-get update && apt-get install -y curl bash \
-    && mkdir -p "$NVM_DIR" \
-    && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash \
-    && . "$NVM_DIR/nvm.sh" \
-    && nvm install ${NODE_VERSION} \
-    && nvm use ${NODE_VERSION} \
-    && nvm alias default ${NODE_VERSION} \
-    && ln -s "$NVM_DIR/versions/node/v${NODE_VERSION}/bin/node" /usr/local/bin/node \
-    && ln -s "$NVM_DIR/versions/node/v${NODE_VERSION}/bin/npm" /usr/local/bin/npm \
-    && ln -s "$NVM_DIR/versions/node/v${NODE_VERSION}/bin/npx" /usr/local/bin/npx \
-    && npm install --omit=dev --ignore-scripts \
-    && useradd -m appuser \
-    && chown -R appuser:appuser /app
-
-# Switch to non-root user for runtime
-USER appuser
-
-ENV PATH="$NVM_DIR/versions/node/v${NODE_VERSION}/bin/:$PATH"
+# Verify installation
+RUN az --version
