@@ -6,6 +6,9 @@ ENV_FILE=".env"
 APP_HEALTHCHECK_URL="http://localhost:3001/healthy"
 MAX_RETRIES=10
 
+pkill -9 chrome || true
+pkill -9 chromedriver || true
+
 if [ ! -f "$ENV_FILE" ]; then
   echo "No .env file found... assuming this is running on pipeline and required values are injected"
 else
