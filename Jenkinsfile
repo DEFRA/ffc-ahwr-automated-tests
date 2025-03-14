@@ -10,14 +10,11 @@ pipeline {
         stage('Build') {
             steps {
                 sh './scripts/pull_latest_acr_images.sh'
-                sh 'ls -ltr'
-                sh 'rm -rf node_modules'
             }
         }
         stage('Test') {
             agent { dockerfile { reuseNode true } }
             steps {
-                sh 'npm install --force'
                 sh './scripts/run_tests.sh'
             }
         }
