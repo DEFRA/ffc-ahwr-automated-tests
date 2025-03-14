@@ -19,8 +19,8 @@ RUN curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /
 # Set up the Docker stable repository
 RUN echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian bullseye stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
 
-# Install Docker 27.4.0
-RUN apt-get update && apt-get install -y docker-ce=5:27.4.0~3-0~debian-bullseye docker-ce-cli=5:27.4.0~3-0~debian-bullseye containerd.io
+# Install Docker (substitute with an available version)
+RUN apt-get update && apt-get install -y docker-ce docker-ce-cli containerd.io
 
 # Verify installations
 RUN az --version && docker --version
