@@ -4,7 +4,7 @@
   "description": "Automated tests for AHWR services",
   "type": "module",
   "scripts": {
-    "wdio": "wdio",
+    "wdio": "wdio run ./wdio.conf.js",
     "lint": "prettier . --check && eslint",
     "lint:fix": "prettier . --write && eslint --fix",
     "hooks": "cp -r hooks/. .git/hooks/ && chmod -R +x .git/hooks && echo 'hooks copied'"

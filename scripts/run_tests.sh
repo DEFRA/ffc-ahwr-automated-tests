@@ -26,22 +26,6 @@ sed -E \
     -e "s|(APPLICATIONINSIGHTS_CONNECTION_STRING:).*|\1 ${APPLICATIONINSIGHTS_CONNECTION_STRING}|g" \
     docker-compose.yml | docker compose -f - up -d
 
-
-# echo "⏳ Waiting for the application service to respond..."
-
-# RETRIES=0
-# until [[ "$(curl -s -o /dev/null -w "%{http_code}" $APP_HEALTHCHECK_URL)" == "200" ]]; do
-#   if [[ $RETRIES -ge $MAX_RETRIES ]]; then
-#     echo "❌ Error: Application service did not become ready in time!"
-#     exit 1
-#   fi
-#   sleep 1
-#   ((RETRIES++))
-#   echo "🔄 Still waiting for application service... ($RETRIES/$MAX_RETRIES)"
-# done
-
-# echo "✅ Application service is ready!"
-
 WDIO_CONTAINER=$(docker ps -qf "name=wdio-tests")
 
 if [ -z "$WDIO_CONTAINER" ]; then
@@ -53,9 +37,6 @@ echo "🧪 Running WDIO tests..."
 mkdir -p logs
 docker exec -i "$WDIO_CONTAINER" npm run wdio | tee logs/wdio_test_output.log
 EXIT_CODE=${PIPESTATUS[0]}
-
-# npm run wdio | tee logs/wdio_test_output.log
-# EXIT_CODE=${PIPESTATUS[0]}
 
 echo "🛑 Stopping services..."
 docker compose down
