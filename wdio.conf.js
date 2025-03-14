@@ -57,7 +57,7 @@ export const config = {
           "headless",
           "disable-gpu",
           "enable-automation",
-          `--user-data-dir=/tmp/chrome-${Date.now()}`,
+          `user-data-dir=/tmp/chrome-${Date.now()}`,
         ],
       },
     },
