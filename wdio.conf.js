@@ -52,13 +52,7 @@ export const config = {
       maxInstances: 1,
       browserName: "chrome",
       "goog:chromeOptions": {
-        args: [
-          "no-sandbox",
-          "disable-infobars",
-          "headless",
-          "disable-gpu",
-          "user-data-dir=~/myBrowser",
-        ],
+        args: ["no-sandbox", "headless", "disable-gpu", "enable-automation"],
       },
     },
   ],
