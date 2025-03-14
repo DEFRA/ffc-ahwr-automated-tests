@@ -57,7 +57,6 @@ export const config = {
           "disable-infobars",
           "headless",
           "disable-gpu",
-          "window-size=1440,735",
           "user-data-dir=~/myBrowser",
         ],
       },
