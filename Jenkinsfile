@@ -1,10 +1,10 @@
 pipeline {
     agent { dockerfile true }
     environment {
-        MESSAGE_QUEUE_PASSWORD = credentials('Message queue password')
-        APPLICATIONINSIGHTS_CONNECTION_STRING = credentials('App insights connection')
-        MESSAGE_QUEUE_SUFFIX = '-pipe'
-        AZURE_STORAGE_CONNECTION_STRING = credentials('Azure Storage conn string')
+        MESSAGE_QUEUE_PASSWORD = credentials('MESSAGE_QUEUE_PASSWORD')
+        APPLICATIONINSIGHTS_CONNECTION_STRING = credentials('APPLICATIONINSIGHTS_CONNECTION_STRING')
+        MESSAGE_QUEUE_SUFFIX = credentials('MESSAGE_QUEUE_SUFFIX')
+        AZURE_STORAGE_CONNECTION_STRING = credentials('AZURE_STORAGE_CONNECTION_STRING')
     }
     stages {
         stage('Test') {
