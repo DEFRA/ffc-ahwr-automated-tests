@@ -13,7 +13,7 @@ pipeline {
             }
         }
         stage('Test') {
-            agent { dockerfile true }
+            agent { dockerfile true reuseNode true }
             steps {
                 sh 'npm install'
                 sh './scripts/run_tests.sh'
