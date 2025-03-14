@@ -15,6 +15,7 @@ pipeline {
         stage('Test') {
             agent { dockerfile { reuseNode true } }
             steps {
+                sh 'rm -rf node_modules'
                 sh 'npm install'
                 sh './scripts/run_tests.sh'
             }
