@@ -57,6 +57,8 @@ export const config = {
           "--headless",
           "--disable-gpu",
           "--enable-automation",
+          "--disable-dev-shm-usage",
+          `--user-data-dir=/tmp/chrome-user-${new Date().getTime()}`,
         ],
       },
     },
