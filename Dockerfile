@@ -1,23 +1,23 @@
-# Start from the Docker-in-Docker image
-FROM docker:latest
+FROM --platform=linux/amd64 node:20.18.1-bullseye
 
-# Install dependencies for NVM and Node.js
-RUN apk add --no-cache \
+# Install dependencies
+RUN apt-get update && apt-get install -y \
     curl \
-    bash \
-    git \
-    && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash \
-    && export NVM_DIR="$HOME/.nvm" \
-    && source $NVM_DIR/nvm.sh \
-    && nvm install 20.18.1 \
-    && nvm use 20.18.1 \
-    && nvm alias default 20.18.1 \
-    && echo "source $NVM_DIR/nvm.sh" >> ~/.bashrc \
-    && adduser root docker \
-    && ln -s $NVM_DIR/versions/node/v20.18.1/bin/node /usr/local/bin/node \
-    && ln -s $NVM_DIR/versions/node/v20.18.1/bin/npm /usr/local/bin/npm \
-    && ln -s $NVM_DIR/versions/node/v20.18.1/bin/npx /usr/local/bin/npx \
-    && echo "source $NVM_DIR/nvm.sh" >> /etc/profile
+    ca-certificates \
+    gnupg \
+    lsb-release \
+    sudo
 
-# Set the default command to bash
-CMD ["/bin/bash", "-c", "source $HOME/.nvm/nvm.sh && bash"]
+# Add Docker’s official GPG key and set up the stable repository
+RUN curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+
+RUN echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+# Install Docker engine packages from the Docker repository
+RUN apt-get update && apt-get install -y \
+    docker-ce-cli \
+    docker-buildx-plugin \
+    docker-compose-plugin
+
+# Verify Docker installation
+RUN docker --version
