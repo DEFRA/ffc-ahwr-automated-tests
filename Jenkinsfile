@@ -27,7 +27,7 @@ pipeline {
             steps {
                 sh 'rm -rf node_modules'
                 sh 'npm install'
-                sh 'rm -rf /tmp/chrome-user-*'
+                sh 'ps aux | grep chrome'
                 sh './scripts/run_tests.sh'
             }
         }
