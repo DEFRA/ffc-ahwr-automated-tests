@@ -16,10 +16,10 @@ RUN echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.g
 RUN apt-get update && apt-get install -y docker-ce docker-ce-cli containerd.io
 
 # Create docker group and add node user to it
-RUN groupadd -g 999 docker && usermod -aG docker node
+# RUN groupadd -g 999 docker && usermod -aG docker node
 
 # Ensure Docker socket has proper permissions
-RUN sudo chmod 666 /var/run/docker.sock
+RUN chmod 666 /var/run/docker.sock
 
 # Verify Docker installation
 RUN docker --version
