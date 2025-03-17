@@ -13,7 +13,7 @@ RUN apk add --no-cache \
     && nvm use 20.18.1 \
     && nvm alias default 20.18.1 \
     && echo "source $NVM_DIR/nvm.sh" >> ~/.bashrc \
-    && adduser root docker
+    && adduser root docker \
+    && echo "source $NVM_DIR/nvm.sh" >> /etc/profile
 
-# Set the default command to bash
-CMD ["bash"]
+CMD ["/bin/bash", "-c", "source $HOME/.nvm/nvm.sh && bash"]
