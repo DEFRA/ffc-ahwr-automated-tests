@@ -25,6 +25,7 @@ pipeline {
                 }
             }
             steps {
+                sh 'npm install'
                 sh './scripts/run_tests.sh'
             }
         }
