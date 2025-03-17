@@ -1,5 +1,4 @@
-# node:20.18.1-bullseye
-FROM defradigital/node-development:2.3.0-node20.15.0
+FROM node:20.18.1-bullseye
 
 # Install required dependencies
 RUN apt-get update && apt-get install -y \

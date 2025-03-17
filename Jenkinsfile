@@ -13,8 +13,14 @@ pipeline {
             }
         }
         stage('Test') {
-            agent { dockerfile { reuseNode true } }
+            agent {
+                dockerfile {
+                    filename 'Dockerfile'
+                    args '--volume /var/run/docker.sock:/var/run/docker.sock --volume /var/lib/docker:/var/lib/docker'
+                }
+            }
             steps {
+                sh 'npm install'
                 sh './scripts/run_tests.sh'
             }
         }
