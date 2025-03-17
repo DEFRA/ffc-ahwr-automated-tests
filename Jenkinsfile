@@ -21,7 +21,7 @@ pipeline {
             agent {
                 docker {
                     image 'node-20-testing-image'
-                    args '--privileged --volume /var/run/docker.sock:/var/run/docker.sock --volume /var/lib/docker:/var/lib/docker'
+                    args '--privileged --volume /var/run/docker.sock:/var/run/docker.sock --volume /var/lib/docker:/var/lib/docker --user root'
                 }
             }
             steps {
