@@ -7,7 +7,6 @@ RUN apt-get update && apt-get install -y \
     gnupg \
     lsb-release \
     sudo \
-    libnss \
     libnss3-dev \
     libgdk-pixbuf2.0-dev \
     libgtk-3-dev \
