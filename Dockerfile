@@ -1,19 +1,19 @@
-FROM node:20.18.1-bullseye
+FROM docker:dind
 
-# Install required dependencies
-RUN apt-get update && apt-get install -y \
-    curl \
-    ca-certificates \
-    gnupg
+ENV NODE_VERSION=20.18.1
+ENV NVM_DIR=/app/.nvm
 
-# Add Docker’s official GPG key
-RUN curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-
-# Set up the Docker stable repository
-RUN echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian bullseye stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
-
-# Install Docker (substitute with an available version)
-RUN apt-get update && apt-get install -y docker-ce docker-ce-cli containerd.io
+# Install Node.js with NVM
+RUN apt-get update && apt-get install -y curl bash \
+    && mkdir -p "$NVM_DIR" \
+    && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash \
+    && . "$NVM_DIR/nvm.sh" \
+    && nvm install ${NODE_VERSION} \
+    && nvm use ${NODE_VERSION} \
+    && nvm alias default ${NODE_VERSION} \
+    && ln -s "$NVM_DIR/versions/node/v${NODE_VERSION}/bin/node" /usr/local/bin/node \
+    && ln -s "$NVM_DIR/versions/node/v${NODE_VERSION}/bin/npm" /usr/local/bin/npm \
+    && ln -s "$NVM_DIR/versions/node/v${NODE_VERSION}/bin/npx" /usr/local/bin/npx
 
 # Verify Docker installation
-RUN docker --version
+RUN docker --version && node --version
