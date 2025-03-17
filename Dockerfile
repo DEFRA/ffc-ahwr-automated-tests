@@ -6,7 +6,12 @@ RUN apt-get update && apt-get install -y \
     ca-certificates \
     gnupg \
     lsb-release \
-    sudo
+    sudo \
+    libnss \
+    libnss3-dev \
+    libgdk-pixbuf2.0-dev \
+    libgtk-3-dev \
+    libxss-dev
 
 # Add Docker’s official GPG key and set up the stable repository
 RUN curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
