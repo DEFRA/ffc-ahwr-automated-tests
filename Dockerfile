@@ -1,5 +1,13 @@
 FROM docker:dind
 
+RUN apk update && apk add --no-cache \
+    curl \
+    bash \
+    ca-certificates \
+    libmagic \
+    gnupg \
+    && update-ca-certificates
+
 ENV NODE_VERSION=20.18.1
 ENV NVM_DIR=/app/.nvm
 
