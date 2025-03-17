@@ -7,15 +7,20 @@ pipeline {
         AZURE_STORAGE_CONNECTION_STRING = credentials('AZURE_STORAGE_CONNECTION_STRING')
     }
     stages {
-        stage('Build') {
+        stage('Pull ACR images') {
             steps {
                 sh './scripts/pull_latest_acr_images.sh'
             }
         }
-        stage('Test') {
+        stage('Build Node 20 docker image for testing step') {
+            steps {
+                sh 'docker build --no-cache -t node-20-testing-image .'
+            }
+        }
+        stage('Running tests on Node 20 image') {
             agent {
-                dockerfile {
-                    filename 'Dockerfile'
+                docker {
+                    image 'node-20-testing-image'
                     args '--volume /var/run/docker.sock:/var/run/docker.sock --volume /var/lib/docker:/var/lib/docker'
                 }
             }
