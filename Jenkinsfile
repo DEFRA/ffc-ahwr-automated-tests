@@ -25,6 +25,9 @@ pipeline {
                 }
             }
             steps {
+                sh 'ls -l /var/run/docker.sock'
+                sh 'docker ps'
+                sh 'docker images'
                 sh './scripts/run_tests.sh'
             }
         }
