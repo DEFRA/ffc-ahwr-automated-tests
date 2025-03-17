@@ -18,4 +18,4 @@ RUN mkdir -p "$NVM_DIR" \
     && ln -s "$NVM_DIR/versions/node/v${NODE_VERSION}/bin/npm" /usr/local/bin/npm \
     && ln -s "$NVM_DIR/versions/node/v${NODE_VERSION}/bin/npx" /usr/local/bin/npx
 
-RUN bash -c "source /app/.nvm/nvm.sh && node --version && docker --version"
+RUN /bin/bash -c "source /app/.nvm/nvm.sh && node --version && docker --version"
