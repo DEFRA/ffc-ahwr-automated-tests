@@ -27,6 +27,8 @@ pipeline {
             steps {
                 sh 'rm -rf node_modules'
                 sh 'npm install'
+                sh 'pkill -f chrome'
+                sh 'rm -rf /tmp/chrome-user-*'
                 sh './scripts/run_tests.sh'
             }
         }
