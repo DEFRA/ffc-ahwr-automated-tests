@@ -11,7 +11,6 @@ async function runTest() {
           "--disable-gpu",
           "--no-sandbox",
           "--disable-dev-shm-usage",
-          "--incognito",
         ],
       },
     },

@@ -12,6 +12,11 @@ pipeline {
                 sh './scripts/pull_latest_acr_images.sh'
             }
         }
+        stage('Build WDIO testing image') {
+            steps {
+                sh './scripts/build_wdio_test_image.sh'
+            }
+        }
         stage('Running tests') {
             steps {
                 sh 'ls -a'

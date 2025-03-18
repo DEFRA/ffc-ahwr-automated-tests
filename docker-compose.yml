@@ -1,11 +1,9 @@
 services:
   wdio-tests:
-    platform: linux/amd64
+    # platform: linux/amd64
     networks:
       - ffc-ahwr-network-auto
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: wdio-tests:latest
     volumes:
       - ./package.json:/app/package.json
       - ./wdio.conf.js:/app/wdio.conf.js
