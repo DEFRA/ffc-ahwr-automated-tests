@@ -9,7 +9,7 @@ ENV NODE_VERSION=20.18.1
 ENV NVM_DIR=/app/.nvm
 
 # Install Node.js with NVM
-RUN apt-get update && apt-get install -y curl bash \
+RUN apt-get update && apt-get install -y curl bash libxss1 libappindicator3-1 libindicator7 \
     && mkdir -p "$NVM_DIR" \
     && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash \
     && . "$NVM_DIR/nvm.sh" \
