@@ -6,7 +6,7 @@ async function runTest() {
     capabilities: {
       browserName: "chrome",
       "goog:chromeOptions": {
-        args: ["headless", "disable-gpu", "no-sandbox"],
+        args: ["--headless", "--disable-gpu", "--no-sandbox"],
       },
     },
   });
