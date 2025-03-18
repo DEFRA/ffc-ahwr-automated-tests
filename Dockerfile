@@ -1,27 +1,31 @@
-FROM --platform=linux/amd64 node:20.18.1-bullseye
+FROM --platform=linux/amd64 selenium/standalone-chrome:133.0-20250222
 
-# Install dependencies
-RUN apt-get update && apt-get install -y \
-    curl \
-    ca-certificates \
-    gnupg \
-    lsb-release \
-    sudo \
-    libnss3-dev \
-    libgdk-pixbuf2.0-dev \
-    libgtk-3-dev \
-    libxss-dev
+WORKDIR /app
+ADD . /app
 
-# Add Docker’s official GPG key and set up the stable repository
-RUN curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+USER root
 
-RUN echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
+ENV NODE_VERSION=20.18.1
+ENV NVM_DIR=/app/.nvm
 
-# Install Docker engine packages from the Docker repository
-RUN apt-get update && apt-get install -y \
-    docker-ce-cli \
-    docker-buildx-plugin \
-    docker-compose-plugin
+# Install Node.js with NVM
+RUN apt-get update && apt-get install -y curl bash \
+    && mkdir -p "$NVM_DIR" \
+    && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash \
+    && . "$NVM_DIR/nvm.sh" \
+    && nvm install ${NODE_VERSION} \
+    && nvm use ${NODE_VERSION} \
+    && nvm alias default ${NODE_VERSION} \
+    && ln -s "$NVM_DIR/versions/node/v${NODE_VERSION}/bin/node" /usr/local/bin/node \
+    && ln -s "$NVM_DIR/versions/node/v${NODE_VERSION}/bin/npm" /usr/local/bin/npm \
+    && ln -s "$NVM_DIR/versions/node/v${NODE_VERSION}/bin/npx" /usr/local/bin/npx \
+    && npm install --omit=dev --ignore-scripts \
+    && useradd -m appuser \
+    && chown -R appuser:appuser /app
 
-# Verify Docker installation
-RUN docker --version
+# Switch to non-root user for runtime
+USER appuser
+
+ENV PATH="$NVM_DIR/versions/node/v${NODE_VERSION}/bin/:$PATH"
+
+CMD ["tail", "-f", "/dev/null"]

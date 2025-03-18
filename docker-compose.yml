@@ -1,20 +1,20 @@
 services:
-  # wdio-tests:
-  #   platform: linux/amd64
-  #   networks:
-  #     - ffc-ahwr-network-auto
-  #   build:
-  #     context: .
-  #     dockerfile: Dockerfile
-  #   volumes:
-  #     - ./package.json:/app/package.json
-  #     - ./wdio.conf.js:/app/wdio.conf.js
-  #     - ./package-lock.json:/app.package-lock.json
-  #   depends_on:
-  #     database-up:
-  #       condition: service_completed_successfully
-  #   environment:
-  #     DOCKER_MODE: true
+  wdio-tests:
+    platform: linux/amd64
+    networks:
+      - ffc-ahwr-network-auto
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./package.json:/app/package.json
+      - ./wdio.conf.js:/app/wdio.conf.js
+      - ./package-lock.json:/app.package-lock.json
+    depends_on:
+      database-up:
+        condition: service_completed_successfully
+    environment:
+      DOCKER_MODE: true
 
   ffc-ahwr-dashboard:
     platform: linux/amd64

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e  # Exit script on error
+set -e
 
 ENV_FILE=".env"
 APP_HEALTHCHECK_URL="http://localhost:3001/healthy"
@@ -29,20 +29,17 @@ sed -E \
     -e "s|(APPLICATIONINSIGHTS_CONNECTION_STRING:).*|\1 ${APPLICATIONINSIGHTS_CONNECTION_STRING}|g" \
     docker-compose.yml | docker compose -f - up -d
 
-# WDIO_CONTAINER=$(docker ps -qf "name=wdio-tests")
+WDIO_CONTAINER=$(docker ps -qf "name=wdio-tests")
 
-# if [ -z "$WDIO_CONTAINER" ]; then
-#   echo "❌ Error: WDIO container not found!"
-#   exit 1
-# fi
+if [ -z "$WDIO_CONTAINER" ]; then
+  echo "❌ Error: WDIO container not found!"
+  exit 1
+fi
 
 echo "🧪 Running WDIO tests..."
 
-# docker exec -i "$WDIO_CONTAINER" npm run wdio | tee logs/wdio_test_output.log
-# EXIT_CODE=${PIPESTATUS[0]}
-
 mkdir -p logs
-npm run wdio | tee logs/wdio_test_output.log
+docker exec -i "$WDIO_CONTAINER" npm run wdio | tee logs/wdio_test_output.log
 EXIT_CODE=${PIPESTATUS[0]}
 
 echo "🛑 Stopping services..."

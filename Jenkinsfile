@@ -12,22 +12,8 @@ pipeline {
                 sh './scripts/pull_latest_acr_images.sh'
             }
         }
-        stage('Build Node 20 docker image for testing step') {
+        stage('Running tests') {
             steps {
-                sh 'docker build --no-cache -t node-20-testing-image .'
-            }
-        }
-        stage('Running tests on Node 20 image') {
-            agent {
-                docker {
-                    image 'node-20-testing-image'
-                    args '--privileged --volume /var/run/docker.sock:/var/run/docker.sock --volume /var/lib/docker:/var/lib/docker --user root'
-                }
-            }
-            steps {
-                sh 'rm -rf node_modules'
-                sh 'npm install'
-                sh 'ls /tmp/'
                 sh './scripts/run_tests.sh'
             }
         }
