@@ -14,6 +14,7 @@ pipeline {
         }
         stage('Running tests') {
             steps {
+                sh 'ls -a'
                 sh './scripts/run_tests.sh'
             }
         }
