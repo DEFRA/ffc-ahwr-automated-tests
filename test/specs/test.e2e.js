@@ -1,44 +1,46 @@
-import { expect, browser, $ } from "@wdio/globals";
+import { remote } from "webdriverio";
+import assert from "node:assert";
 
-describe("apply", () => {
-  it("should be able to create a new application", async () => {
+async function runTest() {
+  const browser = await remote({
+    capabilities: {
+      browserName: "chrome",
+      "goog:chromeOptions": {
+        args: ["headless", "disable-gpu", "no-sandbox"],
+      },
+    },
+  });
+
+  try {
     let url = "http://localhost:3000/apply/endemics/dev-sign-in";
 
     if (process.env.DOCKER_MODE && process.env.DOCKER_MODE === "true") {
       url = "http://ffc-ahwr-farmer-apply:3000/apply/endemics/dev-sign-in";
     }
 
-    // Go to dev sign in
     await browser.url(url);
 
-    // Enter SBI and submit
-    await $("#sbi").setValue("107167406");
-    await $('button[type="submit"]').click();
+    await browser.$("#sbi").setValue("107167406");
+    await browser.$('button[type="submit"]').click();
+    await browser.$("#confirmCheckDetails").click();
+    await browser.$('button[type="submit"]').click();
+    await browser.$('button[type="submit"]').click();
+    await browser.$('button[type="submit"]').click();
+    await browser.$('button[type="submit"]').click();
+    await browser.$("#terms").click();
+    await browser.$('button[type="submit"]').click();
 
-    // Select radio button Yes and submit
-    await $("#confirmCheckDetails").click();
-    await $('button[type="submit"]').click();
+    const title = await browser.getTitle();
+    assert(title.includes("Application complete"));
 
-    // Click I agree
-    await $('button[type="submit"]').click();
+    console.log("✅ Test passed!");
+  } catch (error) {
+    console.error("❌ Test failed:", error);
+    process.exit(1);
+  } finally {
+    await browser.deleteSession();
+    process.exit(0);
+  }
+}
 
-    // Click I agree
-    await $('button[type="submit"]').click();
-
-    // Click I agree
-    await $('button[type="submit"]').click();
-
-    // Select radio button to accept terms and conditions and submit
-    await $("#terms").click();
-    await $('button[type="submit"]').click();
-
-    // Wait for application submission to complete and page to load
-    const title = await $(".govuk-panel__title");
-    await title.waitForDisplayed({ timeout: 5000 });
-
-    // Verify application successful
-    await expect(title).toHaveText(
-      expect.stringContaining("Application complete"),
-    );
-  });
-});
+runTest();
