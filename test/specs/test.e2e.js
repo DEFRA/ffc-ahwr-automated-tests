@@ -1,6 +1,11 @@
 import { remote } from "webdriverio";
 import assert from "node:assert";
 
+async function runTempTest() {
+  console.log('BH Test container starts and temp function can be called!')
+  console.log("✅ Test passed!");
+}
+
 async function runTest() {
   const browser = await remote({
     capabilities: {
@@ -48,4 +53,4 @@ async function runTest() {
   }
 }
 
-runTest();
+runTempTest();

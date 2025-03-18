@@ -19,9 +19,9 @@ pipeline {
         }
         stage('Running tests') {
             steps {
-                sh 'ls -lart'
-                sh 'ls -lart ..'
                 sh 'ls -lart ../..'
+                sh 'ls -lart ../../..'
+                sh 'ls -lart ../../../..'
                 sh 'docker image ls'
                 sh './scripts/run_tests.sh'
             }
