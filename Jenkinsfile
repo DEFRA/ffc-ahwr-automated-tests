@@ -19,7 +19,6 @@ pipeline {
         }
         stage('Running tests') {
             steps {
-                sh 'ps aux | grep chrome'
                 sh 'docker image ls'
                 sh 'docker container ls -a'
                 sh './scripts/run_tests.sh'

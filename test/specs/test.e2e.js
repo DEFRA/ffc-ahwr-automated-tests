@@ -14,7 +14,6 @@ async function runTempTest() {
             "--disable-gpu",
             "--no-sandbox",
             "--disable-dev-shm-usage",
-            `--user-data-dir=/tmp/chrome-profile-${Date.now()}`,
           ],
         },
       },

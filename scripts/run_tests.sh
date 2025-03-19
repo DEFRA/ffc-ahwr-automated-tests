@@ -39,7 +39,7 @@ fi
 echo "🧪 Running WDIO tests..."
 
 mkdir -p logs
-docker exec -u appuser -i "$WDIO_CONTAINER" npm run test | tee logs/wdio_test_output.log
+docker exec -u appuser -i "$WDIO_CONTAINER" ps aux | grep chrome && npm run test | tee logs/wdio_test_output.log
 EXIT_CODE=${PIPESTATUS[0]}
 
 echo "🛑 Stopping services..."
