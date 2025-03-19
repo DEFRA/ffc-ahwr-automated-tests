@@ -40,7 +40,6 @@ echo "🧪 Running WDIO tests..."
 
 mkdir -p logs
 docker exec -i "$WDIO_CONTAINER" ps aux
-docker exec -i "$WDIO_CONTAINER" ls -lart /
 docker exec -i "$WDIO_CONTAINER" ls -lart /tmp
 docker exec -i "$WDIO_CONTAINER" npm run test | tee logs/wdio_test_output.log
 EXIT_CODE=${PIPESTATUS[0]}
