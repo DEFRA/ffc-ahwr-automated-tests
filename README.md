@@ -18,6 +18,9 @@ as well as locally.
 We use the pull_latest_acr_images.sh script inside the /scripts folder to pull the latest images from ACR in Azure for the services we need to run. Once we have these,
 we can use the run_tests script to set some env vars, and it uses docker compose to start the needed services, before the Webdriver IO tests execute.
 
+When you run the tests, they output the logs in a /logs directory which gets created in the root of your repo (note its not committed to the repo). These
+logs also get generated in the pipeline when it runs, and they can be accessed via the Jenkins workspace (click into the pipeline run, click on workspaces).
+
 ---
 
 ## 🚀 Prerequisites
@@ -45,7 +48,10 @@ az login
 # Pull latest images
 ./scripts/pull_latest_acr_images.sh
 
-# Run tests - click into the wduo-tests image in Docker desktop to see the logs, where you can see the test running
+# Build WDIO test image
+./scripts/build_wdio_test_image.sh
+
+# Run tests
 ./scripts/run_tests.sh
 
 ```

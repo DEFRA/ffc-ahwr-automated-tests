@@ -19,10 +19,7 @@ pipeline {
         }
         stage('Running tests') {
             steps {
-                sh 'docker image ls'
-                sh 'docker container ls -a'
                 sh './scripts/run_tests.sh'
-                sh 'docker container ls -a'
             }
         }
     }

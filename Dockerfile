@@ -8,8 +8,6 @@ ADD . /app
 ENV NODE_VERSION=20.18.1
 ENV NVM_DIR=/app/.nvm
 
-# libxss1 libappindicator3-1 libindicator7
-
 # Install Node.js with NVM
 RUN apt-get update && apt-get install -y curl bash \
     && mkdir -p "$NVM_DIR" \
