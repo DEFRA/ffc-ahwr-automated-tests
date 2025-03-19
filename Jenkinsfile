@@ -7,11 +7,11 @@ pipeline {
         AZURE_STORAGE_CONNECTION_STRING = credentials('AZURE_STORAGE_CONNECTION_STRING')
     }
     stages {
-        // stage('Pull ACR images') {
-        //     steps {
-        //         sh './scripts/pull_latest_acr_images.sh'
-        //     }
-        // }
+        stage('Pull ACR images') {
+            steps {
+                sh './scripts/pull_latest_acr_images.sh'
+            }
+        }
         stage('Build WDIO testing image') {
             steps {
                 sh './scripts/build_wdio_test_image.sh'
