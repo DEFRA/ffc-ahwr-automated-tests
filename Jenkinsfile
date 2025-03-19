@@ -19,12 +19,10 @@ pipeline {
         }
         stage('Running tests') {
             steps {
-                sh 'lsof'
-                sh 'ping -c 3 localhost'
                 sh 'docker image ls'
-                sh 'docker container ls'
+                sh 'docker container ls -a'
                 sh './scripts/run_tests.sh'
-                sh 'docker container ls'
+                sh 'docker container ls -a'
             }
         }
     }

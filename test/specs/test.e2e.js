@@ -3,6 +3,25 @@ import assert from "node:assert";
 
 async function runTempTest() {
   console.log('BH Test container starts and temp function can be called!')
+
+  try {
+    await remote({
+      capabilities: {
+        browserName: "chrome",
+        "goog:chromeOptions": {
+          args: [
+            "--headless",
+            "--disable-gpu",
+            "--no-sandbox",
+            "--disable-dev-shm-usage",
+          ],
+        },
+      },
+    });
+  } catch (error) {
+    console.error("❌ Test failed:", error);
+  }
+
   console.log("✅ Test passed!");
 }
 
