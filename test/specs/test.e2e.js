@@ -18,11 +18,13 @@ async function runTempTest() {
         },
       },
     });
+    console.log("✅ Test passed!");
   } catch (error) {
     console.error("❌ Test failed:", error);
+  } finally {
+    await browser.deleteSession();
+    process.exit(0);
   }
-
-  console.log("✅ Test passed!");
 }
 
 async function runTest() {
