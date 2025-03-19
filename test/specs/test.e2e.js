@@ -15,8 +15,6 @@ describe("apply", () => {
     await $("#sbi").setValue("107167406");
     await $('button[type="submit"]').click();
 
-    console.log(await browser.getPageSource())
-
     // Select radio button Yes and submit
     await $("#confirmCheckDetails").click();
     await $('button[type="submit"]').click();

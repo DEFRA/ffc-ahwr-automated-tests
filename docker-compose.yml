@@ -1,6 +1,5 @@
 services:
   wdio-tests:
-    # platform: linux/amd64
     networks:
       - ffc-ahwr-network-auto
     image: wdio-tests:latest
@@ -19,6 +18,8 @@ services:
     networks:
       - ffc-ahwr-network-auto
     image: ffc-ahwr-dashboard:latest
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     ports:
       - "3003:3000"
     depends_on:
@@ -71,6 +72,8 @@ services:
     networks:
       - ffc-ahwr-network-auto
     image: ffc-ahwr-application:latest
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     depends_on:
       database-up:
         condition: service_completed_successfully
@@ -133,6 +136,8 @@ services:
     networks:
       - ffc-ahwr-network-auto
     image: postgres:11.4-alpine
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     environment:
       POSTGRES_DB: ffc_ahwr_application
       POSTGRES_PASSWORD: ppp
@@ -166,6 +171,8 @@ services:
     networks:
       - ffc-ahwr-network-auto
     image: ffc-ahwr-farmer-apply:latest
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     ports:
       - "3000:3000"
     depends_on:
@@ -229,6 +236,8 @@ services:
     networks:
       - ffc-ahwr-network-auto
     image: ffc-ahwr-farmer-claim:latest
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     ports:
       - "3004:3000"
     depends_on:
@@ -281,6 +290,8 @@ services:
     networks:
       - ffc-ahwr-network-auto
     image: ffc-ahwr-backoffice:latest
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     ports:
       - "3002:3000"
     depends_on:
