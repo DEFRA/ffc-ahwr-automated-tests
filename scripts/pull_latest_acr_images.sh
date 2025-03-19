@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ACR_NAME="sndffcinfac2001"
+ACR_NAME="ssvffcfesac1001"
 IMAGES=(
   "ffc-ahwr-dashboard"
   "ffc-ahwr-application"
