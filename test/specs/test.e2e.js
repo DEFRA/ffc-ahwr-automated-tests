@@ -14,6 +14,7 @@ async function runTempTest() {
             "--disable-gpu",
             "--no-sandbox",
             "--disable-dev-shm-usage",
+            "--remote-debugging-port=9222",
           ],
         },
       },
