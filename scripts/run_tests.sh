@@ -39,11 +39,8 @@ fi
 echo "🧪 Running WDIO tests..."
 
 mkdir -p logs
-docker exec -u appuser -i "$WDIO_CONTAINER" ps aux | grep chrome
-# docker exec -u appuser -i "$WDIO_CONTAINER" pkill -f "chrome" || echo "No Chrome process found"
+docker exec -u appuser -i "$WDIO_CONTAINER" ps aux
 docker exec -u appuser -i "$WDIO_CONTAINER" ls -ld /tmp
-docker exec -u appuser -i "$WDIO_CONTAINER" ls -ld /tmp/chrome-profile-*
-# docker exec -u appuser -i "$WDIO_CONTAINER" chmod -R 777 /tmp
 docker exec -u appuser -i "$WDIO_CONTAINER" npm run test | tee logs/wdio_test_output.log
 EXIT_CODE=${PIPESTATUS[0]}
 

@@ -4,8 +4,9 @@ import assert from "node:assert";
 async function runTempTest() {
   console.log('BH Test container starts and temp function can be called!')
 
+  let browser
   try {
-    await remote({
+    browser = await remote({
       capabilities: {
         browserName: "chrome",
         "goog:chromeOptions": {
@@ -15,6 +16,7 @@ async function runTempTest() {
             "--no-sandbox",
             "--disable-dev-shm-usage",
             "--remote-debugging-port=9222",
+            `--user-data-dir=/tmp/chrome-profile-${Date.now()}`,
           ],
         },
       },
