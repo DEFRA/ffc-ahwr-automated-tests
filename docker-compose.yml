@@ -130,7 +130,7 @@ services:
       TEN_MONTH_RULE_ENABLED: "true"
       ENDEMICS_ENABLED: "true"
       OPTIONAL_PIHUNT_ENABLED: "true"
-      CARBON_COPY_EMAIL_ADDRESS: "random+1111@gmail.com"
+      CARBON_COPY_EMAIL_ADDRESS: "defra-vets-visits-testing@equalexperts.com"
 
   ffc-ahwr-application-postgres:
     networks:
