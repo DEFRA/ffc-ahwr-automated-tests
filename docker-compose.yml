@@ -1,13 +1,12 @@
 services:
   wdio-tests:
-    platform: linux/amd64
     networks:
-      - ffc-ahwr-network
-    build:
-      context: .
-      dockerfile: Dockerfile
+      - ffc-ahwr-network-auto
+    image: wdio-tests:latest
     volumes:
       - ./package.json:/app/package.json
+      - ./wdio.conf.js:/app/wdio.conf.js
+      - ./package-lock.json:/app.package-lock.json
     depends_on:
       database-up:
         condition: service_completed_successfully
@@ -17,8 +16,10 @@ services:
   ffc-ahwr-dashboard:
     platform: linux/amd64
     networks:
-      - ffc-ahwr-network
+      - ffc-ahwr-network-auto
     image: ffc-ahwr-dashboard:latest
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     ports:
       - "3003:3000"
     depends_on:
@@ -69,8 +70,10 @@ services:
   ffc-ahwr-application:
     platform: linux/amd64
     networks:
-      - ffc-ahwr-network
+      - ffc-ahwr-network-auto
     image: ffc-ahwr-application:latest
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     depends_on:
       database-up:
         condition: service_completed_successfully
@@ -111,7 +114,7 @@ services:
       NOTIFY_TEMPLATE_ID_FARMER_CLAIM_LOGIN: fe5ea908-dfcf-4b65-8514-2d4168b569a5
       NOTIFY_TEMPLATE_ID_FARMER_CLAIM_COMPLETE: fe5ea908-dfcf-4b65-8514-2d4168b569a5
       EVENT_QUEUE_ADDRESS: ffc-ahwr-event${MESSAGE_QUEUE_SUFFIX}
-      NODE_TLS_REJECT_UNAUTHORIZED :  "0"
+      NODE_TLS_REJECT_UNAUTHORIZED: "0"
       REGISTER_YOUR_INTEREST_ENABLED: "true"
       COOKIE_PASSWORD: "12345678901234567890123456789012"
       REGISTER_YOUR_INTEREST_REQUEST_QUEUE_ADDRESS: "ffc-ahwr-register-your-interest-request"
@@ -127,12 +130,14 @@ services:
       TEN_MONTH_RULE_ENABLED: "true"
       ENDEMICS_ENABLED: "true"
       OPTIONAL_PIHUNT_ENABLED: "true"
-      CARBON_COPY_EMAIL_ADDRESS: "rob.catton@equalexperts.com"
+      CARBON_COPY_EMAIL_ADDRESS: "defra-vets-visits-testing@equalexperts.com"
 
   ffc-ahwr-application-postgres:
     networks:
-      - ffc-ahwr-network
+      - ffc-ahwr-network-auto
     image: postgres:11.4-alpine
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     environment:
       POSTGRES_DB: ffc_ahwr_application
       POSTGRES_PASSWORD: ppp
@@ -141,7 +146,7 @@ services:
   database-up:
     platform: linux/amd64
     networks:
-      - ffc-ahwr-network
+      - ffc-ahwr-network-auto
     image: liquibase/liquibase:3.10.x
     environment:
       POSTGRES_HOST: ffc-ahwr-application-postgres
@@ -164,8 +169,10 @@ services:
   ffc-ahwr-farmer-apply:
     platform: linux/amd64
     networks:
-      - ffc-ahwr-network
+      - ffc-ahwr-network-auto
     image: ffc-ahwr-farmer-apply:latest
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     ports:
       - "3000:3000"
     depends_on:
@@ -223,12 +230,14 @@ services:
       TEN_MONTH_RULE_ENABLED: "true"
       ENDEMICS_ENABLED: "true"
       MULTI_SPECIES_ENABLED: "true"
-  
+
   ffc-ahwr-farmer-claim:
     platform: linux/amd64
     networks:
-      - ffc-ahwr-network
+      - ffc-ahwr-network-auto
     image: ffc-ahwr-farmer-claim:latest
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     ports:
       - "3004:3000"
     depends_on:
@@ -279,8 +288,10 @@ services:
   ffc-ahwr-backoffice:
     platform: linux/amd64
     networks:
-      - ffc-ahwr-network
+      - ffc-ahwr-network-auto
     image: ffc-ahwr-backoffice:latest
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     ports:
       - "3002:3000"
     depends_on:
@@ -306,15 +317,14 @@ services:
       ENDEMICS_ENABLED: true
       MULTI_SPECIES_ENABLED: true
       NODE_ENV: development
-  
+
   redis:
     networks:
-      - ffc-ahwr-network
+      - ffc-ahwr-network-auto
     image: redis:4.0.14
     ports:
       - "6379:6379"
 
 networks:
-  ffc-ahwr-network:
-    name: ffc-ahwr-network
-    external: true
+  ffc-ahwr-network-auto:
+    name: ffc-ahwr-network-auto
