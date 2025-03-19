@@ -4,7 +4,7 @@
   "description": "Automated tests for AHWR services",
   "type": "module",
   "scripts": {
-    "test": "node ./test/specs/test.e2e.js",
+    "test": "wdio",
     "lint": "prettier . --check && eslint",
     "lint:fix": "prettier . --write && eslint --fix",
     "hooks": "cp -r hooks/. .git/hooks/ && chmod -R +x .git/hooks && echo 'hooks copied'"
@@ -26,8 +26,7 @@
     "@wdio/cli": "9.10.0",
     "@wdio/local-runner": "9.10.0",
     "@wdio/mocha-framework": "9.9.0",
-    "@wdio/spec-reporter": "9.9.0",
-    "webdriverio": "^9.12.0"
+    "@wdio/spec-reporter": "9.9.0"
   },
   "devDependencies": {
     "eslint": "^9.22.0",
