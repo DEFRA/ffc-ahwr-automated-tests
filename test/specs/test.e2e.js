@@ -29,7 +29,11 @@ async function runTest() {
 
     await browser.$("#sbi").setValue("107167406");
     await browser.$('button[type="submit"]').click();
-    await browser.$("#confirmCheckDetails").click();
+
+    const confirmButton = await browser.$("#confirmCheckDetails");
+    await confirmButton.waitForExist({ timeout: 20_000 });
+    await confirmButton.click();
+
     await browser.$('button[type="submit"]').click();
     await browser.$('button[type="submit"]').click();
     await browser.$('button[type="submit"]').click();
