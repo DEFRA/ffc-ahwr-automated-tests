@@ -19,8 +19,9 @@ pipeline {
         }
         stage('Running tests') {
             steps {
-                sh 'lsof -i :35217'
+                sh 'lsof'
                 sh 'ping -c 3 localhost'
+                sh 'docker image ls'
                 sh 'docker container ls'
                 sh './scripts/run_tests.sh'
                 sh 'docker container ls'
