@@ -21,9 +21,11 @@ pipeline {
         // }
         stage('Running tests') {
             steps {
+                script {
                 // def exitCode = sh(script: './scripts/run_tests.sh', returnStatus: true)
                 // env.SCRIPT_EXIT_CODE = exitCode.toString()
                 env.SCRIPT_EXIT_CODE = '0'
+                }
             }
         }
         stage('Notify slack channel') {
