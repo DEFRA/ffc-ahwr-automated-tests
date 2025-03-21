@@ -43,8 +43,12 @@ docker compose logs -f "ffc-ahwr-farmer-claim" > logs/farmer-claim.log 2>&1 &
 docker compose logs -f "ffc-ahwr-dashboard" > logs/dashboard.log 2>&1 &
 docker compose logs -f "ffc-ahwr-backoffice" > logs/backoffice.log 2>&1 &
 
+docker exec -i "$WDIO_CONTAINER" ls -lart /app/
+
 docker exec -i "$WDIO_CONTAINER" npm run test | tee logs/wdio_test_output.log
 EXIT_CODE=${PIPESTATUS[0]}
+
+docker exec -i "$WDIO_CONTAINER" ls -lart /app/
 
 echo "🛑 Stopping services..."
 docker compose down
