@@ -36,17 +36,13 @@ fi
 echo "🧪 Running WDIO tests..."
 
 mkdir -p logs
-
-docker compose logs -f "ffc-ahwr-application" > logs/application.log 2>&1 &
-docker compose logs -f "ffc-ahwr-farmer-apply" > logs/farmer-apply.log 2>&1 &
-docker compose logs -f "ffc-ahwr-farmer-claim" > logs/farmer-claim.log 2>&1 &
-docker compose logs -f "ffc-ahwr-dashboard" > logs/dashboard.log 2>&1 &
-docker compose logs -f "ffc-ahwr-backoffice" > logs/backoffice.log 2>&1 &
+docker image ls --format "{{.Repository}}" | grep '^ffc-ahwr-' | grep -v '^ffc-ahwr-application-development$' | xargs -I {} sh -c 'docker compose logs -f "{}" > logs/{}.log 2>&1 &'
 
 docker exec -i "$WDIO_CONTAINER" npm run test | tee logs/wdio_test_output.log
 EXIT_CODE=${PIPESTATUS[0]}
 
 docker exec -i "$WDIO_CONTAINER" ls -lart /app/tmp/
+docker exec -i "$WDIO_CONTAINER" ls -lart /app/tmp/chrome-profile-123/
 
 echo "🛑 Stopping services..."
 docker compose down
