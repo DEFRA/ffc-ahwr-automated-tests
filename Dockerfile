@@ -9,6 +9,9 @@ RUN mkdir -p /app/tmp && chown -R appuser:appuser /app && chown -R appuser:appus
 ENV NODE_VERSION=20.18.1
 ENV NVM_DIR=/app/.nvm
 ENV PATH="$NVM_DIR/versions/node/v${NODE_VERSION}/bin/:$PATH"
+ENV DEBUG=webdriver*
+ENV WDM_CACHE=/app/tmp
+ENV CHROME_USER_DATA_DIR=/app/tmp/chrome-profile-123
 
 # Install Node.js with NVM
 RUN apt-get update && apt-get install -y curl bash \
