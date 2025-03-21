@@ -4,14 +4,11 @@ ADD . /app
 WORKDIR /app
 
 RUN useradd -m appuser
-RUN mkdir -p /app/tmp && chown -R appuser:appuser /app && chown -R appuser:appuser /app/tmp
+RUN chown -R appuser:appuser /app && chown -R appuser:appuser /tmp
 
 ENV NODE_VERSION=20.18.1
 ENV NVM_DIR=/app/.nvm
 ENV PATH="$NVM_DIR/versions/node/v${NODE_VERSION}/bin/:$PATH"
-ENV DEBUG=webdriver*
-ENV WDM_CACHE=/app/tmp
-ENV CHROME_USER_DATA_DIR=/app/tmp/chrome-profile-123
 
 # Install Node.js with NVM
 RUN apt-get update && apt-get install -y curl bash \
@@ -23,8 +20,9 @@ RUN apt-get update && apt-get install -y curl bash \
     && nvm alias default ${NODE_VERSION} \
     && ln -s "$NVM_DIR/versions/node/v${NODE_VERSION}/bin/node" /usr/local/bin/node \
     && ln -s "$NVM_DIR/versions/node/v${NODE_VERSION}/bin/npm" /usr/local/bin/npm \
-    && ln -s "$NVM_DIR/versions/node/v${NODE_VERSION}/bin/npx" /usr/local/bin/npx \
-    && npm install --omit=dev --ignore-scripts
+    && ln -s "$NVM_DIR/versions/node/v${NODE_VERSION}/bin/npx" /usr/local/bin/npx
+
+RUN npm install --omit=dev --ignore-scripts
 
 USER appuser
 CMD ["tail", "-f", "/dev/null"]
