@@ -1,12 +1,14 @@
 FROM --platform=linux/amd64 selenium/standalone-chrome:133.0-20250222
-
 USER root
-
-WORKDIR /app
 ADD . /app
+WORKDIR /app
+
+RUN useradd -m appuser
+RUN mkdir -p /app/tmp && chown -R appuser:appuser /app && chown -R appuser:appuser /app/tmp
 
 ENV NODE_VERSION=20.18.1
 ENV NVM_DIR=/app/.nvm
+ENV PATH="$NVM_DIR/versions/node/v${NODE_VERSION}/bin/:$PATH"
 
 # Install Node.js with NVM
 RUN apt-get update && apt-get install -y curl bash \
@@ -21,6 +23,5 @@ RUN apt-get update && apt-get install -y curl bash \
     && ln -s "$NVM_DIR/versions/node/v${NODE_VERSION}/bin/npx" /usr/local/bin/npx \
     && npm install --omit=dev --ignore-scripts
 
-ENV PATH="$NVM_DIR/versions/node/v${NODE_VERSION}/bin/:$PATH"
-
+USER appuser
 CMD ["tail", "-f", "/dev/null"]
