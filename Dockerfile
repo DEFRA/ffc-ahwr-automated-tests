@@ -4,7 +4,7 @@ ADD . /app
 WORKDIR /app
 
 RUN useradd -m appuser
-RUN chown -R appuser:appuser /app && chown -R appuser:appuser /tmp
+RUN chown -R appuser:appuser /app && mkdir -p /app/tmp && chown -R appuser:appuser /app/tmp
 
 ENV NODE_VERSION=20.18.1
 ENV NVM_DIR=/app/.nvm
