@@ -53,6 +53,7 @@ export const config = {
       browserName: "chrome",
       "goog:chromeOptions": {
         args: [
+          `--user-data-dir=${process.env.CHROME_USER_DATA_DIR}`,
           "--no-sandbox",
           "--headless",
           "--disable-gpu",

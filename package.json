@@ -4,7 +4,7 @@
   "description": "Automated tests for AHWR services",
   "type": "module",
   "scripts": {
-    "test": "wdio",
+    "test": "CHROME_USER_DATA_DIR=$(echo /app/tmp/chrome-profile-$(date +%s)) wdio",
     "lint": "prettier . --check && eslint",
     "lint:fix": "prettier . --write && eslint --fix",
     "hooks": "cp -r hooks/. .git/hooks/ && chmod -R +x .git/hooks && echo 'hooks copied'"
