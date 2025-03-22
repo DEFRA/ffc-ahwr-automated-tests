@@ -29,6 +29,6 @@ RUN npm install --omit=dev --ignore-scripts
 COPY . .
 
 # Switch to non-root user for security
-# USER appuser
+USER appuser
 
 CMD ["tail", "-f", "/dev/null"]

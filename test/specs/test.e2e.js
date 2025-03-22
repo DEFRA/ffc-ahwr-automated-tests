@@ -2,8 +2,6 @@ import { expect, browser, $ } from "@wdio/globals";
 
 describe("apply", () => {
   it("should be able to create a new application", async () => {
-    console.log(`BH TEST: 3 - Just test changed!}`);
-
     let url = "http://localhost:3000/apply/endemics/dev-sign-in";
 
     if (process.env.DOCKER_MODE && process.env.DOCKER_MODE === "true") {
