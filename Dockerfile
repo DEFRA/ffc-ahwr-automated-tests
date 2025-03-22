@@ -2,6 +2,9 @@ FROM --platform=linux/amd64 selenium/standalone-chrome:133.0-20250222
 
 USER root
 
+# Create a non-root user (appuser)
+RUN useradd -m -s /bin/bash appuser
+
 # Install necessary dependencies and NVM
 RUN apt-get update && apt-get install -y curl bash \
     && rm -rf /var/lib/apt/lists/* \
