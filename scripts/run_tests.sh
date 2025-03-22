@@ -42,7 +42,6 @@ docker exec -i "$WDIO_CONTAINER" npm run test | tee logs/wdio_test_output.log
 EXIT_CODE=${PIPESTATUS[0]}
 
 docker exec -i "$WDIO_CONTAINER" ls -lart /app/tmp/
-docker exec -i "$WDIO_CONTAINER" ls -lart /app/tmp/chrome-profile-123/
 
 echo "🛑 Stopping services..."
 docker compose down
