@@ -41,8 +41,6 @@ docker image ls --format "{{.Repository}}" | grep '^ffc-ahwr-' | grep -v '^ffc-a
 docker exec -i --user root "$WDIO_CONTAINER" npm run test | tee logs/wdio_test_output.log
 EXIT_CODE=${PIPESTATUS[0]}
 
-docker exec -i "$WDIO_CONTAINER" ls -lart /app/tmp/
-
 echo "🛑 Stopping services..."
 docker compose down
 
