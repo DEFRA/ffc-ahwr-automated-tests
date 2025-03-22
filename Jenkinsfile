@@ -23,4 +23,13 @@ pipeline {
             }
         }
     }
+    post {
+        failure {
+            stage('Send Alert') {
+                steps {
+                    sh './scripts/send_alert.sh'
+                }
+            }
+        }
+    }
 }
