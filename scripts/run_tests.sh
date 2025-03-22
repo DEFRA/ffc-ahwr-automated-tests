@@ -38,7 +38,7 @@ echo "🧪 Running WDIO tests..."
 mkdir -p logs
 docker image ls --format "{{.Repository}}" | grep '^ffc-ahwr-' | grep -v '^ffc-ahwr-application-development$' | xargs -I {} sh -c 'docker compose logs -f "{}" > logs/{}.log 2>&1 &'
 
-docker exec -i "$WDIO_CONTAINER" npm run test | tee logs/wdio_test_output.log
+docker exec -i --user root "$WDIO_CONTAINER" npm run test | tee logs/wdio_test_output.log
 EXIT_CODE=${PIPESTATUS[0]}
 
 docker exec -i "$WDIO_CONTAINER" ls -lart /app/tmp/
