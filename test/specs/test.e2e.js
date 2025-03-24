@@ -40,7 +40,7 @@ describe("apply and claim journey for Sheep", () => {
 
     // Verify application successful
     await expect(title).toHaveText(
-      expect.stringContaining("Application complete")
+      expect.stringContaining("Application complete"),
     );
   });
 
@@ -48,7 +48,7 @@ describe("apply and claim journey for Sheep", () => {
     let url = "http://localhost:3004/claim/endemics/dev-sign-in";
 
     if (process.env.DOCKER_MODE && process.env.DOCKER_MODE === "true") {
-      url = "http://ffc-ahwr-farmer-claim:3004/claim/endemics/dev-sign-in";
+      url = "http://ffc-ahwr-farmer-claim:3000/claim/endemics/dev-sign-in";
     }
 
     await browser.url(url);
@@ -75,7 +75,7 @@ describe("apply and claim journey for Sheep", () => {
     await $("button=Continue").click();
 
     await $(
-      'input[name="whenTestingWasCarriedOut"][value="whenTheVetVisitedTheFarmToCarryOutTheReview"]'
+      'input[name="whenTestingWasCarriedOut"][value="whenTheVetVisitedTheFarmToCarryOutTheReview"]',
     ).click();
     await $("button=Continue").click();
 
