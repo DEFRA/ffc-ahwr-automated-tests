@@ -7,20 +7,25 @@ pipeline {
         AZURE_STORAGE_CONNECTION_STRING = credentials('AZURE_STORAGE_CONNECTION_STRING')
     }
     stages {
-        stage('Pull ACR images') {
+        stage('Pull Service Images (ACR)') {
             steps {
                 sh './scripts/pull_latest_acr_images.sh'
             }
         }
-        stage('Build WDIO testing image') {
+        stage('Build WDIO (testing) Image') {
             steps {
                 sh './scripts/build_wdio_test_image.sh'
             }
         }
-        stage('Running tests') {
+        stage('Run Tests') {
             steps {
                 sh './scripts/run_tests.sh'
             }
+        }
+    }
+    post {
+        failure {
+            sh './scripts/send_alert.sh'
         }
     }
 }
