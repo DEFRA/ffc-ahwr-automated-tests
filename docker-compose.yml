@@ -104,7 +104,7 @@ services:
       NOTIFY_TEMPLATE_ID_FARMER_LOGIN: fe5ea908-dfcf-4b65-8514-2d4168b569a5
       NOTIFY_TEMPLATE_ID_VET_LOGIN: fe5ea908-dfcf-4b65-8514-2d4168b569a5
       TEST_ENVIRONMENT_ROOT_URL: "http://host.docker.internal:3000"
-      AZURE_STORAGE_CONNECTION_STRING: UseDevelopmentStorage=true
+      AZURE_STORAGE_CONNECTION_STRING: ValueComesFromEnv
       AZURE_STORAGE_ACCOUNT_NAME: "ffcahwr"
       AZURE_STORAGE_USERS_CONTAINER: "users"
       NOTIFY_TEMPLATE_ID_FARMER_APPLY_LOGIN: fe5ea908-dfcf-4b65-8514-2d4168b569a5
@@ -131,6 +131,7 @@ services:
       ENDEMICS_ENABLED: "true"
       OPTIONAL_PIHUNT_ENABLED: "true"
       CARBON_COPY_EMAIL_ADDRESS: "defra-vets-visits-testing@equalexperts.com"
+      MESSAGE_GENERATOR_QUEUE_ADDRESS: ${MESSAGE_GENERATOR_QUEUE_ADDRESS:-ffc-ahwr-message-generator}${MESSAGE_QUEUE_SUFFIX}
 
   ffc-ahwr-application-postgres:
     networks:
