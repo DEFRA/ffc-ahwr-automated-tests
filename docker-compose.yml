@@ -142,6 +142,9 @@ services:
       POSTGRES_DB: ffc_ahwr_application
       POSTGRES_PASSWORD: ppp
       POSTGRES_USERNAME: postgres
+      POSTGRES_PORT: 5432
+    ports:
+      - '5432:5432'
 
   database-up:
     platform: linux/amd64
@@ -258,6 +261,7 @@ services:
       REDIS_PASSWORD: ""
       SERVICE_URI: http://localhost:3004/claim
       APPLY_SERVICE_URI: http://localhost:3000/apply
+      URL_PREFIX: "/claim"
       DASHBOARD_SERVICE_URI: http://localhost:3003
       APPLICATION_API_URI: http://host.docker.internal:3001/api
       DEFRA_ID_TENANT: random-value
