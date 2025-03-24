@@ -6,9 +6,6 @@ ENV_FILE=".env"
 APP_HEALTHCHECK_URL="http://localhost:3001/healthy"
 MAX_RETRIES=10
 
-echo "🔥 FAKE FAILURE 🔥..."
-exit 1
-
 if [ ! -f "$ENV_FILE" ]; then
   echo "No .env file found... assuming this is running on pipeline and required values are injected"
 else
