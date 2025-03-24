@@ -23,7 +23,7 @@ WORKDIR /app
 
 # Copy package files first to optimize caching
 COPY package.json package-lock.json ./
-RUN npm install --omit=dev --ignore-scripts
+RUN npm ci --omit=dev --ignore-scripts
 
 # Copy the rest of the application files
 COPY . .
