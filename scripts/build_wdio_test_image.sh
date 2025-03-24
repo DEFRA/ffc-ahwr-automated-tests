@@ -2,4 +2,4 @@
 
 set -e
 
-docker build --no-cache -t wdio-tests .
+docker build -t wdio-tests .
