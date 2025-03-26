@@ -1,6 +1,6 @@
 import { expect, browser, $ } from "@wdio/globals";
 
-describe("apply and claim journey for Sheep", () => {
+describe("Apply and claim journey for Sheep", () => {
   const sbi = "107167406";
 
   it("should be able to create a new application", async () => {
@@ -40,7 +40,7 @@ describe("apply and claim journey for Sheep", () => {
 
     // Verify application successful
     await expect(title).toHaveText(
-      expect.stringContaining("Application complete"),
+      expect.stringContaining("Application complete")
     );
   });
 
@@ -75,7 +75,7 @@ describe("apply and claim journey for Sheep", () => {
     await $("button=Continue").click();
 
     await $(
-      'input[name="whenTestingWasCarriedOut"][value="whenTheVetVisitedTheFarmToCarryOutTheReview"]',
+      'input[name="whenTestingWasCarriedOut"][value="whenTheVetVisitedTheFarmToCarryOutTheReview"]'
     ).click();
     await $("button=Continue").click();
 
@@ -100,5 +100,6 @@ describe("apply and claim journey for Sheep", () => {
     await title.waitForDisplayed({ timeout: 5000 });
 
     await expect(title).toHaveText(expect.stringContaining("Claim complete"));
+    await expect($("#reference")).toHaveText(expect.stringContaining("RESH"));
   });
 });
