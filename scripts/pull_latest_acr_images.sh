@@ -9,9 +9,6 @@ IMAGES=(
   "ffc-ahwr-backoffice"
 )
 
-echo "🔥 FAKE FAILURE 🔥..."
-exit 1
-
 # Log in to ACR
 az acr login --name "$ACR_NAME"
 
