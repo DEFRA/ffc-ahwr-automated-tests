@@ -41,9 +41,9 @@ pipeline {
     post {
         failure {
             echo 'BH TEST2: $BRANCH_NAME'
-            if (env.BRANCH_NAME == 'main') {
-                sh './scripts/send_alert.sh "$AZURE_STORAGE_CONNECTION_STRING_JENKINS_FAILURES" "main" "$RUN_NUMBER"'
-            }
+            // if (env.BRANCH_NAME == 'main') {
+            //     sh './scripts/send_alert.sh "$AZURE_STORAGE_CONNECTION_STRING_JENKINS_FAILURES" "main" "$RUN_NUMBER"'
+            // }
         }
     }
 }
