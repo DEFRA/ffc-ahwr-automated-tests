@@ -46,7 +46,4 @@ EXIT_CODE=${PIPESTATUS[0]}
 echo "🛑 Stopping services..."
 docker compose down
 
-echo "🔥 FAKE FAILURE 🔥..."
-exit 1
-
 exit $EXIT_CODE
