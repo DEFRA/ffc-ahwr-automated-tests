@@ -5,6 +5,7 @@ AHWR_BRANCH="$2"
 
 echo "🧽 Pre-run Cleanup: Remove Alert..."
 
+echo "Removing key 'service_build_tests_failed_$AHWR_BRANCH' from storage account table ffcahwrjenkinsfailures.."
 az storage entity delete \
  --connection-string $AZURE_STORAGE_CONNECTION_STRING_JENKINS_FAILURES \
  --table-name ffcahwrjenkinsfailures \
