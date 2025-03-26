@@ -14,7 +14,6 @@ pipeline {
     }
     stages {
         stage('Pre-run Cleanup: Remove Alert') {
-            echo 'BH TEST1: $BRANCH_NAME'
             when {
                 branch 'main'
             }
@@ -24,6 +23,7 @@ pipeline {
         }
         stage('Pull Service Images (ACR)') {
             steps {
+                echo 'BH TEST1: $BRANCH_NAME'
                 sh './scripts/pull_latest_acr_images.sh'
             }
         }
