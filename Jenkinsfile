@@ -15,7 +15,7 @@ pipeline {
     stages {
         stage('Pre-run Cleanup: Remove Alert') {
             when {
-                branch 'main'
+                branch 'origin/main'
             }
             steps {
                 sh './scripts/remove_alert.sh "$AZURE_STORAGE_CONNECTION_STRING_JENKINS_FAILURES" "main"'
@@ -23,7 +23,7 @@ pipeline {
         }
         stage('Pull Service Images (ACR)') {
             steps {
-                echo 'BH TEST1: $BRANCH_NAME'
+                echo "BH TEST1: $BRANCH_NAME"
                 sh './scripts/pull_latest_acr_images.sh'
             }
         }
@@ -40,10 +40,11 @@ pipeline {
     }
     post {
         failure {
-            echo 'BH TEST2: $BRANCH_NAME'
-            // if (env.BRANCH_NAME == 'main') {
-            //     sh './scripts/send_alert.sh "$AZURE_STORAGE_CONNECTION_STRING_JENKINS_FAILURES" "main" "$RUN_NUMBER"'
-            // }
+            script {
+                if (env.GIT_BRANCH == 'origin/main') {
+                    sh './scripts/send_alert.sh "$AZURE_STORAGE_CONNECTION_STRING_JENKINS_FAILURES" "main" "$RUN_NUMBER"'
+                }
+            }
         }
     }
 }
