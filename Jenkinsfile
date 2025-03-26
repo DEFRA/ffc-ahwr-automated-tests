@@ -4,7 +4,7 @@ pipeline {
         disableConcurrentBuilds()
     }
     environment {
-        BRANCH_NAME = "main" //"${env.GIT_BRANCH}"
+        BRANCH_NAME = "${env.GIT_BRANCH}"
         RUN_NUMBER  = "${env.BUILD_NUMBER}"
         MESSAGE_QUEUE_PASSWORD = credentials('MESSAGE_QUEUE_PASSWORD')
         APPLICATIONINSIGHTS_CONNECTION_STRING = credentials('APPLICATIONINSIGHTS_CONNECTION_STRING')
@@ -15,7 +15,10 @@ pipeline {
     stages {
         stage('Pre-run Cleanup: Remove Alert') {
             steps {
-                sh './scripts/remove_alert.sh "$AZURE_STORAGE_CONNECTION_STRING_JENKINS_FAILURES" "$BRANCH_NAME"'
+                echo 'BH TEST1: $BRANCH_NAME'
+                if (env.BRANCH_NAME == 'main') {
+                    sh './scripts/remove_alert.sh "$AZURE_STORAGE_CONNECTION_STRING_JENKINS_FAILURES" "main"'
+                }
             }
         }
         stage('Pull Service Images (ACR)') {
@@ -35,11 +38,11 @@ pipeline {
         }
     }
     post {
-        when {
-            branch 'main'
-        }
         failure {
-            sh './scripts/send_alert.sh "$AZURE_STORAGE_CONNECTION_STRING_JENKINS_FAILURES" "$BRANCH_NAME" "$RUN_NUMBER"'
+            echo 'BH TEST2: $BRANCH_NAME'
+            if (env.BRANCH_NAME == 'main') {
+                sh './scripts/send_alert.sh "$AZURE_STORAGE_CONNECTION_STRING_JENKINS_FAILURES" "main" "$RUN_NUMBER"'
+            }
         }
     }
 }
