@@ -27,13 +27,13 @@ pipeline {
         }
         stage('Run Tests') {
             steps {
-                sh './scripts/run_tests.sh "$AZURE_STORAGE_CONNECTION_STRING_JENKINS_FAILURES" "$BRANCH_NAME" "$RUN_NUMBER"'
+                sh './scripts/run_tests.sh'
             }
         }
     }
     post {
         failure {
-            sh './scripts/send_alert.sh'
+            sh './scripts/send_alert.sh "$AZURE_STORAGE_CONNECTION_STRING_JENKINS_FAILURES" "$BRANCH_NAME" "$RUN_NUMBER"'
         }
     }
 }
