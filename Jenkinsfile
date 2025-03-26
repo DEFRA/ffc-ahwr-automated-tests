@@ -11,7 +11,7 @@ pipeline {
         MESSAGE_QUEUE_SUFFIX = credentials('MESSAGE_QUEUE_SUFFIX')
         AZURE_STORAGE_CONNECTION_STRING = credentials('AZURE_STORAGE_CONNECTION_STRING')
         AZURE_STORAGE_CONNECTION_STRING_JENKINS_FAILURES = credentials('AZURE_STORAGE_CONNECTION_STRING_JENKINS_FAILURES')
-        GIT_BRANCH_ALERTS = "origin/feat/AHWR-621-alert-when-tests-fail"
+        GIT_BRANCH_ALERTS = "origin/main"
     }
     stages {
         stage('Pre-run Cleanup: Remove Alert') {
