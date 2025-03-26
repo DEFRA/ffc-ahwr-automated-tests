@@ -14,11 +14,12 @@ pipeline {
     }
     stages {
         stage('Pre-run Cleanup: Remove Alert') {
+            echo 'BH TEST1: $BRANCH_NAME'
+            when {
+                branch 'main'
+            }
             steps {
-                echo 'BH TEST1: $BRANCH_NAME'
-                if (env.BRANCH_NAME == 'main') {
-                    sh './scripts/remove_alert.sh "$AZURE_STORAGE_CONNECTION_STRING_JENKINS_FAILURES" "main"'
-                }
+                sh './scripts/remove_alert.sh "$AZURE_STORAGE_CONNECTION_STRING_JENKINS_FAILURES" "main"'
             }
         }
         stage('Pull Service Images (ACR)') {
