@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        BRANCH_NAME = "${env.GIT_BRANCH}"
+        BRANCH_NAME = "main" //"${env.GIT_BRANCH}"
         RUN_NUMBER  = "${env.BUILD_NUMBER}"
         MESSAGE_QUEUE_PASSWORD = credentials('MESSAGE_QUEUE_PASSWORD')
         APPLICATIONINSIGHTS_CONNECTION_STRING = credentials('APPLICATIONINSIGHTS_CONNECTION_STRING')
