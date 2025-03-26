@@ -11,11 +11,12 @@ pipeline {
         MESSAGE_QUEUE_SUFFIX = credentials('MESSAGE_QUEUE_SUFFIX')
         AZURE_STORAGE_CONNECTION_STRING = credentials('AZURE_STORAGE_CONNECTION_STRING')
         AZURE_STORAGE_CONNECTION_STRING_JENKINS_FAILURES = credentials('AZURE_STORAGE_CONNECTION_STRING_JENKINS_FAILURES')
+        GIT_BRANCH_ALERTS = "origin/feat/AHWR-621-alert-when-tests-fail"
     }
     stages {
         stage('Pre-run Cleanup: Remove Alert') {
             when {
-                branch 'origin/main'
+                branch "$GIT_BRANCH_ALERTS"
             }
             steps {
                 sh './scripts/remove_alert.sh "$AZURE_STORAGE_CONNECTION_STRING_JENKINS_FAILURES" "main"'
@@ -23,7 +24,6 @@ pipeline {
         }
         stage('Pull Service Images (ACR)') {
             steps {
-                echo "BH TEST1: $BRANCH_NAME"
                 sh './scripts/pull_latest_acr_images.sh'
             }
         }
@@ -41,8 +41,10 @@ pipeline {
     post {
         failure {
             script {
-                if (env.GIT_BRANCH == 'origin/main') {
+                if (env.GIT_BRANCH == "$GIT_BRANCH_ALERTS") {
                     sh './scripts/send_alert.sh "$AZURE_STORAGE_CONNECTION_STRING_JENKINS_FAILURES" "main" "$RUN_NUMBER"'
+                } else {
+                    echo "ℹ️ Only send alert for branch: $GIT_BRANCH_ALERTS"
                 }
             }
         }
