@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    options {
+        disableConcurrentBuilds()
+    }
     environment {
         BRANCH_NAME = "main" //"${env.GIT_BRANCH}"
         RUN_NUMBER  = "${env.BUILD_NUMBER}"
