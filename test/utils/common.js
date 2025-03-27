@@ -59,6 +59,7 @@ export async function selectSheepTestsAndContinue(testTypes) {
     if (!(await checkbox.isSelected())) {
       await checkbox.click();
     }
+
     await clickContinue();
   }
 }
@@ -69,14 +70,14 @@ export async function fillInputAndContinue(selector, value) {
 }
 
 export async function verifySubmission(expectedText) {
-  const title = $(".govuk-panel__title");
+  const title = $(selectors.submissionPanelTitle);
   await expect(title).toHaveText(expect.stringContaining(expectedText));
 }
 
 export async function clickContinue() {
-  await $("button=Continue").click();
+  await $(selectors.continueButton).click();
 }
 
 export async function clickSubmitButton() {
-  await $('button[type="submit"]').click();
+  await $(selectors.submitButton).click();
 }

@@ -8,6 +8,8 @@ export function typeOfLivestock(liveStock) {
   return `input[name="typeOfLivestock"][value="${liveStock}"]`;
 }
 
+export const continueButton = "button=Continue";
+
 export function typeOfReview(reviewType) {
   return `input[name="typeOfReview"][value="${reviewType}"]`;
 }
@@ -54,7 +56,7 @@ export function piHuntDoneForAllCattle(value) {
 
 export const laboratoryURN = "#laboratoryURN";
 
-export function followUpTestResults(value) {
+export function testResults(value) {
   return `input[name="testResults"][value="${value}"]`;
 }
 
@@ -62,6 +64,12 @@ export function biosecurity(value) {
   return `input[name="biosecurity"][value="${value}"]`;
 }
 
+export const numberOfOralFluidSamples = "#numberOfOralFluidSamples";
+
 export const submitClaim = "#submit-claim";
 
+export const submitButton = 'button[type="submit"]';
+
 export const reference = "#reference";
+
+export const submissionPanelTitle = ".govuk-panel__title";

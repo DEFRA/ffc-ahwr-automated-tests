@@ -39,7 +39,9 @@ describe("Follow-up claim journeys for various species", () => {
     await common.answerAndContinue(selectors.testResult("positive"));
 
     await $(selectors.submitClaim).click();
+
     await common.verifySubmission("Claim complete");
+
     await expect($(selectors.reference)).toHaveText(
       expect.stringContaining("FUSH"),
     );
@@ -72,13 +74,14 @@ describe("Follow-up claim journeys for various species", () => {
 
     await common.fillInputAndContinue(selectors.laboratoryURN, "521346");
 
-    await common.answerAndContinue(selectors.followUpTestResults("positive"));
+    await common.answerAndContinue(selectors.testResults("positive"));
 
     await common.answerAndContinue(selectors.biosecurity("yes"));
 
     await $(selectors.submitClaim).click();
 
     await common.verifySubmission("Claim complete");
+
     await expect($(selectors.reference)).toHaveText(
       expect.stringContaining("FUBC"),
     );
