@@ -1,3 +1,4 @@
+-- Script to insert an application and a review claim for sheep before doing a follow-up claim journey
 INSERT INTO
     public.application (
         id,
