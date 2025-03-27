@@ -1,3 +1,5 @@
 node_modules
 .env
 logs
+test/.DS_Store
+.DS_Store
