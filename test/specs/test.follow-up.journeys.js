@@ -1,86 +1,111 @@
 import { expect, browser, $ } from "@wdio/globals";
-import * as common from "../utils/common.js";
-import * as selectors from "../utils/selectors.js";
+import {
+  getSignInUrl,
+  fillAndSubmitSBI,
+  clickOnElementAndContinue,
+  enterVisitDateAndContinue,
+  enterWhenTestingWasCarriedOutAndContinue,
+  fillInputAndContinue,
+  selectSheepTestsAndContinue,
+  verifySubmission,
+} from "../utils/common.js";
+import {
+  NUMBER_OF_ANIMALS_TESTED,
+  VETS_NAME,
+  VET_RCVS_NUMBER,
+  LABORATORY_URN,
+  SUBMIT_CLAIM_BUTTON,
+  REFERENCE,
+  getTypeOfLivestockSelector,
+  getTypeOfReviewSelector,
+  getSpeciesNumbersSelector,
+  getSheepEndemicsPackageSelector,
+  getTestResultSelector,
+  getPiHuntForBvdDoneSelector,
+  getPiHuntDoneForAllCattleSelector,
+  getTestResultsSelector,
+  getBiosecuritySelector,
+} from "../utils/selectors.js";
 import {
   SHEEP_ENDEMIC_CLAIM_SBI,
   BEEF_ENDEMIC_CLAIM_SBI,
+  JOHNES_DISEASE,
 } from "../utils/constants.js";
 
 describe("Follow-up claim journeys for various species", () => {
   it("should be able to create a follow-up claim for sheep", async () => {
-    await browser.url(common.getSignInUrl("claim"));
+    await browser.url(getSignInUrl("claim"));
 
-    await common.fillAndSubmitSBI(SHEEP_ENDEMIC_CLAIM_SBI);
+    await fillAndSubmitSBI(SHEEP_ENDEMIC_CLAIM_SBI);
 
-    await common.answerAndContinue(selectors.typeOfLivestock("sheep"));
+    await clickOnElementAndContinue(getTypeOfLivestockSelector("sheep"));
 
-    await common.answerAndContinue(selectors.typeOfReview("endemics"));
+    await clickOnElementAndContinue(getTypeOfReviewSelector("endemics"));
 
-    await common.enterVisitDateAndContinue();
+    await enterVisitDateAndContinue();
 
-    await common.whenTestingWasCarriedOutAndContinue(
+    await enterWhenTestingWasCarriedOutAndContinue(
       "whenTheVetVisitedTheFarmToCarryOutTheReview",
     );
 
-    await common.answerAndContinue(selectors.speciesNumbers("yes"));
+    await clickOnElementAndContinue(getSpeciesNumbersSelector("yes"));
 
-    await common.fillInputAndContinue(selectors.numberOfAnimalsTested, "10");
+    await fillInputAndContinue(NUMBER_OF_ANIMALS_TESTED, "10");
 
-    await common.fillInputAndContinue(selectors.vetsName, "Mr Auto Test");
+    await fillInputAndContinue(VETS_NAME, "Mr Auto Test");
 
-    await common.fillInputAndContinue(selectors.vetRcvsNumber, "7654321");
+    await fillInputAndContinue(VET_RCVS_NUMBER, "7654321");
 
-    await common.answerAndContinue(
-      selectors.sheepEndemicsPackage("improvedEwePerformance"),
+    await clickOnElementAndContinue(
+      getSheepEndemicsPackageSelector("improvedEwePerformance"),
     );
 
-    await common.selectSheepTestsAndContinue("johnes");
+    await selectSheepTestsAndContinue([JOHNES_DISEASE]);
 
-    await common.answerAndContinue(selectors.testResult("positive"));
+    await clickOnElementAndContinue(getTestResultSelector("positive"));
 
-    await $(selectors.submitClaim).click();
-    await common.verifySubmission("Claim complete");
-    await expect($(selectors.reference)).toHaveText(
-      expect.stringContaining("FUSH"),
-    );
+    await $(SUBMIT_CLAIM_BUTTON).click();
+
+    await verifySubmission("Claim complete");
+
+    await expect($(REFERENCE)).toHaveText(expect.stringContaining("FUSH"));
   });
 
   it("should be able to create a follow-up claim for beef", async () => {
-    await browser.url(common.getSignInUrl("claim"));
+    await browser.url(getSignInUrl("claim"));
 
-    await common.fillAndSubmitSBI(BEEF_ENDEMIC_CLAIM_SBI);
+    await fillAndSubmitSBI(BEEF_ENDEMIC_CLAIM_SBI);
 
-    await common.answerAndContinue(selectors.typeOfLivestock("beef"));
+    await clickOnElementAndContinue(getTypeOfLivestockSelector("beef"));
 
-    await common.answerAndContinue(selectors.typeOfReview("endemics"));
+    await clickOnElementAndContinue(getTypeOfReviewSelector("endemics"));
 
-    await common.enterVisitDateAndContinue();
+    await enterVisitDateAndContinue();
 
-    await common.answerAndContinue(selectors.speciesNumbers("yes"));
+    await clickOnElementAndContinue(getSpeciesNumbersSelector("yes"));
 
-    await common.fillInputAndContinue(selectors.vetsName, "Mr Auto Test");
+    await fillInputAndContinue(VETS_NAME, "Mr Auto Test");
 
-    await common.fillInputAndContinue(selectors.vetRcvsNumber, "1234567");
+    await fillInputAndContinue(VET_RCVS_NUMBER, "1234567");
 
-    await common.answerAndContinue(selectors.piHuntForBVDDone("yes"));
+    await clickOnElementAndContinue(getPiHuntForBvdDoneSelector("yes"));
 
-    await common.answerAndContinue(selectors.piHuntDoneForAllCattle("yes"));
+    await clickOnElementAndContinue(getPiHuntDoneForAllCattleSelector("yes"));
 
-    await common.whenTestingWasCarriedOutAndContinue(
+    await enterWhenTestingWasCarriedOutAndContinue(
       "whenTheVetVisitedTheFarmToCarryOutTheReview",
     );
 
-    await common.fillInputAndContinue(selectors.laboratoryURN, "521346");
+    await fillInputAndContinue(LABORATORY_URN, "521346");
 
-    await common.answerAndContinue(selectors.followUpTestResults("positive"));
+    await clickOnElementAndContinue(getTestResultsSelector("positive"));
 
-    await common.answerAndContinue(selectors.biosecurity("yes"));
+    await clickOnElementAndContinue(getBiosecuritySelector("yes"));
 
-    await $(selectors.submitClaim).click();
+    await $(SUBMIT_CLAIM_BUTTON).click();
 
-    await common.verifySubmission("Claim complete");
-    await expect($(selectors.reference)).toHaveText(
-      expect.stringContaining("FUBC"),
-    );
+    await verifySubmission("Claim complete");
+
+    await expect($(REFERENCE)).toHaveText(expect.stringContaining("FUBC"));
   });
 });

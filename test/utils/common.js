@@ -1,5 +1,15 @@
 import { expect, $ } from "@wdio/globals";
-import * as selectors from "./selectors";
+import {
+  SBI,
+  CONTINUE_BUTTON,
+  VISIT_DATE_DAY,
+  VISIT_DATE_MONTH,
+  VISIT_DATE_YEAR,
+  SUBMIT_BUTTON,
+  SUBMISSION_PANEL_TITLE,
+  getWhenTestingWasCarriedOutSelector,
+  getSheepTestsDiseaseConditionSelector,
+} from "./selectors.js";
 
 export function getSignInUrl(type) {
   const baseUrls = {
@@ -16,14 +26,8 @@ export function getSignInUrl(type) {
 }
 
 export async function fillAndSubmitSBI(sbi) {
-  await $("#sbi").setValue(sbi);
+  await $(SBI).setValue(sbi);
   await clickSubmitButton();
-}
-
-export async function submitApplicationSteps() {
-  for (let i = 0; i < 3; i++) {
-    await clickSubmitButton();
-  }
 }
 
 export async function enterVisitDateAndContinue() {
@@ -32,51 +36,44 @@ export async function enterVisitDateAndContinue() {
   const month = (today.getMonth() + 1).toString().padStart(2, "0");
   const year = today.getFullYear().toString();
 
-  await $(selectors.visitDateDay).setValue(day);
-  await $(selectors.visitDateMonth).setValue(month);
-  await $(selectors.visitDateYear).setValue(year);
-  await clickContinue();
+  await $(VISIT_DATE_DAY).setValue(day);
+  await $(VISIT_DATE_MONTH).setValue(month);
+  await $(VISIT_DATE_YEAR).setValue(year);
+  await clickContinueButton();
 }
 
-export async function whenTestingWasCarriedOutAndContinue(value) {
-  await $(selectors.whenTestingWasCarriedOut(value)).click();
-  await clickContinue();
+export async function enterWhenTestingWasCarriedOutAndContinue(value) {
+  await $(getWhenTestingWasCarriedOutSelector(value)).click();
+  await clickContinueButton();
 }
 
-export async function answerAndContinue(selector) {
+export async function clickOnElementAndContinue(selector) {
   await $(selector).click();
-  await clickContinue();
+  await clickContinueButton();
 }
 
 export async function selectSheepTestsAndContinue(testTypes) {
-  if (!Array.isArray(testTypes)) {
-    testTypes = [testTypes];
-  }
-
   for (const testType of testTypes) {
-    const checkbox = $(selectors.sheepTestsDiseaseCondition(testType));
-
-    if (!(await checkbox.isSelected())) {
-      await checkbox.click();
-    }
-    await clickContinue();
+    const checkbox = $(getSheepTestsDiseaseConditionSelector(testType));
+    await checkbox.click();
+    await clickContinueButton();
   }
 }
 
 export async function fillInputAndContinue(selector, value) {
   await $(selector).setValue(value);
-  await clickContinue();
+  await clickContinueButton();
 }
 
 export async function verifySubmission(expectedText) {
-  const title = $(".govuk-panel__title");
+  const title = $(SUBMISSION_PANEL_TITLE);
   await expect(title).toHaveText(expect.stringContaining(expectedText));
 }
 
-export async function clickContinue() {
-  await $("button=Continue").click();
+export async function clickContinueButton() {
+  await $(CONTINUE_BUTTON).click();
 }
 
 export async function clickSubmitButton() {
-  await $('button[type="submit"]').click();
+  await $(SUBMIT_BUTTON).click();
 }
