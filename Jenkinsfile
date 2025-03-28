@@ -11,6 +11,7 @@ pipeline {
         MESSAGE_QUEUE_SUFFIX = credentials('MESSAGE_QUEUE_SUFFIX')
         AZURE_STORAGE_CONNECTION_STRING = credentials('AZURE_STORAGE_CONNECTION_STRING')
         AZURE_STORAGE_CONNECTION_STRING_JENKINS_FAILURES = credentials('AZURE_STORAGE_CONNECTION_STRING_JENKINS_FAILURES')
+        SERVICE_BUS_CONNECTION_STRING = credentials('SERVICE_BUS_CONNECTION_STRING')
         GIT_BRANCH_ALERTS = "origin/main"
     }
     stages {
@@ -25,6 +26,11 @@ pipeline {
         stage('Pull Service Images (ACR)') {
             steps {
                 sh './scripts/pull_latest_acr_images.sh'
+            }
+        }
+        stage('Checkout Event repo') {
+            steps {
+                sh './scripts/check_out_event_repo.sh'
             }
         }
         stage('Build WDIO (testing) Image') {

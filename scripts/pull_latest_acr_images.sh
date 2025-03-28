@@ -16,9 +16,6 @@ az acr login --name "$ACR_NAME"
 TOKEN=$(az acr login --name "$ACR_NAME" --expose-token --output tsv --query accessToken)
 echo "$TOKEN" | docker login "$ACR_NAME.azurecr.io" --username 00000000-0000-0000-0000-000000000000 --password-stdin
 
-# may need once we are running against newly built service versions
-# docker image ls --format "{{.Repository}}" | grep '^ffc-ahwr-' | xargs docker image rm
-
 get_latest_tag() {
   az acr repository show-tags \
     --name "$ACR_NAME" \

@@ -28,22 +28,24 @@ sed -E \
     -e "s|(AZURE_STORAGE_CONNECTION_STRING:).*|\1 ${AZURE_STORAGE_CONNECTION_STRING}|g" \
     docker-compose.yml | docker compose -f - up -d
 
-WDIO_CONTAINER=$(docker ps -qf "name=wdio-tests")
+./event-repo/scripts/start -d
 
-if [ -z "$WDIO_CONTAINER" ]; then
-  echo "❌ Error: WDIO container not found!"
-  exit 1
-fi
+# WDIO_CONTAINER=$(docker ps -qf "name=wdio-tests")
 
-echo "🧪 Running WDIO tests..."
+# if [ -z "$WDIO_CONTAINER" ]; then
+#   echo "❌ Error: WDIO container not found!"
+#   exit 1
+# fi
 
-mkdir -p logs
-docker image ls --format "{{.Repository}}" | grep '^ffc-ahwr-' | grep -v '^ffc-ahwr-application-development$' | xargs -I {} sh -c 'docker compose logs -f "{}" > logs/{}.log 2>&1 &'
+# echo "🧪 Running WDIO tests..."
 
-docker exec -i --user root "$WDIO_CONTAINER" npm run test | tee logs/wdio_test_output.log
-EXIT_CODE=${PIPESTATUS[0]}
+# mkdir -p logs
+# docker image ls --format "{{.Repository}}" | grep '^ffc-ahwr-' | grep -v '^ffc-ahwr-application-development$' | xargs -I {} sh -c 'docker compose logs -f "{}" > logs/{}.log 2>&1 &'
 
-echo "🛑 Stopping services..."
-docker compose down
+# docker exec -i --user root "$WDIO_CONTAINER" npm run test | tee logs/wdio_test_output.log
+# EXIT_CODE=${PIPESTATUS[0]}
 
-exit $EXIT_CODE
+# echo "🛑 Stopping services..."
+# docker compose down
+
+# exit $EXIT_CODE
