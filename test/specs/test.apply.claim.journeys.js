@@ -1,6 +1,6 @@
 import { expect, browser, $ } from "@wdio/globals";
 import {
-  getSignInUrl,
+  getDevSignInUrl,
   fillAndSubmitSBI,
   clickSubmitButton,
   clickOnElementAndContinue,
@@ -8,6 +8,7 @@ import {
   enterWhenTestingWasCarriedOutAndContinue,
   fillInputAndContinue,
   verifySubmission,
+  onDashboardConfirmDetailsAndStartNewClaim,
 } from "../utils/common.js";
 import {
   TERMS_AND_CONDITIONS_CHECKBOX,
@@ -28,7 +29,7 @@ import { APPLY_REVIEW_CLAIM_SBI } from "../utils/constants.js";
 
 describe("Apply and claim journeys", () => {
   it("should be able to create a new application", async () => {
-    await browser.url(getSignInUrl("apply"));
+    await browser.url(getDevSignInUrl("apply"));
 
     await fillAndSubmitSBI(APPLY_REVIEW_CLAIM_SBI);
 
@@ -46,9 +47,10 @@ describe("Apply and claim journeys", () => {
   });
 
   it("should be able to create a new review claim for Sheep", async () => {
-    await browser.url(getSignInUrl("claim"));
+    await browser.url(getDevSignInUrl("claim"));
 
     await fillAndSubmitSBI(APPLY_REVIEW_CLAIM_SBI);
+    await onDashboardConfirmDetailsAndStartNewClaim();
 
     await clickOnElementAndContinue(getTypeOfLivestockSelector("sheep"));
 
@@ -75,9 +77,10 @@ describe("Apply and claim journeys", () => {
   });
 
   it("should be able to create a new review claim for Pigs", async () => {
-    await browser.url(getSignInUrl("claim"));
+    await browser.url(getDevSignInUrl("claim"));
 
     await fillAndSubmitSBI(APPLY_REVIEW_CLAIM_SBI);
+    await onDashboardConfirmDetailsAndStartNewClaim();
 
     await clickOnElementAndContinue(getTypeOfLivestockSelector("pigs"));
 
@@ -111,9 +114,10 @@ describe("Apply and claim journeys", () => {
   });
 
   it("should be able to create a new review claim for Diary cattle", async () => {
-    await browser.url(getSignInUrl("claim"));
+    await browser.url(getDevSignInUrl("claim"));
 
     await fillAndSubmitSBI(APPLY_REVIEW_CLAIM_SBI);
+    await onDashboardConfirmDetailsAndStartNewClaim();
 
     await clickOnElementAndContinue(getTypeOfLivestockSelector("dairy"));
 
@@ -140,9 +144,10 @@ describe("Apply and claim journeys", () => {
   });
 
   it("should be able to create a new review claim for Beef cattle", async () => {
-    await browser.url(getSignInUrl("claim"));
+    await browser.url(getDevSignInUrl("claim"));
 
     await fillAndSubmitSBI(APPLY_REVIEW_CLAIM_SBI);
+    await onDashboardConfirmDetailsAndStartNewClaim();
 
     await clickOnElementAndContinue(getTypeOfLivestockSelector("beef"));
 

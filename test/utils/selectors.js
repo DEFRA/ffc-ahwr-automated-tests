@@ -28,6 +28,8 @@ export const REFERENCE = "#reference";
 
 export const SUBMISSION_PANEL_TITLE = ".govuk-panel__title";
 
+export const START_NEW_CLIAM_BUTTON = "a=Start a new claim";
+
 export function getConfirmCheckDetailsSelector(value) {
   return `input[name="confirmCheckDetails"][value="${value}"]`;
 }
