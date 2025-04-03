@@ -27,7 +27,7 @@ services:
     environment:
       APPINSIGHTS_CLOUDROLE: ffc-ahwr-dashboard-local
       APPLICATIONINSIGHTS_CONNECTION_STRING: random-value
-      COOKIE_PASSWORD: who-likes-cookies-i-like-cookies-everybody-likes-cookies
+      COOKIE_PASSWORD: important-this-is-the-same-across-front-ends
       EVENT_QUEUE_ADDRESS: ffc-ahwr-event${MESSAGE_QUEUE_SUFFIX}
       GOOGLE_TAG_MANAGER_KEY: random-value
       MESSAGE_QUEUE_HOST: SNDFFCINFSB2001.servicebus.windows.net
@@ -117,7 +117,7 @@ services:
       EVENT_QUEUE_ADDRESS: ffc-ahwr-event${MESSAGE_QUEUE_SUFFIX}
       NODE_TLS_REJECT_UNAUTHORIZED: "0"
       REGISTER_YOUR_INTEREST_ENABLED: "true"
-      COOKIE_PASSWORD: "12345678901234567890123456789012"
+      COOKIE_PASSWORD: important-this-is-the-same-across-front-ends
       REGISTER_YOUR_INTEREST_REQUEST_QUEUE_ADDRESS: "ffc-ahwr-register-your-interest-request"
       LIQUIBASE_CONTEXTS: "test"
       WAITING_LIST_SCHEDULE: "*/30 * * * *"
@@ -208,7 +208,7 @@ services:
       AZURE_STORAGE_CONNECTION_STRING: UseDevelopmentStorage=true
       AZURE_STORAGE_ACCOUNT_NAME: "ffcahwr"
       EVENT_QUEUE_ADDRESS: ffc-ahwr-event${MESSAGE_QUEUE_SUFFIX}
-      COOKIE_PASSWORD: "12345678901234567890123456789012"
+      COOKIE_PASSWORD: important-this-is-the-same-across-front-ends
       DASHBOARD_SERVICE_URI: "http://localhost:3003"
       DEFRA_ID_CLIENT_SECRET: random-value
       APIM_CLIENT_ID: random-value
@@ -247,7 +247,7 @@ services:
       APPLICATIONINSIGHTS_CONNECTION_STRING: random-value
       APPLICATIONREQUEST_QUEUE_ADDRESS: ffc-ahwr-application-request${MESSAGE_QUEUE_SUFFIX}
       APPLICATIONRESPONSE_QUEUE_ADDRESS: ffc-ahwr-application-response${MESSAGE_QUEUE_SUFFIX}
-      COOKIE_PASSWORD: who-likes-cookies-i-like-cookies-everybody-likes-cookies
+      COOKIE_PASSWORD: important-this-is-the-same-across-front-ends
       EVENT_QUEUE_ADDRESS: ffc-ahwr-event${MESSAGE_QUEUE_SUFFIX}
       GOOGLE_TAG_MANAGER_KEY: random-value
       MESSAGE_QUEUE_HOST: SNDFFCINFSB2001.servicebus.windows.net
@@ -304,7 +304,7 @@ services:
       AADAR_CLIENT_ID: random-value
       AADAR_REDIRECT_URL: http://localhost:3002/authenticate
       AADAR_TENANT_ID: random-value
-      COOKIE_PASSWORD: who-likes-cookies-i-like-cookies-everybody-likes-cookies
+      COOKIE_PASSWORD: important-this-is-the-same-across-front-ends
       REDIS_HOSTNAME: redis
       REDIS_PORT: 6379
       REDIS_PASSWORD: ""
