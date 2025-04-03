@@ -8,7 +8,8 @@ import {
   fillInputAndContinue,
   selectSheepTestsAndContinue,
   verifySubmission,
-  // onDashboardConfirmDetailsAndStartNewClaim,
+  clickSubmitButton,
+  clickStartNewClaimButton,
 } from "../utils/common.js";
 import {
   NUMBER_OF_ANIMALS_TESTED,
@@ -26,6 +27,7 @@ import {
   getPiHuntDoneForAllCattleSelector,
   getTestResultsSelector,
   getBiosecuritySelector,
+  getConfirmCheckDetailsSelector,
 } from "../utils/selectors.js";
 import {
   SHEEP_ENDEMIC_CLAIM_SBI,
@@ -38,7 +40,10 @@ describe("Follow-up claim journeys for various species", () => {
     await browser.url(getDevSignInUrl("claim"));
 
     await fillAndSubmitSBI(SHEEP_ENDEMIC_CLAIM_SBI);
-    // await onDashboardConfirmDetailsAndStartNewClaim();
+    await $(getConfirmCheckDetailsSelector("yes")).click();
+    await clickSubmitButton();
+
+    await clickStartNewClaimButton();
 
     await clickOnElementAndContinue(getTypeOfLivestockSelector("sheep"));
 
@@ -77,7 +82,10 @@ describe("Follow-up claim journeys for various species", () => {
     await browser.url(getDevSignInUrl("claim"));
 
     await fillAndSubmitSBI(BEEF_ENDEMIC_CLAIM_SBI);
-    // await onDashboardConfirmDetailsAndStartNewClaim();
+    await $(getConfirmCheckDetailsSelector("yes")).click();
+    await clickSubmitButton();
+
+    await clickStartNewClaimButton();
 
     await clickOnElementAndContinue(getTypeOfLivestockSelector("beef"));
 

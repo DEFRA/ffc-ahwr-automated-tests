@@ -8,7 +8,7 @@ import {
   enterWhenTestingWasCarriedOutAndContinue,
   fillInputAndContinue,
   verifySubmission,
-  // onDashboardConfirmDetailsAndStartNewClaim,
+  clickStartNewClaimButton,
 } from "../utils/common.js";
 import {
   TERMS_AND_CONDITIONS_CHECKBOX,
@@ -50,7 +50,10 @@ describe("Apply and claim journeys", () => {
     await browser.url(getDevSignInUrl("claim"));
 
     await fillAndSubmitSBI(APPLY_REVIEW_CLAIM_SBI);
-    // await onDashboardConfirmDetailsAndStartNewClaim();
+    await $(getConfirmCheckDetailsSelector("yes")).click();
+    await clickSubmitButton();
+
+    await clickStartNewClaimButton();
 
     await clickOnElementAndContinue(getTypeOfLivestockSelector("sheep"));
 
@@ -80,7 +83,10 @@ describe("Apply and claim journeys", () => {
     await browser.url(getDevSignInUrl("claim"));
 
     await fillAndSubmitSBI(APPLY_REVIEW_CLAIM_SBI);
-    // await onDashboardConfirmDetailsAndStartNewClaim();
+    await $(getConfirmCheckDetailsSelector("yes")).click();
+    await clickSubmitButton();
+
+    await clickStartNewClaimButton();
 
     await clickOnElementAndContinue(getTypeOfLivestockSelector("pigs"));
 
@@ -113,11 +119,14 @@ describe("Apply and claim journeys", () => {
     await expect($(REFERENCE)).toHaveText(expect.stringContaining("REPI"));
   });
 
-  it("should be able to create a new review claim for Diary cattle", async () => {
+  it("should be able to create a new review claim for Dairy cattle", async () => {
     await browser.url(getDevSignInUrl("claim"));
 
     await fillAndSubmitSBI(APPLY_REVIEW_CLAIM_SBI);
-    // await onDashboardConfirmDetailsAndStartNewClaim();
+    await $(getConfirmCheckDetailsSelector("yes")).click();
+    await clickSubmitButton();
+
+    await clickStartNewClaimButton();
 
     await clickOnElementAndContinue(getTypeOfLivestockSelector("dairy"));
 
@@ -147,7 +156,10 @@ describe("Apply and claim journeys", () => {
     await browser.url(getDevSignInUrl("claim"));
 
     await fillAndSubmitSBI(APPLY_REVIEW_CLAIM_SBI);
-    // await onDashboardConfirmDetailsAndStartNewClaim();
+    await $(getConfirmCheckDetailsSelector("yes")).click();
+    await clickSubmitButton();
+
+    await clickStartNewClaimButton();
 
     await clickOnElementAndContinue(getTypeOfLivestockSelector("beef"));
 

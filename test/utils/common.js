@@ -9,8 +9,7 @@ import {
   SUBMISSION_PANEL_TITLE,
   getWhenTestingWasCarriedOutSelector,
   getSheepTestsDiseaseConditionSelector,
-  START_NEW_CLIAM_BUTTON,
-  getConfirmCheckDetailsSelector,
+  START_NEW_CLAIM_BUTTON,
 } from "./selectors.js";
 
 export function getDevSignInUrl(type) {
@@ -30,11 +29,6 @@ export function getDevSignInUrl(type) {
 export async function fillAndSubmitSBI(sbi) {
   await $(SBI).setValue(sbi);
   await clickSubmitButton();
-}
-
-export async function onDashboardConfirmDetailsAndStartNewClaim() {
-  await clickOnElementAndContinue(getConfirmCheckDetailsSelector("yes"));
-  await clickStartNewClaimButton();
 }
 
 export async function enterVisitDateAndContinue() {
@@ -77,14 +71,14 @@ export async function verifySubmission(expectedText) {
   await expect(title).toHaveText(expect.stringContaining(expectedText));
 }
 
-export async function clickStartNewClaimButton() {
-  await $(START_NEW_CLIAM_BUTTON).click();
-}
-
 export async function clickContinueButton() {
   await $(CONTINUE_BUTTON).click();
 }
 
 export async function clickSubmitButton() {
   await $(SUBMIT_BUTTON).click();
+}
+
+export async function clickStartNewClaimButton() {
+  await $(START_NEW_CLAIM_BUTTON).click();
 }

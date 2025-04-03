@@ -256,9 +256,9 @@ services:
       REDIS_HOSTNAME: redis
       REDIS_PORT: 6379
       REDIS_PASSWORD: ""
-      SERVICE_URI: http://localhost:3004/claim
-      APPLY_SERVICE_URI: http://localhost:3000/apply
-      DASHBOARD_SERVICE_URI: http://localhost:3003
+      SERVICE_URI: http://host.docker.internal:3004/claim
+      APPLY_SERVICE_URI: http://host.docker.internal:3000/apply
+      DASHBOARD_SERVICE_URI: http://host.docker.internal:3003
       APPLICATION_API_URI: http://host.docker.internal:3001/api
       DEFRA_ID_TENANT: random-value
       DEFRA_ID_POLICY: random-value
