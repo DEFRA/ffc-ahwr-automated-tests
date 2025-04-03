@@ -27,7 +27,7 @@ services:
     environment:
       APPINSIGHTS_CLOUDROLE: ffc-ahwr-dashboard-local
       APPLICATIONINSIGHTS_CONNECTION_STRING: random-value
-      COOKIE_PASSWORD: who-likes-cookies-i-like-cookies-everybody-likes-cookies
+      COOKIE_PASSWORD: important-this-is-the-same-across-front-ends
       EVENT_QUEUE_ADDRESS: ffc-ahwr-event${MESSAGE_QUEUE_SUFFIX}
       GOOGLE_TAG_MANAGER_KEY: random-value
       MESSAGE_QUEUE_HOST: SNDFFCINFSB2001.servicebus.windows.net
@@ -36,9 +36,9 @@ services:
       REDIS_HOSTNAME: redis
       REDIS_PORT: 6379
       REDIS_PASSWORD: ""
-      SERVICE_URI: http://localhost:3003/
-      CLAIM_SERVICE_URI: http://localhost:3004/claim
-      APPLY_SERVICE_URI: http://localhost:3000/apply
+      SERVICE_URI: http://host.docker.internal:3003/
+      CLAIM_SERVICE_URI: http://host.docker.internal:3004/claim
+      APPLY_SERVICE_URI: http://host.docker.internal:3000/apply
       APPLICATION_API_URI: http://host.docker.internal:3001/api
       DEFRA_ID_TENANT: random-value
       DEFRA_ID_POLICY: random-value
@@ -65,6 +65,7 @@ services:
       AZURE_STORAGE_USE_CONNECTION_STRING: false
       MULTI_SPECIES_ENABLED: true
       MULTI_SPECIES_RELEASE_DATE: "2025-02-20"
+      DEV_LOGIN_ENABLED: true
       NODE_ENV: development
 
   ffc-ahwr-application:
@@ -116,7 +117,7 @@ services:
       EVENT_QUEUE_ADDRESS: ffc-ahwr-event${MESSAGE_QUEUE_SUFFIX}
       NODE_TLS_REJECT_UNAUTHORIZED: "0"
       REGISTER_YOUR_INTEREST_ENABLED: "true"
-      COOKIE_PASSWORD: "12345678901234567890123456789012"
+      COOKIE_PASSWORD: important-this-is-the-same-across-front-ends
       REGISTER_YOUR_INTEREST_REQUEST_QUEUE_ADDRESS: "ffc-ahwr-register-your-interest-request"
       LIQUIBASE_CONTEXTS: "test"
       WAITING_LIST_SCHEDULE: "*/30 * * * *"
@@ -187,8 +188,8 @@ services:
       REDIS_HOSTNAME: redis
       REDIS_PORT: 6379
       REDIS_PASSWORD: ""
-      SERVICE_URI: http://localhost:3000/apply
-      CLAIM_SERVICE_URI: http://localhost:3004/claim
+      SERVICE_URI: http://host.docker.internal:3000/apply
+      CLAIM_SERVICE_URI: http://host.docker.internal:3004/claim
       URL_PREFIX: "/apply"
       APPLICATION_API_URI: http://host.docker.internal:3001/api
       DEFRA_ID_SERVICE_ID: random-value
@@ -203,17 +204,12 @@ services:
       MESSAGE_QUEUE_USER: RootManageSharedAccessKey
       APPLICATIONREQUEST_QUEUE_ADDRESS: ffc-ahwr-application-request${MESSAGE_QUEUE_SUFFIX}
       APPLICATIONRESPONSE_QUEUE_ADDRESS: ffc-ahwr-application-response${MESSAGE_QUEUE_SUFFIX}
-      NOTIFY_API_KEY: random-value
-      NOTIFY_TEMPLATE_ID_APPLICATION_COMPLETE: fe5ea908-dfcf-4b65-8514-2d4168b569a5
       TEST_ENVIRONMENT_ROOT_URL: "http://host.docker.internal:3000"
       AZURE_STORAGE_CONNECTION_STRING: UseDevelopmentStorage=true
       AZURE_STORAGE_ACCOUNT_NAME: "ffcahwr"
-      NOTIFY_TEMPLATE_ID_FARMER_APPLICATION_COMPLETE: fe5ea908-dfcf-4b65-8514-2d4168b569a5
       EVENT_QUEUE_ADDRESS: ffc-ahwr-event${MESSAGE_QUEUE_SUFFIX}
-      REGISTER_YOUR_INTEREST_ENABLED: "true"
-      COOKIE_PASSWORD: "12345678901234567890123456789012"
-      ELIGIBILITY_API_ENABLED: "true"
-      DASHBOARD_SERVICE_URI: "http://localhost:3003"
+      COOKIE_PASSWORD: important-this-is-the-same-across-front-ends
+      DASHBOARD_SERVICE_URI: "http://host.docker.internal:3003"
       DEFRA_ID_CLIENT_SECRET: random-value
       APIM_CLIENT_ID: random-value
       APIM_CLIENT_SECRET: random-value
@@ -251,7 +247,7 @@ services:
       APPLICATIONINSIGHTS_CONNECTION_STRING: random-value
       APPLICATIONREQUEST_QUEUE_ADDRESS: ffc-ahwr-application-request${MESSAGE_QUEUE_SUFFIX}
       APPLICATIONRESPONSE_QUEUE_ADDRESS: ffc-ahwr-application-response${MESSAGE_QUEUE_SUFFIX}
-      COOKIE_PASSWORD: who-likes-cookies-i-like-cookies-everybody-likes-cookies
+      COOKIE_PASSWORD: important-this-is-the-same-across-front-ends
       EVENT_QUEUE_ADDRESS: ffc-ahwr-event${MESSAGE_QUEUE_SUFFIX}
       GOOGLE_TAG_MANAGER_KEY: random-value
       MESSAGE_QUEUE_HOST: SNDFFCINFSB2001.servicebus.windows.net
@@ -260,9 +256,9 @@ services:
       REDIS_HOSTNAME: redis
       REDIS_PORT: 6379
       REDIS_PASSWORD: ""
-      SERVICE_URI: http://localhost:3004/claim
-      APPLY_SERVICE_URI: http://localhost:3000/apply
-      DASHBOARD_SERVICE_URI: http://localhost:3003
+      SERVICE_URI: http://host.docker.internal:3004/claim
+      APPLY_SERVICE_URI: http://host.docker.internal:3000/apply
+      DASHBOARD_SERVICE_URI: http://host.docker.internal:3003
       APPLICATION_API_URI: http://host.docker.internal:3001/api
       DEFRA_ID_TENANT: random-value
       DEFRA_ID_POLICY: random-value
@@ -308,7 +304,7 @@ services:
       AADAR_CLIENT_ID: random-value
       AADAR_REDIRECT_URL: http://localhost:3002/authenticate
       AADAR_TENANT_ID: random-value
-      COOKIE_PASSWORD: who-likes-cookies-i-like-cookies-everybody-likes-cookies
+      COOKIE_PASSWORD: important-this-is-the-same-across-front-ends
       REDIS_HOSTNAME: redis
       REDIS_PORT: 6379
       REDIS_PASSWORD: ""

@@ -9,9 +9,10 @@ import {
   SUBMISSION_PANEL_TITLE,
   getWhenTestingWasCarriedOutSelector,
   getSheepTestsDiseaseConditionSelector,
+  START_NEW_CLAIM_BUTTON,
 } from "./selectors.js";
 
-export function getSignInUrl(type) {
+export function getDevSignInUrl(type) {
   const baseUrls = {
     apply: "http://localhost:3000/apply/endemics/dev-sign-in",
     claim: "http://localhost:3004/claim/endemics/dev-sign-in",
@@ -76,4 +77,8 @@ export async function clickContinueButton() {
 
 export async function clickSubmitButton() {
   await $(SUBMIT_BUTTON).click();
+}
+
+export async function clickStartNewClaimButton() {
+  await $(START_NEW_CLAIM_BUTTON).click();
 }

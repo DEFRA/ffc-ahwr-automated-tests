@@ -1,6 +1,6 @@
 import { expect, browser, $ } from "@wdio/globals";
 import {
-  getSignInUrl,
+  getDevSignInUrl,
   fillAndSubmitSBI,
   clickOnElementAndContinue,
   enterVisitDateAndContinue,
@@ -8,6 +8,8 @@ import {
   fillInputAndContinue,
   selectSheepTestsAndContinue,
   verifySubmission,
+  clickSubmitButton,
+  clickStartNewClaimButton,
 } from "../utils/common.js";
 import {
   NUMBER_OF_ANIMALS_TESTED,
@@ -25,6 +27,7 @@ import {
   getPiHuntDoneForAllCattleSelector,
   getTestResultsSelector,
   getBiosecuritySelector,
+  getConfirmCheckDetailsSelector,
 } from "../utils/selectors.js";
 import {
   SHEEP_ENDEMIC_CLAIM_SBI,
@@ -34,9 +37,13 @@ import {
 
 describe("Follow-up claim journeys for various species", () => {
   it("should be able to create a follow-up claim for sheep", async () => {
-    await browser.url(getSignInUrl("claim"));
+    await browser.url(getDevSignInUrl("claim"));
 
     await fillAndSubmitSBI(SHEEP_ENDEMIC_CLAIM_SBI);
+    await $(getConfirmCheckDetailsSelector("yes")).click();
+    await clickSubmitButton();
+
+    await clickStartNewClaimButton();
 
     await clickOnElementAndContinue(getTypeOfLivestockSelector("sheep"));
 
@@ -72,9 +79,13 @@ describe("Follow-up claim journeys for various species", () => {
   });
 
   it("should be able to create a follow-up claim for beef", async () => {
-    await browser.url(getSignInUrl("claim"));
+    await browser.url(getDevSignInUrl("claim"));
 
     await fillAndSubmitSBI(BEEF_ENDEMIC_CLAIM_SBI);
+    await $(getConfirmCheckDetailsSelector("yes")).click();
+    await clickSubmitButton();
+
+    await clickStartNewClaimButton();
 
     await clickOnElementAndContinue(getTypeOfLivestockSelector("beef"));
 
