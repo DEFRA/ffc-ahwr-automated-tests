@@ -36,9 +36,9 @@ services:
       REDIS_HOSTNAME: redis
       REDIS_PORT: 6379
       REDIS_PASSWORD: ""
-      SERVICE_URI: http://localhost:3003/
-      CLAIM_SERVICE_URI: http://localhost:3004/claim
-      APPLY_SERVICE_URI: http://localhost:3000/apply
+      SERVICE_URI: http://host.docker.internal:3003/
+      CLAIM_SERVICE_URI: http://host.docker.internal:3004/claim
+      APPLY_SERVICE_URI: http://host.docker.internal:3000/apply
       APPLICATION_API_URI: http://host.docker.internal:3001/api
       DEFRA_ID_TENANT: random-value
       DEFRA_ID_POLICY: random-value
@@ -188,8 +188,8 @@ services:
       REDIS_HOSTNAME: redis
       REDIS_PORT: 6379
       REDIS_PASSWORD: ""
-      SERVICE_URI: http://localhost:3000/apply
-      CLAIM_SERVICE_URI: http://localhost:3004/claim
+      SERVICE_URI: http://host.docker.internal:3000/apply
+      CLAIM_SERVICE_URI: http://host.docker.internal:3004/claim
       URL_PREFIX: "/apply"
       APPLICATION_API_URI: http://host.docker.internal:3001/api
       DEFRA_ID_SERVICE_ID: random-value
@@ -209,7 +209,7 @@ services:
       AZURE_STORAGE_ACCOUNT_NAME: "ffcahwr"
       EVENT_QUEUE_ADDRESS: ffc-ahwr-event${MESSAGE_QUEUE_SUFFIX}
       COOKIE_PASSWORD: important-this-is-the-same-across-front-ends
-      DASHBOARD_SERVICE_URI: "http://localhost:3003"
+      DASHBOARD_SERVICE_URI: "http://host.docker.internal:3003"
       DEFRA_ID_CLIENT_SECRET: random-value
       APIM_CLIENT_ID: random-value
       APIM_CLIENT_SECRET: random-value

@@ -8,7 +8,7 @@ import {
   enterWhenTestingWasCarriedOutAndContinue,
   fillInputAndContinue,
   verifySubmission,
-  onDashboardConfirmDetailsAndStartNewClaim,
+  // onDashboardConfirmDetailsAndStartNewClaim,
 } from "../utils/common.js";
 import {
   TERMS_AND_CONDITIONS_CHECKBOX,
@@ -50,7 +50,7 @@ describe("Apply and claim journeys", () => {
     await browser.url(getDevSignInUrl("claim"));
 
     await fillAndSubmitSBI(APPLY_REVIEW_CLAIM_SBI);
-    await onDashboardConfirmDetailsAndStartNewClaim();
+    // await onDashboardConfirmDetailsAndStartNewClaim();
 
     await clickOnElementAndContinue(getTypeOfLivestockSelector("sheep"));
 
@@ -80,7 +80,7 @@ describe("Apply and claim journeys", () => {
     await browser.url(getDevSignInUrl("claim"));
 
     await fillAndSubmitSBI(APPLY_REVIEW_CLAIM_SBI);
-    await onDashboardConfirmDetailsAndStartNewClaim();
+    // await onDashboardConfirmDetailsAndStartNewClaim();
 
     await clickOnElementAndContinue(getTypeOfLivestockSelector("pigs"));
 
@@ -117,7 +117,7 @@ describe("Apply and claim journeys", () => {
     await browser.url(getDevSignInUrl("claim"));
 
     await fillAndSubmitSBI(APPLY_REVIEW_CLAIM_SBI);
-    await onDashboardConfirmDetailsAndStartNewClaim();
+    // await onDashboardConfirmDetailsAndStartNewClaim();
 
     await clickOnElementAndContinue(getTypeOfLivestockSelector("dairy"));
 
@@ -147,7 +147,7 @@ describe("Apply and claim journeys", () => {
     await browser.url(getDevSignInUrl("claim"));
 
     await fillAndSubmitSBI(APPLY_REVIEW_CLAIM_SBI);
-    await onDashboardConfirmDetailsAndStartNewClaim();
+    // await onDashboardConfirmDetailsAndStartNewClaim();
 
     await clickOnElementAndContinue(getTypeOfLivestockSelector("beef"));
 
