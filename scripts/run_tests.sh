@@ -6,6 +6,15 @@ ENV_FILE=".env"
 APP_HEALTHCHECK_URL="http://localhost:3001/healthy"
 MAX_RETRIES=10
 
+# Dynamically resolve host IP for use inside containers (works on Linux/Jenkins)
+HOST_INTERNAL_IP=$(ip -4 addr show docker0 | grep -oP '(?<=inet\s)\d+(\.\d+){3}')
+
+if [ -z "$HOST_INTERNAL_IP" ]; then
+  echo "❌ Could not resolve Docker bridge IP. Are you running in Jenkins or a non-Docker environment?"
+  exit 1
+fi
+echo "🔌 Using host IP for host.docker.internal: $HOST_INTERNAL_IP"
+
 if [ ! -f "$ENV_FILE" ]; then
   echo "No .env file found... assuming this is running on pipeline and required values are injected"
 else
@@ -21,12 +30,12 @@ fi
 
 echo "🚀 Starting services..."
 
-# Use sed to inject environment variables into docker-compose without modifying the file
+# Inject secrets and run docker compose with the correct host IP mapping
 sed -E \
-    -e "s|(MESSAGE_QUEUE_PASSWORD:).*|\1 ${MESSAGE_QUEUE_PASSWORD}|g" \
-    -e "s|(APPLICATIONINSIGHTS_CONNECTION_STRING:).*|\1 ${APPLICATIONINSIGHTS_CONNECTION_STRING}|g" \
-    -e "s|(AZURE_STORAGE_CONNECTION_STRING:).*|\1 ${AZURE_STORAGE_CONNECTION_STRING}|g" \
-    docker-compose.yml | docker compose -f - up -d
+  -e "s|(MESSAGE_QUEUE_PASSWORD:).*|\1 ${MESSAGE_QUEUE_PASSWORD}|g" \
+  -e "s|(APPLICATIONINSIGHTS_CONNECTION_STRING:).*|\1 ${APPLICATIONINSIGHTS_CONNECTION_STRING}|g" \
+  -e "s|(AZURE_STORAGE_CONNECTION_STRING:).*|\1 ${AZURE_STORAGE_CONNECTION_STRING}|g" \
+  docker-compose.yml | docker compose --add-host host.docker.internal:$HOST_INTERNAL_IP -f - up -d
 
 WDIO_CONTAINER=$(docker ps -qf "name=wdio-tests")
 
