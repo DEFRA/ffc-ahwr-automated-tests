@@ -17,6 +17,8 @@ describe("Apply journey", () => {
 
     await fillAndSubmitSBI(APPLY_REVIEW_CLAIM_SBI);
 
+    console.log(browser.getPageSource());
+
     await $(getConfirmCheckDetailsSelector("yes")).click();
     await clickSubmitButton();
 
