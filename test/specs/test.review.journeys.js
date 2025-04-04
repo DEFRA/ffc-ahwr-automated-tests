@@ -11,7 +11,6 @@ import {
   clickStartNewClaimButton,
 } from "../utils/common.js";
 import {
-  TERMS_AND_CONDITIONS_CHECKBOX,
   NUMBER_OF_ANIMALS_TESTED,
   VETS_NAME,
   VET_RCVS_NUMBER,
@@ -27,25 +26,7 @@ import {
 } from "../utils/selectors.js";
 import { APPLY_REVIEW_CLAIM_SBI } from "../utils/constants.js";
 
-describe("Apply and claim journeys", () => {
-  it("should be able to create a new application", async () => {
-    await browser.url(getDevSignInUrl("apply"));
-
-    await fillAndSubmitSBI(APPLY_REVIEW_CLAIM_SBI);
-
-    await $(getConfirmCheckDetailsSelector("yes")).click();
-    await clickSubmitButton();
-
-    await clickSubmitButton();
-    await clickSubmitButton();
-    await clickSubmitButton();
-
-    await $(TERMS_AND_CONDITIONS_CHECKBOX).click();
-    await clickSubmitButton();
-
-    await verifySubmission("Application complete");
-  });
-
+describe("Review claim journeys", () => {
   it("should be able to create a new review claim for Sheep", async () => {
     await browser.url(getDevSignInUrl("claim"));
 

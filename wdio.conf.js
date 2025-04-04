@@ -20,7 +20,13 @@ export const config = {
   // The path of the spec files will be resolved relative from the directory of
   // of the config file unless it's absolute.
   //
-  specs: ["./test/specs/**/*.js"],
+  specs: [
+    [
+      "./test/specs/test.apply.journeys.js",
+      "./test/specs/test.review.journeys.js",
+      "./test/specs/test.followUp.journeys.js",
+    ],
+  ],
   // Patterns to exclude.
   exclude: [
     // 'path/to/excluded/files'
@@ -96,7 +102,7 @@ export const config = {
   // baseUrl: 'http://localhost:8080',
   //
   // Default timeout for all waitFor* commands.
-  waitforTimeout: 10000,
+  waitforTimeout: 6000,
   //
   // Default timeout in milliseconds for request
   // if browser driver or grid doesn't send response
