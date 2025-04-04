@@ -42,7 +42,7 @@ services:
       APPLICATION_API_URI: http://ffc-ahwr-application:3000/api
       DEFRA_ID_TENANT: random-value
       DEFRA_ID_POLICY: random-value
-      DEFRA_ID_REDIRECT_URI: http://localhost:3003/signin-oidc
+      DEFRA_ID_REDIRECT_URI: http://localhost:3000/apply/signin-oidc
       DEFRA_ID_JWT_ISSUER_ID: random-value
       DEFRA_ID_CLIENT_ID: random-value
       DEFRA_ID_CLIENT_SECRET: random-value
@@ -58,7 +58,7 @@ services:
       APIM_CLIENT_ID: random-value
       APIM_CLIENT_SECRET: random-value
       APIM_SCOPE: random-value
-      TERMS_AND_CONDITIONS_URL: http://localhost:3003/terms/v3
+      TERMS_AND_CONDITIONS_URL: http://localhost:3000/terms/v3
       AZURE_STORAGE_CONNECTION_STRING: UseDevelopmentStorage=true
       AZURE_STORAGE_ACCOUNT_NAME: ffcahwr
       AZURE_STORAGE_APPLICATION_CONTAINER: documents
@@ -216,8 +216,8 @@ services:
       DEFRA_ID_POLICY: random-value
       DEFRA_ID_CLIENT_ID: random-value
       DEFRA_ID_JWT_ISSUER_ID: random-value
-      DEFRA_ID_REDIRECT_URI: http://localhost:3003/signin-oidc
-      DEFRA_ID_DASHBOARD_REDIRECT_URI: http://localhost:3003/signin-oidc
+      DEFRA_ID_REDIRECT_URI: http://localhost:3000/signin-oidc
+      DEFRA_ID_DASHBOARD_REDIRECT_URI: http://ffc-ahwr-dashboard:3000/signin-oidc
       TERMS_AND_CONDITIONS_URL: "http://localhost:3000/apply/terms/v3"
       RPA_HOST_NAME: random-value
       RPA_GET_PERSON_SUMMARY_URL: random-value
