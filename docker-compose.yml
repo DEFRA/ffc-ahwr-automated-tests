@@ -36,7 +36,7 @@ services:
       REDIS_HOSTNAME: redis
       REDIS_PORT: 6379
       REDIS_PASSWORD: ""
-      SERVICE_URI: http://ffc-ahwr-dashboard:3000/
+      SERVICE_URI: http://localhost:3000/
       CLAIM_SERVICE_URI: http://ffc-ahwr-farmer-claim:3000/claim
       APPLY_SERVICE_URI: http://ffc-ahwr-farmer-apply:3000/apply
       APPLICATION_API_URI: http://ffc-ahwr-application:3000/api
@@ -58,14 +58,14 @@ services:
       APIM_CLIENT_ID: random-value
       APIM_CLIENT_SECRET: random-value
       APIM_SCOPE: random-value
-      TERMS_AND_CONDITIONS_URL: http://ffc-ahwr-dashboard:3000/terms/v3
+      TERMS_AND_CONDITIONS_URL: http://localhost:3003/terms/v3
       AZURE_STORAGE_CONNECTION_STRING: UseDevelopmentStorage=true
       AZURE_STORAGE_ACCOUNT_NAME: ffcahwr
       AZURE_STORAGE_APPLICATION_CONTAINER: documents
       AZURE_STORAGE_USE_CONNECTION_STRING: false
-      MULTI_SPECIES_ENABLED: true
+      MULTI_SPECIES_ENABLED: "true"
       MULTI_SPECIES_RELEASE_DATE: "2025-02-20"
-      DEV_LOGIN_ENABLED: true
+      DEV_LOGIN_ENABLED: "true"
       NODE_ENV: development
 
   ffc-ahwr-application:
@@ -91,7 +91,7 @@ services:
       POSTGRES_USERNAME: postgres
       NOTIFY_TEMPLATE_ID_FARMER_ENDEMICS_REVIEW_COMPLETE: fe5ea908-dfcf-4b65-8514-2d4168b569a5
       NOTIFY_TEMPLATE_ID_FARMER_ENDEMICS_FOLLOWUP_COMPLETE: fe5ea908-dfcf-4b65-8514-2d4168b569a5
-      SERVICE_URI: http://ffc-ahwr-application:3000
+      SERVICE_URI: http://localhost:3000
       AZURE_STORAGE_USE_CONNECTION_STRING: "true"
       SFD_MESSAGE_QUEUE_ADDRESS: ffc-ahwr-sfd-message${MESSAGE_QUEUE_SUFFIX}
       NODE_ENV: development
@@ -104,7 +104,6 @@ services:
       NOTIFY_TEMPLATE_ID_APPLICATION_COMPLETE: fe5ea908-dfcf-4b65-8514-2d4168b569a5
       NOTIFY_TEMPLATE_ID_FARMER_LOGIN: fe5ea908-dfcf-4b65-8514-2d4168b569a5
       NOTIFY_TEMPLATE_ID_VET_LOGIN: fe5ea908-dfcf-4b65-8514-2d4168b569a5
-      TEST_ENVIRONMENT_ROOT_URL: "http://ffc-ahwr-farmer-apply:3000"
       AZURE_STORAGE_CONNECTION_STRING: ValueComesFromEnv
       AZURE_STORAGE_ACCOUNT_NAME: "ffcahwr"
       AZURE_STORAGE_USERS_CONTAINER: "users"
@@ -188,7 +187,7 @@ services:
       REDIS_HOSTNAME: redis
       REDIS_PORT: 6379
       REDIS_PASSWORD: ""
-      SERVICE_URI: http://ffc-ahwr-farmer-apply:3000/apply
+      SERVICE_URI: http://localhost:3000/apply
       CLAIM_SERVICE_URI: http://ffc-ahwr-farmer-claim:3000/claim
       URL_PREFIX: "/apply"
       APPLICATION_API_URI: http://ffc-ahwr-application:3000/api
@@ -198,13 +197,12 @@ services:
       APIM_SCOPE: random-value
       DATE_OF_TESTING_ENABLED: false
       NODE_ENV: development
-      DEV_LOGIN_ENABLED: true
+      DEV_LOGIN_ENABLED: "true"
       MESSAGE_QUEUE_HOST: SNDFFCINFSB2001.servicebus.windows.net
       MESSAGE_QUEUE_PASSWORD: AnyOldString
       MESSAGE_QUEUE_USER: RootManageSharedAccessKey
       APPLICATIONREQUEST_QUEUE_ADDRESS: ffc-ahwr-application-request${MESSAGE_QUEUE_SUFFIX}
       APPLICATIONRESPONSE_QUEUE_ADDRESS: ffc-ahwr-application-response${MESSAGE_QUEUE_SUFFIX}
-      TEST_ENVIRONMENT_ROOT_URL: "http://ffc-ahwr-farmer-apply:3000"
       AZURE_STORAGE_CONNECTION_STRING: UseDevelopmentStorage=true
       AZURE_STORAGE_ACCOUNT_NAME: "ffcahwr"
       EVENT_QUEUE_ADDRESS: ffc-ahwr-event${MESSAGE_QUEUE_SUFFIX}
@@ -220,7 +218,7 @@ services:
       DEFRA_ID_JWT_ISSUER_ID: random-value
       DEFRA_ID_REDIRECT_URI: http://localhost:3003/signin-oidc
       DEFRA_ID_DASHBOARD_REDIRECT_URI: http://localhost:3003/signin-oidc
-      TERMS_AND_CONDITIONS_URL: "http://ffc-ahwr-farmer-apply:3000/apply/terms/v3"
+      TERMS_AND_CONDITIONS_URL: "http://localhost:3000/apply/terms/v3"
       RPA_HOST_NAME: random-value
       RPA_GET_PERSON_SUMMARY_URL: random-value
       RPA_GET_ORGANISATION_PERMISSIONS_URL: random-value
@@ -256,7 +254,7 @@ services:
       REDIS_HOSTNAME: redis
       REDIS_PORT: 6379
       REDIS_PASSWORD: ""
-      SERVICE_URI: http://ffc-ahwr-farmer-claim:3000/claim
+      SERVICE_URI: http://localhost:3000/claim
       APPLY_SERVICE_URI: http://ffc-ahwr-farmer-apply:3000/apply
       DASHBOARD_SERVICE_URI: http://ffc-ahwr-dashboard:3000
       APPLICATION_API_URI: http://ffc-ahwr-application:3000/api
@@ -308,7 +306,7 @@ services:
       REDIS_HOSTNAME: redis
       REDIS_PORT: 6379
       REDIS_PASSWORD: ""
-      SERVICE_URI: http://ffc-ahwr-backoffice:3000
+      SERVICE_URI: http://localhost:3000
       APPLICATION_API_URI: http://ffc-ahwr-application:3000/api
       DISPLAY_PAGE_SIZE: 20
       DATE_OF_TESTING_ENABLED: false
