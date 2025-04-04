@@ -17,6 +17,8 @@ describe("Apply journey", () => {
 
     await fillAndSubmitSBI(APPLY_REVIEW_CLAIM_SBI);
 
+    // const allCookies = await browser.getCookies()
+    // console.log(allCookies);
     console.log("URLURLURLURL", await browser.getUrl());
     console.log(await browser.getPageSource());
 

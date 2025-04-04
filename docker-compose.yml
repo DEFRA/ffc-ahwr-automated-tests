@@ -42,7 +42,7 @@ services:
       APPLICATION_API_URI: http://ffc-ahwr-application:3000/api
       DEFRA_ID_TENANT: random-value
       DEFRA_ID_POLICY: random-value
-      DEFRA_ID_REDIRECT_URI: http://localhost:3000/apply/signin-oidc
+      DEFRA_ID_REDIRECT_URI: http://ffc-ahwr-farmer-apply:3000/apply/signin-oidc
       DEFRA_ID_JWT_ISSUER_ID: random-value
       DEFRA_ID_CLIENT_ID: random-value
       DEFRA_ID_CLIENT_SECRET: random-value
@@ -187,7 +187,7 @@ services:
       REDIS_HOSTNAME: redis
       REDIS_PORT: 6379
       REDIS_PASSWORD: ""
-      SERVICE_URI: http://localhost:3000/apply
+      SERVICE_URI: http://ffc-ahwr-farmer-apply:3000/apply
       CLAIM_SERVICE_URI: http://ffc-ahwr-farmer-claim:3000/claim
       URL_PREFIX: "/apply"
       APPLICATION_API_URI: http://ffc-ahwr-application:3000/api
