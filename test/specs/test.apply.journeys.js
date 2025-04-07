@@ -17,7 +17,7 @@ describe("Apply and claim journeys", () => {
 
     await fillAndSubmitSBI(APPLY_REVIEW_CLAIM_SBI);
 
-    console.log(await browser.getUrl())
+    console.log(await browser.getUrl());
 
     // const dashboardUrl = await browser.getUrl();
     // const fixedDashboardUrl = dashboardUrl.replace(
