@@ -22,13 +22,6 @@ pipeline {
                 sh './scripts/remove_alert.sh "$AZURE_STORAGE_CONNECTION_STRING_JENKINS_FAILURES" "main"'
             }
         }
-        stage("Clean workspace") {
-            steps {
-                sh "ls"
-                deleteDir()
-                sh "ls"
-            }
-        }
         stage('Pull Service Images (ACR)') {
             steps {
                 sh './scripts/pull_latest_acr_images.sh'
