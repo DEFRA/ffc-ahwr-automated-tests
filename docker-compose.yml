@@ -67,7 +67,6 @@ services:
       MULTI_SPECIES_RELEASE_DATE: "2025-02-20"
       DEV_LOGIN_ENABLED: true
       NODE_ENV: development
-      DISABLE_COOKIE_SAME_SITE: "true"
 
   ffc-ahwr-application:
     platform: linux/amd64
@@ -231,7 +230,6 @@ services:
       TEN_MONTH_RULE_ENABLED: "true"
       ENDEMICS_ENABLED: "true"
       MULTI_SPECIES_ENABLED: "true"
-      DISABLE_COOKIE_SAME_SITE: "true"
 
   ffc-ahwr-farmer-claim:
     platform: linux/amd64
