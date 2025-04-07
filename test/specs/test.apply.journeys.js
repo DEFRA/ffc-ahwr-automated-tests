@@ -15,13 +15,9 @@ describe("Apply and claim journeys", () => {
   it("should be able to create a new application", async () => {
     await browser.url(getDevSignInUrl("apply"));
 
-    browser.on("Network.responseReceived", (params) => {
-      if (params.response.status >= 300 && params.response.status < 400) {
-        console.log("🔁 Redirect found:", params.response.headers["location"]);
-      }
-    });
-
     await fillAndSubmitSBI(APPLY_REVIEW_CLAIM_SBI);
+
+    console.log("Current URL:", await browser.getUrl());
 
     await $(getConfirmCheckDetailsSelector("yes")).click();
     await clickSubmitButton();
