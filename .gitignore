@@ -1,6 +1,6 @@
 node_modules
 .env
 logs
-screenshots
+screenshots/*
 test/.DS_Store
 .DS_Store

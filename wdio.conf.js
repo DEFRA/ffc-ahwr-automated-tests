@@ -256,6 +256,8 @@ export const config = {
         `${test.title.replace(/\s+/g, "_")}.png`,
       );
 
+      console.log(`Saving screenshot to ${screenshotPath}`);
+
       // Ensure the directory exists
       fs.mkdirSync(path.dirname(screenshotPath), { recursive: true });
 
