@@ -20,7 +20,7 @@ describe("Apply and claim journeys", () => {
     const dashboardUrl = await browser.getUrl();
     const fixedDashboardUrl = dashboardUrl.replace(
       "host.docker.internal:3003",
-      "ffc-ahwr-farmer-apply:3000",
+      "ffc-ahwr-dashboard:3000",
     );
     await browser.url(fixedDashboardUrl);
 
