@@ -1,3 +1,9 @@
+import { browser } from "@wdio/globals";
+import path from "path";
+import fs from "fs";
+
+const projectPath = process.cwd();
+
 export const config = {
   //
   // ====================
@@ -20,7 +26,13 @@ export const config = {
   // The path of the spec files will be resolved relative from the directory of
   // of the config file unless it's absolute.
   //
-  specs: ["./test/specs/**/*.js"],
+  specs: [
+    [
+      "./test/specs/test.apply.journeys.js",
+      "./test/specs/test.review-claim.journeys.js",
+      "./test/specs/test.follow-up-claim.journeys.js",
+    ],
+  ],
   // Patterns to exclude.
   exclude: [
     // 'path/to/excluded/files'
@@ -235,8 +247,24 @@ export const config = {
    * @param {boolean} result.passed    true if test has passed, otherwise false
    * @param {object}  result.retries   information about spec related retries, e.g. `{ attempts: 0, limit: 0 }`
    */
-  // afterTest: function(test, context, { error, result, duration, passed, retries }) {
-  // },
+  afterTest: async function (test, context, result) {
+    if (!result.passed) {
+      const screenshot = await browser.takeScreenshot();
+      const screenshotPath = path.join(
+        projectPath,
+        "screenshots",
+        `${test.title.replace(/\s+/g, "_")}.png`,
+      );
+
+      console.log(`Saving screenshot to ${screenshotPath}`);
+
+      // Ensure the directory exists
+      fs.mkdirSync(path.dirname(screenshotPath), { recursive: true });
+
+      // Save the screenshot to a file
+      fs.writeFileSync(screenshotPath, screenshot, "base64");
+    }
+  },
 
   /**
    * Hook that gets executed after the suite has ended

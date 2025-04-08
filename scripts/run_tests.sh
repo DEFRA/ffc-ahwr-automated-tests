@@ -6,6 +6,20 @@ ENV_FILE=".env"
 APP_HEALTHCHECK_URL="http://localhost:3001/healthy"
 MAX_RETRIES=10
 
+# Resolve Docker host IP (only needed for Linux/Jenkins)
+if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+  HOST_INTERNAL_IP=$(ip -4 addr show docker0 | awk '/inet / {print $2}' | cut -d/ -f1)
+  if [ -z "$HOST_INTERNAL_IP" ]; then
+    echo "❌ Could not resolve Docker bridge IP. Are you running inside Jenkins/Docker?"
+    exit 1
+  fi
+  echo "🔌 Using host IP for host.docker.internal: $HOST_INTERNAL_IP"
+else
+  echo "🖥️ Detected non-Linux OS ($OSTYPE) — skipping IP mapping, Docker handles host.docker.internal on Mac/Windows"
+  HOST_INTERNAL_IP="host-gateway"
+fi
+
+
 if [ ! -f "$ENV_FILE" ]; then
   echo "No .env file found... assuming this is running on pipeline and required values are injected"
 else
@@ -21,12 +35,13 @@ fi
 
 echo "🚀 Starting services..."
 
-# Use sed to inject environment variables into docker-compose without modifying the file
+# Run docker compose after injecting secrets and replacing host IP placeholder
 sed -E \
-    -e "s|(MESSAGE_QUEUE_PASSWORD:).*|\1 ${MESSAGE_QUEUE_PASSWORD}|g" \
-    -e "s|(APPLICATIONINSIGHTS_CONNECTION_STRING:).*|\1 ${APPLICATIONINSIGHTS_CONNECTION_STRING}|g" \
-    -e "s|(AZURE_STORAGE_CONNECTION_STRING:).*|\1 ${AZURE_STORAGE_CONNECTION_STRING}|g" \
-    docker-compose.yml | docker compose -f - up -d
+  -e "s|(MESSAGE_QUEUE_PASSWORD:).*|\1 ${MESSAGE_QUEUE_PASSWORD}|g" \
+  -e "s|(APPLICATIONINSIGHTS_CONNECTION_STRING:).*|\1 ${APPLICATIONINSIGHTS_CONNECTION_STRING}|g" \
+  -e "s|(AZURE_STORAGE_CONNECTION_STRING:).*|\1 ${AZURE_STORAGE_CONNECTION_STRING}|g" \
+  -e "s|host.docker.internal:JENKINS-PORT|host.docker.internal:${HOST_INTERNAL_IP}|g" \
+  docker-compose.yml | docker compose -f - up -d
 
 WDIO_CONTAINER=$(docker ps -qf "name=wdio-tests")
 

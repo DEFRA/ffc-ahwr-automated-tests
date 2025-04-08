@@ -7,6 +7,7 @@ services:
       - ./package.json:/app/package.json
       - ./wdio.conf.js:/app/wdio.conf.js
       - ./package-lock.json:/app.package-lock.json
+      - ./screenshots:/app/screenshots
     depends_on:
       database-up:
         condition: service_completed_successfully
@@ -19,7 +20,7 @@ services:
       - ffc-ahwr-network-auto
     image: ffc-ahwr-dashboard:latest
     extra_hosts:
-      - "host.docker.internal:host-gateway"
+      - "host.docker.internal:JENKINS-PORT"
     ports:
       - "3003:3000"
     depends_on:
@@ -37,8 +38,8 @@ services:
       REDIS_PORT: 6379
       REDIS_PASSWORD: ""
       SERVICE_URI: http://host.docker.internal:3003/
-      CLAIM_SERVICE_URI: http://host.docker.internal:3004/claim
-      APPLY_SERVICE_URI: http://host.docker.internal:3000/apply
+      CLAIM_SERVICE_URI: http://ffc-ahwr-farmer-claim:3000/claim
+      APPLY_SERVICE_URI: http://ffc-ahwr-farmer-apply:3000/apply
       APPLICATION_API_URI: http://host.docker.internal:3001/api
       DEFRA_ID_TENANT: random-value
       DEFRA_ID_POLICY: random-value
@@ -74,7 +75,7 @@ services:
       - ffc-ahwr-network-auto
     image: ffc-ahwr-application:latest
     extra_hosts:
-      - "host.docker.internal:host-gateway"
+      - "host.docker.internal:JENKINS-PORT"
     depends_on:
       database-up:
         condition: service_completed_successfully
@@ -139,7 +140,7 @@ services:
       - ffc-ahwr-network-auto
     image: postgres:11.4-alpine
     extra_hosts:
-      - "host.docker.internal:host-gateway"
+      - "host.docker.internal:JENKINS-PORT"
     environment:
       POSTGRES_DB: ffc_ahwr_application
       POSTGRES_PASSWORD: ppp
@@ -177,7 +178,7 @@ services:
       - ffc-ahwr-network-auto
     image: ffc-ahwr-farmer-apply:latest
     extra_hosts:
-      - "host.docker.internal:host-gateway"
+      - "host.docker.internal:JENKINS-PORT"
     ports:
       - "3000:3000"
     depends_on:
@@ -209,7 +210,7 @@ services:
       AZURE_STORAGE_ACCOUNT_NAME: "ffcahwr"
       EVENT_QUEUE_ADDRESS: ffc-ahwr-event${MESSAGE_QUEUE_SUFFIX}
       COOKIE_PASSWORD: important-this-is-the-same-across-front-ends
-      DASHBOARD_SERVICE_URI: "http://host.docker.internal:3003"
+      DASHBOARD_SERVICE_URI: "http://ffc-ahwr-dashboard:3000"
       DEFRA_ID_CLIENT_SECRET: random-value
       APIM_CLIENT_ID: random-value
       APIM_CLIENT_SECRET: random-value
@@ -237,7 +238,7 @@ services:
       - ffc-ahwr-network-auto
     image: ffc-ahwr-farmer-claim:latest
     extra_hosts:
-      - "host.docker.internal:host-gateway"
+      - "host.docker.internal:JENKINS-PORT"
     ports:
       - "3004:3000"
     depends_on:
@@ -258,7 +259,7 @@ services:
       REDIS_PASSWORD: ""
       SERVICE_URI: http://host.docker.internal:3004/claim
       APPLY_SERVICE_URI: http://host.docker.internal:3000/apply
-      DASHBOARD_SERVICE_URI: http://host.docker.internal:3003
+      DASHBOARD_SERVICE_URI: http://ffc-ahwr-dashboard:3000
       APPLICATION_API_URI: http://host.docker.internal:3001/api
       DEFRA_ID_TENANT: random-value
       DEFRA_ID_POLICY: random-value
@@ -291,7 +292,7 @@ services:
       - ffc-ahwr-network-auto
     image: ffc-ahwr-backoffice:latest
     extra_hosts:
-      - "host.docker.internal:host-gateway"
+      - "host.docker.internal:JENKINS-PORT"
     ports:
       - "3002:3000"
     depends_on:

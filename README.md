@@ -64,3 +64,5 @@ az login
   working on these tests at one moment.
 
 - The repo has been developed to work on macOS / Linux. This means you might struggle to run it on Windows, unless you can make alterations to scripts etc.
+
+- Screenshots have been added to the tests, and volume in the /screenshots folder. If any errors occur, they will be visible there.
