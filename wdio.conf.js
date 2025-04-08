@@ -29,8 +29,8 @@ export const config = {
   specs: [
     [
       "./test/specs/test.apply.journeys.js",
-      // "./test/specs/test.review-claim.journeys.js",
-      // "./test/specs/test.follow-up-claim.journeys.js",
+      "./test/specs/test.review-claim.journeys.js",
+      "./test/specs/test.follow-up-claim.journeys.js",
     ],
   ],
   // Patterns to exclude.

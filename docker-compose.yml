@@ -7,6 +7,7 @@ services:
       - ./package.json:/app/package.json
       - ./wdio.conf.js:/app/wdio.conf.js
       - ./package-lock.json:/app.package-lock.json
+      - ./screenshots:/app/screenshots
     depends_on:
       database-up:
         condition: service_completed_successfully
@@ -37,7 +38,7 @@ services:
       REDIS_PORT: 6379
       REDIS_PASSWORD: ""
       SERVICE_URI: http://host.docker.internal:3003/
-      CLAIM_SERVICE_URI: http://host.docker.internal:3004/claim
+      CLAIM_SERVICE_URI: http://ffc-ahwr-farmer-claim:3000/claim
       APPLY_SERVICE_URI: http://ffc-ahwr-farmer-apply:3000/apply
       APPLICATION_API_URI: http://host.docker.internal:3001/api
       DEFRA_ID_TENANT: random-value
