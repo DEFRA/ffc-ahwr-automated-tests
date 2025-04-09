@@ -16,11 +16,13 @@ export function getDevSignInUrl(type) {
   const baseUrls = {
     apply: "http://localhost:3000/apply/endemics/dev-sign-in",
     claim: "http://localhost:3004/claim/endemics/dev-sign-in",
+    backoffice: "http://localhost:3002/claims",
   };
 
   const dockerUrls = {
     apply: "http://ffc-ahwr-farmer-apply:3000/apply/endemics/dev-sign-in",
     claim: "http://ffc-ahwr-farmer-claim:3000/claim/endemics/dev-sign-in",
+    backoffice: "http://ffc-ahwr-backoffice:3000/claims",
   };
 
   return process.env.DOCKER_MODE === "true" ? dockerUrls[type] : baseUrls[type];

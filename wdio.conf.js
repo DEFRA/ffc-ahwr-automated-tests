@@ -31,6 +31,7 @@ export const config = {
       "./test/specs/test.apply.journeys.js",
       "./test/specs/test.review-claim.journeys.js",
       "./test/specs/test.follow-up-claim.journeys.js",
+      "./test/specs/test.backoffice.journeys.js",
     ],
   ],
   // Patterns to exclude.
