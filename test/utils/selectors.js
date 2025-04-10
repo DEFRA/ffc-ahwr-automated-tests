@@ -2,7 +2,15 @@ export const SBI = "#sbi";
 
 export const TERMS_AND_CONDITIONS_CHECKBOX = "#terms";
 
+export const CLAIMS_MAIN_HEADING_SELECTOR = "#main-content h1.govuk-heading-l";
+
+export const AGREEMENT_SUMMARY_LINK = 'a[href*="download-application"]';
+
 export const CONTINUE_BUTTON = "button=Continue";
+
+export const START_A_NEW_CLAIM_BUTTON = "#start";
+
+export const CLAIM_TABLE_ROW = ".govuk-table__body .govuk-table__row";
 
 export const VISIT_DATE_DAY = "#visit-date-day";
 
@@ -29,6 +37,8 @@ export const REFERENCE = "#reference";
 export const SUBMISSION_PANEL_TITLE = ".govuk-panel__title";
 
 export const START_NEW_CLAIM_BUTTON = "#start";
+
+export const MANAGE_YOUR_CLAIMS_LINK = 'a[href*="/vet-visits"]';
 
 export const BO_AGREEMENTS_TAB = 'a.govuk-tabs__list-item[href="/agreements"]';
 
