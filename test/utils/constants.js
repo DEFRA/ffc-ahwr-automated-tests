@@ -2,4 +2,5 @@ export const APPLY_REVIEW_CLAIM_SBI = "107167406";
 export const SHEEP_ENDEMIC_CLAIM_SBI = "106208072";
 export const BEEF_ENDEMIC_CLAIM_SBI = "107085418";
 export const BACK_OFFICE_SBI = "106825898";
+export const DASHBOARD_SBI = "107019440";
 export const JOHNES_DISEASE = "johnes";
