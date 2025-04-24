@@ -11,7 +11,7 @@ import {
 } from "../utils/selectors.js";
 import { APPLY_REVIEW_CLAIM_SBI } from "../utils/constants.js";
 
-describe("Apply and claim journeys", () => {
+describe("Apply journey", () => {
   it("should be able to create a new application", async () => {
     await browser.url(getDevSignInUrl("apply"));
 
