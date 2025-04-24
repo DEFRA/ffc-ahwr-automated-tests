@@ -26,7 +26,7 @@ import {
 } from "../utils/selectors.js";
 import { APPLY_REVIEW_CLAIM_SBI } from "../utils/constants.js";
 
-describe("Review claim journeys", () => {
+describe("Review claim journeys for various species", () => {
   it("should be able to create a new review claim for Sheep", async () => {
     await browser.url(getDevSignInUrl("claim"));
 

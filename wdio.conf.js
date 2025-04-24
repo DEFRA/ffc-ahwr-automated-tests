@@ -251,7 +251,14 @@ export const config = {
    */
   afterTest: async function (test, context, result) {
     if (!result.passed) {
+      const originalWindowSize = await browser.getWindowSize();
+      // To set the window size to see the full screen when screenshot is taken
+      await browser.setWindowSize(1200, 1600);
       const screenshot = await browser.takeScreenshot();
+      await browser.setWindowSize(
+        originalWindowSize.width,
+        originalWindowSize.height,
+      );
       const screenshotPath = path.join(
         projectPath,
         "screenshots",
