@@ -23,7 +23,7 @@ import {
   SUBMIT_CLAIM_BUTTON,
   REFERENCE,
   MANAGE_YOUR_CLAIMS_LINK,
-  BO_AGREEMENT_NUMBER_SELECTOR,
+  AGREEMENT_NUMBER_SELECTOR,
   getTypeOfLivestockSelector,
   getTypeOfReviewSelector,
   getSpeciesNumbersSelector,
@@ -45,7 +45,7 @@ describe("Vet-visits Dashboard journeys", () => {
     await clickSubmitButton();
     await verifySubmission("Application complete");
     const agreementNumber = (
-      await $(BO_AGREEMENT_NUMBER_SELECTOR).getText()
+      await $(AGREEMENT_NUMBER_SELECTOR).getText()
     ).trim();
 
     // create a claim
