@@ -63,8 +63,12 @@ export async function selectSheepTestsAndContinue(testTypes) {
   }
 }
 
-export async function fillInputAndContinue(selector, value) {
+export async function fillInput(selector, value) {
   await $(selector).setValue(value);
+}
+
+export async function fillInputAndContinue(selector, value) {
+  await fillInput(selector, value);
   await clickContinueButton();
 }
 
