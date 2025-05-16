@@ -14,6 +14,11 @@ pipeline {
         GIT_BRANCH_ALERTS = "origin/main"
     }
     stages {
+        stage('Workspace Cleanup') {
+            steps {
+                cleanWs(deleteDirs: true)
+            }
+        }
         stage('Pre-run Cleanup: Remove Alert') {
             when {
                 branch "$GIT_BRANCH_ALERTS"
