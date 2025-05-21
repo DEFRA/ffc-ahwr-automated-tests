@@ -198,8 +198,26 @@ export const config = {
    * @param {Array.<String>} specs List of spec file paths that are to be run
    * @param {string} cid worker id (e.g. 0-0)
    */
-  // beforeSession: function (config, capabilities, specs, cid) {
-  // },
+  beforeSession: function (config, capabilities, specs, cid) {
+    try {
+      const screenshotPath = path.join(
+        projectPath,
+        "screenshots"
+      );
+      
+      if (fs.existsSync(screenshotPath)) {
+        console.log("Clearing screenshots directory", screenshotPath);
+        // clear directory
+        fs.readdirSync(screenshotPath).forEach((file) => {
+          // give permission to delete
+          fs.chmodSync(path.join(screenshotPath, file), 0o777);
+          fs.unlinkSync(path.join(screenshotPath, file));
+        });
+      }
+    } catch (error) {
+      console.error("Error clearing screenshots directory", error);
+    }
+  },
   /**
    * Gets executed before test execution begins. At this point you can access to all global
    * variables like `browser`. It is the perfect place to define custom commands.
