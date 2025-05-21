@@ -24,8 +24,8 @@ get_latest_tag() {
     --name "$ACR_NAME" \
     --repository "$1" \
     --orderby time_desc \
-    --query "[0]" \
-    --output tsv
+    --output json |
+  jq -r '[.[] | select((contains("pr") | not) and (contains("helm") | not))][0]'
 }
 
 # Pull latest images
