@@ -200,11 +200,8 @@ export const config = {
    */
   beforeSession: function (config, capabilities, specs, cid) {
     try {
-      const screenshotPath = path.join(
-        projectPath,
-        "screenshots"
-      );
-      
+      const screenshotPath = path.join(projectPath, "screenshots");
+
       if (fs.existsSync(screenshotPath)) {
         console.log("Clearing screenshots directory", screenshotPath);
         // clear directory
@@ -333,8 +330,40 @@ export const config = {
    * @param {Array.<Object>} capabilities list of capabilities details
    * @param {<Object>} results object containing test results
    */
-  // onComplete: function(exitCode, config, capabilities, results) {
-  // },
+  onComplete: function (exitCode, config, capabilities, results) {
+    function chmodRecursive(dirPath) {
+      const entries = fs.readdirSync(dirPath, { withFileTypes: true });
+
+      for (const entry of entries) {
+        const fullPath = path.join(dirPath, entry.name);
+
+        if (entry.isDirectory()) {
+          chmodRecursive(fullPath); // Recurse into subdirectory
+        } else {
+          try {
+            fs.chmodSync(fullPath, 0o777);
+          } catch (error) {
+            console.error(`Failed to chmod ${fullPath}`, error);
+          }
+        }
+      }
+    }
+
+    try {
+      if (fs.existsSync(projectPath)) {
+        console.log(
+          "Changing file permissions on all files under project directory:",
+          projectPath,
+        );
+        chmodRecursive(projectPath);
+      }
+    } catch (error) {
+      console.error(
+        "Error changing file permissions on files under project directory:",
+        error,
+      );
+    }
+  },
   /**
    * Gets executed when a refresh happens.
    * @param {string} oldSessionId session ID of the old session
