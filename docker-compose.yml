@@ -100,27 +100,14 @@ services:
       MESSAGE_QUEUE_USER: RootManageSharedAccessKey
       APPLICATIONREQUEST_QUEUE_ADDRESS: ffc-ahwr-application-request${MESSAGE_QUEUE_SUFFIX}
       APPLICATIONRESPONSE_QUEUE_ADDRESS: ffc-ahwr-application-response${MESSAGE_QUEUE_SUFFIX}
-      NOTIFY_API_KEY: random-value
-      NOTIFY_TEMPLATE_ID_APPLICATION_COMPLETE: fe5ea908-dfcf-4b65-8514-2d4168b569a5
-      NOTIFY_TEMPLATE_ID_FARMER_LOGIN: fe5ea908-dfcf-4b65-8514-2d4168b569a5
-      NOTIFY_TEMPLATE_ID_VET_LOGIN: fe5ea908-dfcf-4b65-8514-2d4168b569a5
       TEST_ENVIRONMENT_ROOT_URL: "http://host.docker.internal:3000"
       AZURE_STORAGE_CONNECTION_STRING: ValueComesFromEnv
       AZURE_STORAGE_ACCOUNT_NAME: "ffcahwr"
       AZURE_STORAGE_USERS_CONTAINER: "users"
-      NOTIFY_TEMPLATE_ID_FARMER_APPLY_LOGIN: fe5ea908-dfcf-4b65-8514-2d4168b569a5
-      NOTIFY_TEMPLATE_ID_FARMER_APPLICATION_COMPLETE: fe5ea908-dfcf-4b65-8514-2d4168b569a5
-      NOTIFY_TEMPLATE_ID_FARMER_APPLICATION_CLAIM: fe5ea908-dfcf-4b65-8514-2d4168b569a5
-      NOTIFY_TEMPLATE_ID_VET_APPLICATION_COMPLETE: fe5ea908-dfcf-4b65-8514-2d4168b569a5
-      NOTIFY_TEMPLATE_ID_FARMER_CLAIM_LOGIN: fe5ea908-dfcf-4b65-8514-2d4168b569a5
-      NOTIFY_TEMPLATE_ID_FARMER_CLAIM_COMPLETE: fe5ea908-dfcf-4b65-8514-2d4168b569a5
       EVENT_QUEUE_ADDRESS: ffc-ahwr-event${MESSAGE_QUEUE_SUFFIX}
       NODE_TLS_REJECT_UNAUTHORIZED: "0"
       COOKIE_PASSWORD: important-this-is-the-same-across-front-ends
-      REGISTER_YOUR_INTEREST_REQUEST_QUEUE_ADDRESS: "ffc-ahwr-register-your-interest-request"
       LIQUIBASE_CONTEXTS: "test"
-      WAITING_LIST_SCHEDULE: "*/30 * * * *"
-      WAITING_LIST_THRESHOLD_UPPER_LIMIT: 2
       APPLICATIONINSIGHTS_CONNECTION_STRING: random-value
       APPINSIGHTS_CLOUDROLE: "ffc-ahwr-eligibility"
       APPLY_SERVICE_URI: "http://localhost:3000/apply"
@@ -128,11 +115,12 @@ services:
       ENDEMICS_CLAIM_COMPLIANCE_CHECK_RATIO: 1
       CARBON_COPY_EMAIL_ADDRESS: "defra-vets-visits-testing@equalexperts.com"
       MESSAGE_GENERATOR_QUEUE_ADDRESS: ${MESSAGE_GENERATOR_QUEUE_ADDRESS:-ffc-ahwr-message-generator}${MESSAGE_QUEUE_SUFFIX}
+      STORE_HISTORY_IN_DB_ENABLED: "true"
 
   ffc-ahwr-application-postgres:
     networks:
       - ffc-ahwr-network-auto
-    image: postgres:11.4-alpine
+    image: postgres:16.8-alpine
     extra_hosts:
       - "host.docker.internal:JENKINS-PORT"
     environment:
