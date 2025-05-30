@@ -51,8 +51,7 @@ import {
 import { BACK_OFFICE_SBI, BACK_OFFICE_FLAG_SBI } from "../utils/constants.js";
 
 describe("Backoffice journeys", () => {
-  // Enable this test when the issue AHWR-692 is resolved.
-  it.skip("To view agreement and its claim and move the claim from In check to Recommend to pay", async () => {
+  it("To view agreement and its claim and move the claim from In check to Recommend to pay", async () => {
     // Create an agreement
     await browser.url(getDevSignInUrl("apply"));
     await fillAndSubmitSBI(BACK_OFFICE_SBI);
@@ -107,7 +106,7 @@ describe("Backoffice journeys", () => {
     );
     await $(BO_BACK_TO_ALL_CLAIMS_SELECTOR).click();
     await expect($(BO_CLAIMS_MAIN_HEADING_SELECTOR)).toHaveText(
-      expect.stringContaining("Claims and agreements"),
+      expect.stringContaining("Claims, Agreements and Flags"),
     );
   });
 
