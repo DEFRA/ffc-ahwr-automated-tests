@@ -283,7 +283,7 @@ services:
       REDIS_HOSTNAME: redis
       REDIS_PORT: 6379
       REDIS_PASSWORD: ""
-      SERVICE_URI: http://ffc-ahwr-backoffice:3000
+      SERVICE_URI: http://host.docker.internal:3002
       APPLICATION_API_URI: http://host.docker.internal:3001/api
       DISPLAY_PAGE_SIZE: 20
       ON_HOLD_APP_PROCESS_ENABLED: true
