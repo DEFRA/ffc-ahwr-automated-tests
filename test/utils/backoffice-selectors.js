@@ -29,7 +29,7 @@ export const BO_FLAG_CREATION_NOTE = "#note";
 
 export const BO_CREATE_FLAG_BUTTON = "button=Create flag";
 
-export const BO_DELETE_FLAG_BUTTON = "button=Delete flag";
+export const BO_DELETE_FLAG_BUTTON = 'a[href*="deleteFlag"]';
 
 export const BO_FLAG_DELETION_NOTE = "#deletedNote";
 

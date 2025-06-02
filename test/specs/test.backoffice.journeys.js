@@ -51,7 +51,7 @@ import {
 import { BACK_OFFICE_SBI, BACK_OFFICE_FLAG_SBI } from "../utils/constants.js";
 
 describe("Backoffice journeys", () => {
-  it("To view agreement and its claim and move the claim from In check to Recommend to pay", async () => {
+  it("can move a claim from 'In check' to 'Recommend to pay'", async () => {
     // Create an agreement
     await browser.url(getDevSignInUrl("apply"));
     await fillAndSubmitSBI(BACK_OFFICE_SBI);
@@ -67,7 +67,7 @@ describe("Backoffice journeys", () => {
       await $(AGREEMENT_NUMBER_SELECTOR).getText()
     ).trim();
 
-    // create a claim
+    // Create a claim
     await browser.url(getDevSignInUrl("claim"));
     await fillAndSubmitSBI(BACK_OFFICE_SBI);
     await $(getConfirmCheckDetailsSelector("yes")).click();
@@ -110,8 +110,7 @@ describe("Backoffice journeys", () => {
     );
   });
 
-  // Enable this test when the issue AHWR-768 is resolved.
-  it.skip("create and delete a flag for an agreement", async () => {
+  it("creates and deletes a flag for an agreement", async () => {
     // Create an agreement
     await browser.url(getDevSignInUrl("apply"));
     await fillAndSubmitSBI(BACK_OFFICE_FLAG_SBI);
@@ -127,7 +126,7 @@ describe("Backoffice journeys", () => {
       await $(AGREEMENT_NUMBER_SELECTOR).getText()
     ).trim();
 
-    // create a claim
+    // Create a claim
     await browser.url(getDevSignInUrl("claim"));
     await fillAndSubmitSBI(BACK_OFFICE_FLAG_SBI);
     await $(getConfirmCheckDetailsSelector("yes")).click();
@@ -164,7 +163,7 @@ describe("Backoffice journeys", () => {
     await flaggedAgreementRow.$(BO_DELETE_FLAG_BUTTON).click();
     await fillInput(BO_FLAG_DELETION_NOTE, "Flag deletion notes");
     await $(BO_SUBMIT_DELETE_FLAG_BUTTON).click();
-    const flaggedAgreementRows = $$(
+    const flaggedAgreementRows = await $$(
       getFlaggedAgreementRowSelector(agreementNumber, "Yes"),
     );
     await expect(flaggedAgreementRows.length).toBe(0);

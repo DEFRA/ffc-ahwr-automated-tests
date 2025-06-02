@@ -36,7 +36,7 @@ import {
 } from "../utils/constants.js";
 
 describe("Follow-up claim journeys for various species", () => {
-  it("should be able to create a follow-up claim for sheep", async () => {
+  it("can create a follow-up claim for sheep", async () => {
     await browser.url(getDevSignInUrl("claim"));
 
     await fillAndSubmitSBI(SHEEP_ENDEMIC_CLAIM_SBI);
@@ -78,7 +78,7 @@ describe("Follow-up claim journeys for various species", () => {
     await expect($(REFERENCE)).toHaveText(expect.stringContaining("FUSH"));
   });
 
-  it("should be able to create a follow-up claim for beef", async () => {
+  it("can create a follow-up claim for beef", async () => {
     await browser.url(getDevSignInUrl("claim"));
 
     await fillAndSubmitSBI(BEEF_ENDEMIC_CLAIM_SBI);
