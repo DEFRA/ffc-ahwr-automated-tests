@@ -15,7 +15,7 @@ if [[ "$OSTYPE" == "linux-gnu"* ]]; then
   fi
   echo "🔌 Using host IP for host.docker.internal: $HOST_INTERNAL_IP"
 else
-  echo "🖥️ Detected non-Linux OS ($OSTYPE) — skipping IP mapping, Docker handles host.docker.internal on Mac/Windows"
+  echo "🖥️  Detected non-Linux OS ($OSTYPE) — skipping IP mapping, Docker handles host.docker.internal on Mac/Windows"
   HOST_INTERNAL_IP="host-gateway"
 fi
 

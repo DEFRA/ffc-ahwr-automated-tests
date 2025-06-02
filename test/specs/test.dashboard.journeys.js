@@ -32,7 +32,7 @@ import {
 import { DASHBOARD_SBI } from "../utils/constants.js";
 
 describe("Vet-visits Dashboard journeys", () => {
-  it("Verify agreement summary exists and a claim journey can be started from the dashboard", async () => {
+  it("can Verify agreement summary exists and a claim journey can be started from the dashboard", async () => {
     // Create an agreement
     await browser.url(getDevSignInUrl("apply"));
     await fillAndSubmitSBI(DASHBOARD_SBI);

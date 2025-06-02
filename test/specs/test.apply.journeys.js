@@ -12,7 +12,7 @@ import {
 import { APPLY_REVIEW_CLAIM_SBI } from "../utils/constants.js";
 
 describe("Apply journey", () => {
-  it("should be able to create a new application", async () => {
+  it("can create a new application", async () => {
     await browser.url(getDevSignInUrl("apply"));
 
     await fillAndSubmitSBI(APPLY_REVIEW_CLAIM_SBI);
