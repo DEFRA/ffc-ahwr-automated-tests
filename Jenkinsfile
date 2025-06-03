@@ -12,6 +12,7 @@ pipeline {
         AZURE_STORAGE_CONNECTION_STRING = credentials('AZURE_STORAGE_CONNECTION_STRING')
         AZURE_STORAGE_CONNECTION_STRING_JENKINS_FAILURES = credentials('AZURE_STORAGE_CONNECTION_STRING_JENKINS_FAILURES')
         GIT_BRANCH_ALERTS = 'origin/main'
+        PREMH_FAILED = 'false'
     }
     stages {
         stage('Pre-run Cleanup: Remove Alert') {
@@ -35,8 +36,11 @@ pipeline {
         stage('Run pre-MH Tests') {
             steps {
                 script {
-                    catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                    try {
                         sh './scripts/run_tests.sh preMH'
+                    } catch (err) {
+                        echo "⚠️ preMH tests failed"
+                        env.PREMH_FAILED = 'true'
                     }
                 }
             }
@@ -49,12 +53,9 @@ pipeline {
     }
     post {
         always {
-            // Fail the pipeline manually if preMH stage failed
             script {
-                def preMHFailed = currentBuild.rawBuild.getAction(hudson.model.ParametersAction)
-                    ?.getParameter('RUN_PREMH_FAILED')?.value
-                if (currentBuild.getPreviousBuild()?.result == 'FAILURE' && preMHFailed != null) {
-                    currentBuild.result = 'FAILURE'
+                if (env.PREMH_FAILED == 'true') {
+                    error("❌ Failing pipeline because preMH tests failed")
                 }
             }
         }
