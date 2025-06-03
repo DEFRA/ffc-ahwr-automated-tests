@@ -42,9 +42,7 @@ describe("Review claim journeys for various species", () => {
 
     await enterVisitDateAndContinue();
 
-    await enterWhenTestingWasCarriedOutAndContinue(
-      "whenTheVetVisitedTheFarmToCarryOutTheReview",
-    );
+    await enterWhenTestingWasCarriedOutAndContinue("whenTheVetVisitedTheFarmToCarryOutTheReview");
 
     await clickOnElementAndContinue(getSpeciesNumbersSelector("yes"));
 
@@ -75,9 +73,7 @@ describe("Review claim journeys for various species", () => {
 
     await enterVisitDateAndContinue();
 
-    await enterWhenTestingWasCarriedOutAndContinue(
-      "whenTheVetVisitedTheFarmToCarryOutTheReview",
-    );
+    await enterWhenTestingWasCarriedOutAndContinue("whenTheVetVisitedTheFarmToCarryOutTheReview");
 
     await clickOnElementAndContinue(getSpeciesNumbersSelector("yes"));
 
@@ -115,9 +111,7 @@ describe("Review claim journeys for various species", () => {
 
     await enterVisitDateAndContinue();
 
-    await enterWhenTestingWasCarriedOutAndContinue(
-      "whenTheVetVisitedTheFarmToCarryOutTheReview",
-    );
+    await enterWhenTestingWasCarriedOutAndContinue("whenTheVetVisitedTheFarmToCarryOutTheReview");
 
     await clickOnElementAndContinue(getSpeciesNumbersSelector("yes"));
 
@@ -148,9 +142,7 @@ describe("Review claim journeys for various species", () => {
 
     await enterVisitDateAndContinue();
 
-    await enterWhenTestingWasCarriedOutAndContinue(
-      "whenTheVetVisitedTheFarmToCarryOutTheReview",
-    );
+    await enterWhenTestingWasCarriedOutAndContinue("whenTheVetVisitedTheFarmToCarryOutTheReview");
 
     await clickOnElementAndContinue(getSpeciesNumbersSelector("yes"));
 

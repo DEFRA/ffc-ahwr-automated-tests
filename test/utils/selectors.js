@@ -42,6 +42,14 @@ export const START_NEW_CLAIM_BUTTON = "#start";
 
 export const MANAGE_YOUR_CLAIMS_LINK = 'a[href*="/vet-visits"]';
 
+export const HERD_NAME = "#herdName";
+
+export const HERD_CPH = "#herdCph";
+
+export const OTHER_HERDS_ON_SBI_YES = "#herdOthersOnSbi";
+
+export const OTHER_HERDS_ON_SBI_NO = "#herdOthersOnSbi-2";
+
 export function getConfirmCheckDetailsSelector(value) {
   return `input[name="confirmCheckDetails"][value="${value}"]`;
 }

@@ -33,18 +33,35 @@ pipeline {
                 sh './scripts/build_wdio_test_image.sh'
             }
         }
-        stage('Run Tests') {
+        stage('Run pre-MH Tests') {
             steps {
-                sh './scripts/run_tests.sh preMH'
+                script {
+                    catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                        sh './scripts/run_tests.sh preMH'
+                    }
+                }
+            }
+        }
+        stage('Run post-MH Tests') {
+            steps {
+                sh './scripts/run_tests.sh postMH'
             }
         }
     }
     post {
+        always {
+            // Fail the pipeline manually if preMH stage failed
+            script {
+                def preMHFailed = currentBuild.rawBuild.getAction(hudson.model.ParametersAction)
+                    ?.getParameter('RUN_PREMH_FAILED')?.value
+                if (currentBuild.getPreviousBuild()?.result == 'FAILURE' && preMHFailed != null) {
+                    currentBuild.result = 'FAILURE'
+                }
+            }
+        }
         failure {
             script {
                 if (env.GIT_BRANCH == "$GIT_BRANCH_ALERTS") {
-                    // Removing due to pipeline bug where Jenkins cant talk to Azure in SND
-                    // sh './scripts/send_alert.sh "$AZURE_STORAGE_CONNECTION_STRING_JENKINS_FAILURES" "main" "$RUN_NUMBER"'
                     echo "ℹ️ Not sending alert as disabled"
                 } else {
                     echo "ℹ️ Only send alert for branch: $GIT_BRANCH_ALERTS"

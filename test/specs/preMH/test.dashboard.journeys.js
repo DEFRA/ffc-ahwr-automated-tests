@@ -44,9 +44,7 @@ describe("Vet-visits Dashboard journeys", () => {
     await $(TERMS_AND_CONDITIONS_CHECKBOX).click();
     await clickSubmitButton();
     await verifySubmission("Application complete");
-    const agreementNumber = (
-      await $(AGREEMENT_NUMBER_SELECTOR).getText()
-    ).trim();
+    const agreementNumber = (await $(AGREEMENT_NUMBER_SELECTOR).getText()).trim();
 
     // create a claim
     await browser.url(getDevSignInUrl("claim"));
@@ -57,9 +55,7 @@ describe("Vet-visits Dashboard journeys", () => {
     await clickOnElementAndContinue(getTypeOfLivestockSelector("sheep"));
     await clickOnElementAndContinue(getTypeOfReviewSelector("review"));
     await enterVisitDateAndContinue();
-    await enterWhenTestingWasCarriedOutAndContinue(
-      "whenTheVetVisitedTheFarmToCarryOutTheReview",
-    );
+    await enterWhenTestingWasCarriedOutAndContinue("whenTheVetVisitedTheFarmToCarryOutTheReview");
     await clickOnElementAndContinue(getSpeciesNumbersSelector("yes"));
     await fillInputAndContinue(NUMBER_OF_ANIMALS_TESTED, "10");
     await fillInputAndContinue(VETS_NAME, "Mr Auto Test");
@@ -76,9 +72,7 @@ describe("Vet-visits Dashboard journeys", () => {
       `download-application/${DASHBOARD_SBI}/${agreementNumber}`,
     );
     await $(AGREEMENT_SUMMARY_LINK).click();
-    await expect($(CLAIM_TABLE_ROW)).toHaveText(
-      expect.stringContaining(claimNumber),
-    );
+    await expect($(CLAIM_TABLE_ROW)).toHaveText(expect.stringContaining(claimNumber));
     await $(START_A_NEW_CLAIM_BUTTON).click();
     await expect($(CLAIMS_MAIN_HEADING_SELECTOR)).toHaveText(
       expect.stringContaining("Which species are you claiming for?"),

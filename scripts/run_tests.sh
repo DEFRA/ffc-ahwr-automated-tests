@@ -69,10 +69,16 @@ fi
 
 echo "🧪 Running WDIO tests: "$TEST_COMMAND""
 
-mkdir -p logs
-docker image ls --format "{{.Repository}}" | grep '^ffc-ahwr-' | grep -v '^ffc-ahwr-application-development$' | xargs -I {} sh -c 'docker compose logs -f "{}" > logs/{}.log 2>&1 &'
+LOG_DIR="logs"
+if [[ "$TEST_COMMAND" == "postMH" ]]; then
+  LOG_DIR="logsMH"
+fi
 
-docker exec -i --user root "$WDIO_CONTAINER" npm run test:"$TEST_COMMAND" | tee logs/wdio_test_output.log
+mkdir -p "$LOG_DIR"
+
+docker image ls --format "{{.Repository}}" | grep '^ffc-ahwr-' | grep -v '^ffc-ahwr-application-development$' | xargs -I {} sh -c "docker compose logs -f \"{}\" > $LOG_DIR/{}.log 2>&1 &"
+
+docker exec -i --user root "$WDIO_CONTAINER" npm run test:"$TEST_COMMAND" | tee "$LOG_DIR/wdio_test_output.log"
 EXIT_CODE=${PIPESTATUS[0]}
 
 echo "🛑 Stopping services..."

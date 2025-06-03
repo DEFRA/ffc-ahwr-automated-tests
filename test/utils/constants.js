@@ -5,3 +5,4 @@ export const BACK_OFFICE_SBI = "106825898";
 export const BACK_OFFICE_FLAG_SBI = "106592443";
 export const DASHBOARD_SBI = "107019440";
 export const JOHNES_DISEASE = "johnes";
+export const MULTIPLE_HERDS_SBI = "123454321";

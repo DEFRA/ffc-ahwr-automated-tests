@@ -51,9 +51,7 @@ describe("Follow-up claim journeys for various species", () => {
 
     await enterVisitDateAndContinue();
 
-    await enterWhenTestingWasCarriedOutAndContinue(
-      "whenTheVetVisitedTheFarmToCarryOutTheReview",
-    );
+    await enterWhenTestingWasCarriedOutAndContinue("whenTheVetVisitedTheFarmToCarryOutTheReview");
 
     await clickOnElementAndContinue(getSpeciesNumbersSelector("yes"));
 
@@ -63,9 +61,7 @@ describe("Follow-up claim journeys for various species", () => {
 
     await fillInputAndContinue(VET_RCVS_NUMBER, "7654321");
 
-    await clickOnElementAndContinue(
-      getSheepEndemicsPackageSelector("improvedEwePerformance"),
-    );
+    await clickOnElementAndContinue(getSheepEndemicsPackageSelector("improvedEwePerformance"));
 
     await selectSheepTestsAndContinue([JOHNES_DISEASE]);
 
@@ -103,9 +99,7 @@ describe("Follow-up claim journeys for various species", () => {
 
     await clickOnElementAndContinue(getPiHuntDoneForAllCattleSelector("yes"));
 
-    await enterWhenTestingWasCarriedOutAndContinue(
-      "whenTheVetVisitedTheFarmToCarryOutTheReview",
-    );
+    await enterWhenTestingWasCarriedOutAndContinue("whenTheVetVisitedTheFarmToCarryOutTheReview");
 
     await fillInputAndContinue(LABORATORY_URN, "521346");
 

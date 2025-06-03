@@ -35,7 +35,10 @@ export const config = {
       "./test/specs/preMH/test.dashboard.journeys.js",
       "./test/specs/preMH/test.backoffice.journeys.js",
     ],
-    postMH: ["./test/specs/test.apply.journeys.js"],
+    postMH: [
+      "./test/specs/test.apply.journeys.js",
+      "./test/specs/postMH/test.review-claim.mh.journeys.js",
+    ],
   },
   // Patterns to exclude.
   exclude: [
@@ -257,10 +260,7 @@ export const config = {
       // To set the window size to see the full screen when screenshot is taken
       await browser.setWindowSize(1200, 1600);
       const screenshot = await browser.takeScreenshot();
-      await browser.setWindowSize(
-        originalWindowSize.width,
-        originalWindowSize.height,
-      );
+      await browser.setWindowSize(originalWindowSize.width, originalWindowSize.height);
       const screenshotPath = path.join(
         projectPath,
         "screenshots",
@@ -338,17 +338,11 @@ export const config = {
 
     try {
       if (fs.existsSync(projectPath)) {
-        console.log(
-          "Changing file permissions on all files under project directory:",
-          projectPath,
-        );
+        console.log("Changing file permissions on all files under project directory:", projectPath);
         chmodRecursive(projectPath);
       }
     } catch (error) {
-      console.error(
-        "Error changing file permissions on files under project directory:",
-        error,
-      );
+      console.error("Error changing file permissions on files under project directory:", error);
     }
   },
   /**

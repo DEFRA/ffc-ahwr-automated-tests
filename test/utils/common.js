@@ -45,6 +45,24 @@ export async function enterVisitDateAndContinue() {
   await clickContinueButton();
 }
 
+export async function enterPostMHReleaseDateAndContinue() {
+  await $(VISIT_DATE_DAY).setValue("5");
+  await $(VISIT_DATE_MONTH).setValue("5");
+  await $(VISIT_DATE_YEAR).setValue("2025");
+  await clickContinueButton();
+}
+
+export async function chooseRandomHerdReasonsAndContinue() {
+  const count = Math.floor(Math.random() * 5) + 1;
+
+  for (let index = 0; index < count; index++) {
+    const selector = index === 0 ? "#herdReasons" : `#herdReasons-${index + 1}`;
+    await $(selector).click();
+  }
+
+  await clickContinueButton();
+}
+
 export async function enterWhenTestingWasCarriedOutAndContinue(value) {
   await $(getWhenTestingWasCarriedOutSelector(value)).click();
   await clickContinueButton();
