@@ -16,7 +16,7 @@ pipeline {
     stages {
         stage('Pre-run Cleanup: Remove Alert') {
             when {
-                branch AHWR-832
+                branch origin/AHWR-832
 //                 branch "$GIT_BRANCH_ALERTS"
             }
             steps {
