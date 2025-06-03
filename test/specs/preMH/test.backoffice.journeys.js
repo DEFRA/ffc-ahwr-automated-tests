@@ -140,7 +140,6 @@ describe("Backoffice journeys", () => {
     // Agreement flag creation
     await browser.url(getDevSignInUrl("backoffice"));
     await $(BO_FLAGS_TAB).click();
-    await $(BO_FLAGS_TAB).click();
     await $(BO_CREATE_AGREEMENT_FLAG_CTA).click();
     await fillInput(BO_AGREEMENT_REFERENCE, agreementNumber);
     await fillInput(BO_FLAG_CREATION_NOTE, "Flag creation notes");
