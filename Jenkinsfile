@@ -14,15 +14,15 @@ pipeline {
         GIT_BRANCH_ALERTS = 'origin/main'
     }
     stages {
-        // Removing due to pipeline bug where Jenkins cant talk to Azure in SND
-        // stage('Pre-run Cleanup: Remove Alert') {
-        //     when {
-        //         branch "$GIT_BRANCH_ALERTS"
-        //     }
-        //     steps {
-        //         sh './scripts/remove_alert.sh "$AZURE_STORAGE_CONNECTION_STRING_JENKINS_FAILURES" "main"'
-        //     }
-        // }
+        stage('Pre-run Cleanup: Remove Alert') {
+            when {
+                branch "AHWR-832"
+//                 branch "$GIT_BRANCH_ALERTS"
+            }
+            steps {
+                sh './scripts/remove_alert.sh "$AZURE_STORAGE_CONNECTION_STRING_JENKINS_FAILURES" "main"'
+            }
+        }
         stage('Pull Service Images (ACR)') {
             steps {
                 sh './scripts/pull_latest_acr_images.sh'
