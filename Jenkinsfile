@@ -14,15 +14,14 @@ pipeline {
         GIT_BRANCH_ALERTS = 'origin/main'
     }
     stages {
-        // Removing due to pipeline bug where Jenkins cant talk to Azure in SND
-        // stage('Pre-run Cleanup: Remove Alert') {
-        //     when {
-        //         branch "$GIT_BRANCH_ALERTS"
-        //     }
-        //     steps {
-        //         sh './scripts/remove_alert.sh "$AZURE_STORAGE_CONNECTION_STRING_JENKINS_FAILURES" "main"'
-        //     }
-        // }
+        stage('Pre-run Cleanup: Remove Alert') {
+            when {
+                branch "$GIT_BRANCH_ALERTS"
+            }
+            steps {
+                sh './scripts/remove_alert.sh "$AZURE_STORAGE_CONNECTION_STRING_JENKINS_FAILURES" "main"'
+            }
+        }
         stage('Pull Service Images (ACR)') {
             steps {
                 sh './scripts/pull_latest_acr_images.sh'
@@ -62,7 +61,8 @@ pipeline {
         failure {
             script {
                 if (env.GIT_BRANCH == "$GIT_BRANCH_ALERTS") {
-                    echo "ℹ️ Not sending alert as disabled"
+                    sh './scripts/send_alert.sh "$AZURE_STORAGE_CONNECTION_STRING_JENKINS_FAILURES" "main" "$RUN_NUMBER"'
+                    echo "ℹ️ Sending alert as tests failed"
                 } else {
                     echo "ℹ️ Only send alert for branch: $GIT_BRANCH_ALERTS"
                 }
