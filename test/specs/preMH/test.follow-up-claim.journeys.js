@@ -10,7 +10,7 @@ import {
   verifySubmission,
   clickSubmitButton,
   clickStartNewClaimButton,
-} from "../utils/common.js";
+} from "../../utils/common.js";
 import {
   NUMBER_OF_ANIMALS_TESTED,
   VETS_NAME,
@@ -28,12 +28,12 @@ import {
   getTestResultsSelector,
   getBiosecuritySelector,
   getConfirmCheckDetailsSelector,
-} from "../utils/selectors.js";
+} from "../../utils/selectors.js";
 import {
   SHEEP_ENDEMIC_CLAIM_SBI,
   BEEF_ENDEMIC_CLAIM_SBI,
   JOHNES_DISEASE,
-} from "../utils/constants.js";
+} from "../../utils/constants.js";
 
 describe("Follow-up claim journeys for various species", () => {
   it("can create a follow-up claim for sheep", async () => {

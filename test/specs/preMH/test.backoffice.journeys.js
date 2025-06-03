@@ -10,7 +10,7 @@ import {
   fillInput,
   verifySubmission,
   clickStartNewClaimButton,
-} from "../utils/common.js";
+} from "../../utils/common.js";
 import {
   AGREEMENT_NUMBER_SELECTOR,
   TERMS_AND_CONDITIONS_CHECKBOX,
@@ -24,7 +24,7 @@ import {
   getTypeOfReviewSelector,
   getSpeciesNumbersSelector,
   getConfirmCheckDetailsSelector,
-} from "../utils/selectors.js";
+} from "../../utils/selectors.js";
 import {
   BO_AGREEMENTS_TAB,
   BO_FLAGS_TAB,
@@ -47,8 +47,11 @@ import {
   getViewClaimLinkSelector,
   getAgreeToMultipleHerdTermsSelector,
   getFlaggedAgreementRowSelector,
-} from "../utils/backoffice-selectors.js";
-import { BACK_OFFICE_SBI, BACK_OFFICE_FLAG_SBI } from "../utils/constants.js";
+} from "../../utils/backoffice-selectors.js";
+import {
+  BACK_OFFICE_SBI,
+  BACK_OFFICE_FLAG_SBI,
+} from "../../utils/constants.js";
 
 describe("Backoffice journeys", () => {
   it("can move a claim from 'In check' to 'Recommend to pay'", async () => {

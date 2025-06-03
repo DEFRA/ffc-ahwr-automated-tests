@@ -9,7 +9,7 @@ import {
   fillInputAndContinue,
   verifySubmission,
   clickStartNewClaimButton,
-} from "../utils/common.js";
+} from "../../utils/common.js";
 import {
   TERMS_AND_CONDITIONS_CHECKBOX,
   AGREEMENT_SUMMARY_LINK,
@@ -28,8 +28,8 @@ import {
   getTypeOfReviewSelector,
   getSpeciesNumbersSelector,
   getConfirmCheckDetailsSelector,
-} from "../utils/selectors.js";
-import { DASHBOARD_SBI } from "../utils/constants.js";
+} from "../../utils/selectors.js";
+import { DASHBOARD_SBI } from "../../utils/constants.js";
 
 describe("Vet-visits Dashboard journeys", () => {
   it("can Verify agreement summary exists and a claim journey can be started from the dashboard", async () => {

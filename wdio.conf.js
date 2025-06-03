@@ -26,15 +26,17 @@ export const config = {
   // The path of the spec files will be resolved relative from the directory of
   // of the config file unless it's absolute.
   //
-  specs: [
-    [
+  // specs: [],
+  suites: {
+    preMH: [
       "./test/specs/test.apply.journeys.js",
-      "./test/specs/test.review-claim.journeys.js",
-      "./test/specs/test.follow-up-claim.journeys.js",
-      "./test/specs/test.dashboard.journeys.js",
-      "./test/specs/test.backoffice.journeys.js",
+      "./test/specs/preMH/test.review-claim.journeys.js",
+      "./test/specs/preMH/test.follow-up-claim.journeys.js",
+      "./test/specs/preMH/test.dashboard.journeys.js",
+      "./test/specs/preMH/test.backoffice.journeys.js",
     ],
-  ],
+    postMH: ["./test/specs/test.apply.journeys.js"],
+  },
   // Patterns to exclude.
   exclude: [
     // 'path/to/excluded/files'
@@ -55,7 +57,7 @@ export const config = {
   // and 30 processes will get spawned. The property handles how many capabilities
   // from the same test should run tests.
   //
-  maxInstances: 10,
+  maxInstances: 1,
   //
   // If you have trouble getting all important capabilities together, check out the
   // Sauce Labs platform configurator - a great tool to configure your capabilities:

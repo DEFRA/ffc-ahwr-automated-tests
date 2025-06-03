@@ -2,6 +2,22 @@
 
 set -e
 
+TEST_COMMAND="$1"
+
+if [ -z "$TEST_COMMAND" ]; then
+  echo "❌ Error: No test command provided. Usage: ./run-tests.sh <preMH|postMH>"
+  exit 1
+fi
+
+if [[ "$TEST_COMMAND" == "postMH" ]]; then
+  MULTI_HERDS_ENABLED="true"
+elif [[ "$TEST_COMMAND" == "preMH" ]]; then
+  MULTI_HERDS_ENABLED="false"
+else
+  echo "❌ Invalid TEST_COMMAND: $TEST_COMMAND (expected 'preMH' or 'postMH')"
+  exit 1
+fi
+
 ENV_FILE=".env"
 APP_HEALTHCHECK_URL="http://localhost:3001/healthy"
 MAX_RETRIES=10
@@ -40,6 +56,7 @@ sed -E \
   -e "s|(MESSAGE_QUEUE_PASSWORD:).*|\1 ${MESSAGE_QUEUE_PASSWORD}|g" \
   -e "s|(APPLICATIONINSIGHTS_CONNECTION_STRING:).*|\1 ${APPLICATIONINSIGHTS_CONNECTION_STRING}|g" \
   -e "s|(AZURE_STORAGE_CONNECTION_STRING:).*|\1 ${AZURE_STORAGE_CONNECTION_STRING}|g" \
+  -e "s|(MULTI_HERDS_ENABLED:).*|\1 ${MULTI_HERDS_ENABLED}|g" \
   -e "s|host.docker.internal:JENKINS-PORT|host.docker.internal:${HOST_INTERNAL_IP}|g" \
   docker-compose.yml | docker compose -f - up -d
 
@@ -50,12 +67,12 @@ if [ -z "$WDIO_CONTAINER" ]; then
   exit 1
 fi
 
-echo "🧪 Running WDIO tests..."
+echo "🧪 Running WDIO tests: "$TEST_COMMAND""
 
 mkdir -p logs
 docker image ls --format "{{.Repository}}" | grep '^ffc-ahwr-' | grep -v '^ffc-ahwr-application-development$' | xargs -I {} sh -c 'docker compose logs -f "{}" > logs/{}.log 2>&1 &'
 
-docker exec -i --user root "$WDIO_CONTAINER" npm run test | tee logs/wdio_test_output.log
+docker exec -i --user root "$WDIO_CONTAINER" npm run test:"$TEST_COMMAND" | tee logs/wdio_test_output.log
 EXIT_CODE=${PIPESTATUS[0]}
 
 echo "🛑 Stopping services..."

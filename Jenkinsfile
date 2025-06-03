@@ -35,7 +35,7 @@ pipeline {
         }
         stage('Run Tests') {
             steps {
-                sh './scripts/run_tests.sh'
+                sh './scripts/run_tests.sh test:preMH'
             }
         }
     }
