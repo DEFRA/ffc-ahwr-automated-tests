@@ -1,3 +1,5 @@
+def preMHFailed = false
+
 pipeline {
     agent any
     options {
@@ -12,7 +14,6 @@ pipeline {
         AZURE_STORAGE_CONNECTION_STRING = credentials('AZURE_STORAGE_CONNECTION_STRING')
         AZURE_STORAGE_CONNECTION_STRING_JENKINS_FAILURES = credentials('AZURE_STORAGE_CONNECTION_STRING_JENKINS_FAILURES')
         GIT_BRANCH_ALERTS = 'origin/main'
-        PREMH_FAILED = 'false'
     }
     stages {
         stage('Pre-run Cleanup: Remove Alert') {
@@ -40,7 +41,7 @@ pipeline {
                         sh './scripts/run_tests.sh preMH'
                     } catch (err) {
                         echo "⚠️ preMH tests failed"
-                        env.PREMH_FAILED = 'true'
+                        preMHFailed = true
                     }
                 }
             }
@@ -54,7 +55,7 @@ pipeline {
     post {
         always {
             script {
-                if (env.PREMH_FAILED == 'true') {
+                if (preMHFailed) {
                     error("❌ Failing pipeline because preMH tests failed")
                 }
             }
