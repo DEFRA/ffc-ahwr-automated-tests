@@ -10,7 +10,7 @@ import {
   fillInput,
   verifySubmission,
   clickStartNewClaimButton,
-} from "../utils/common.js";
+} from "../../utils/common.js";
 import {
   AGREEMENT_NUMBER_SELECTOR,
   TERMS_AND_CONDITIONS_CHECKBOX,
@@ -24,7 +24,7 @@ import {
   getTypeOfReviewSelector,
   getSpeciesNumbersSelector,
   getConfirmCheckDetailsSelector,
-} from "../utils/selectors.js";
+} from "../../utils/selectors.js";
 import {
   BO_AGREEMENTS_TAB,
   BO_FLAGS_TAB,
@@ -47,8 +47,8 @@ import {
   getViewClaimLinkSelector,
   getAgreeToMultipleHerdTermsSelector,
   getFlaggedAgreementRowSelector,
-} from "../utils/backoffice-selectors.js";
-import { BACK_OFFICE_SBI, BACK_OFFICE_FLAG_SBI } from "../utils/constants.js";
+} from "../../utils/backoffice-selectors.js";
+import { BACK_OFFICE_SBI, BACK_OFFICE_FLAG_SBI } from "../../utils/constants.js";
 
 describe("Backoffice journeys", () => {
   it("can move a claim from 'In check' to 'Recommend to pay'", async () => {
@@ -63,9 +63,7 @@ describe("Backoffice journeys", () => {
     await $(TERMS_AND_CONDITIONS_CHECKBOX).click();
     await clickSubmitButton();
     await verifySubmission("Application complete");
-    const agreementNumber = (
-      await $(AGREEMENT_NUMBER_SELECTOR).getText()
-    ).trim();
+    const agreementNumber = (await $(AGREEMENT_NUMBER_SELECTOR).getText()).trim();
 
     // Create a claim
     await browser.url(getDevSignInUrl("claim"));
@@ -76,9 +74,7 @@ describe("Backoffice journeys", () => {
     await clickOnElementAndContinue(getTypeOfLivestockSelector("sheep"));
     await clickOnElementAndContinue(getTypeOfReviewSelector("review"));
     await enterVisitDateAndContinue();
-    await enterWhenTestingWasCarriedOutAndContinue(
-      "whenTheVetVisitedTheFarmToCarryOutTheReview",
-    );
+    await enterWhenTestingWasCarriedOutAndContinue("whenTheVetVisitedTheFarmToCarryOutTheReview");
     await clickOnElementAndContinue(getSpeciesNumbersSelector("yes"));
     await fillInputAndContinue(NUMBER_OF_ANIMALS_TESTED, "10");
     await fillInputAndContinue(VETS_NAME, "Mr Auto Test");
@@ -92,9 +88,7 @@ describe("Backoffice journeys", () => {
     // Backoffice verifications
     await browser.url(getDevSignInUrl("backoffice"));
     await $(BO_AGREEMENTS_TAB).click();
-    const agreementRow = $(
-      getAgreementNumberSelector(agreementNumber),
-    ).parentElement();
+    const agreementRow = $(getAgreementNumberSelector(agreementNumber)).parentElement();
     await agreementRow.$(BO_VIEW_CLAIMS_LINK_SELECTOR).click();
     await $(getViewClaimLinkSelector(claimNumber)).click();
     await $(BO_RECOMMEND_TO_PAY_BUTTON).click();
@@ -122,9 +116,7 @@ describe("Backoffice journeys", () => {
     await $(TERMS_AND_CONDITIONS_CHECKBOX).click();
     await clickSubmitButton();
     await verifySubmission("Application complete");
-    const agreementNumber = (
-      await $(AGREEMENT_NUMBER_SELECTOR).getText()
-    ).trim();
+    const agreementNumber = (await $(AGREEMENT_NUMBER_SELECTOR).getText()).trim();
 
     // Create a claim
     await browser.url(getDevSignInUrl("claim"));
@@ -135,9 +127,7 @@ describe("Backoffice journeys", () => {
     await clickOnElementAndContinue(getTypeOfLivestockSelector("sheep"));
     await clickOnElementAndContinue(getTypeOfReviewSelector("review"));
     await enterVisitDateAndContinue();
-    await enterWhenTestingWasCarriedOutAndContinue(
-      "whenTheVetVisitedTheFarmToCarryOutTheReview",
-    );
+    await enterWhenTestingWasCarriedOutAndContinue("whenTheVetVisitedTheFarmToCarryOutTheReview");
     await clickOnElementAndContinue(getSpeciesNumbersSelector("yes"));
     await fillInputAndContinue(NUMBER_OF_ANIMALS_TESTED, "10");
     await fillInputAndContinue(VETS_NAME, "Mr Auto Test");
@@ -157,15 +147,11 @@ describe("Backoffice journeys", () => {
     await $(BO_CREATE_FLAG_BUTTON).click();
 
     // Agreement flag deletion
-    const flaggedAgreementRow = $(
-      getFlaggedAgreementRowSelector(agreementNumber, "Yes"),
-    );
+    const flaggedAgreementRow = $(getFlaggedAgreementRowSelector(agreementNumber, "Yes"));
     await flaggedAgreementRow.$(BO_DELETE_FLAG_BUTTON).click();
     await fillInput(BO_FLAG_DELETION_NOTE, "Flag deletion notes");
     await $(BO_SUBMIT_DELETE_FLAG_BUTTON).click();
-    const flaggedAgreementRows = await $$(
-      getFlaggedAgreementRowSelector(agreementNumber, "Yes"),
-    );
+    const flaggedAgreementRows = await $$(getFlaggedAgreementRowSelector(agreementNumber, "Yes"));
     await expect(flaggedAgreementRows.length).toBe(0);
   });
 });

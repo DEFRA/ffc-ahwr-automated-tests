@@ -9,7 +9,7 @@ import {
   fillInputAndContinue,
   verifySubmission,
   clickStartNewClaimButton,
-} from "../utils/common.js";
+} from "../../utils/common.js";
 import {
   NUMBER_OF_ANIMALS_TESTED,
   VETS_NAME,
@@ -23,8 +23,8 @@ import {
   getSpeciesNumbersSelector,
   getTestResultsSelector,
   getConfirmCheckDetailsSelector,
-} from "../utils/selectors.js";
-import { APPLY_REVIEW_CLAIM_SBI } from "../utils/constants.js";
+} from "../../utils/selectors.js";
+import { APPLY_REVIEW_CLAIM_SBI } from "../../utils/constants.js";
 
 describe("Review claim journeys for various species", () => {
   it("can create a new review claim for Sheep", async () => {
@@ -42,9 +42,7 @@ describe("Review claim journeys for various species", () => {
 
     await enterVisitDateAndContinue();
 
-    await enterWhenTestingWasCarriedOutAndContinue(
-      "whenTheVetVisitedTheFarmToCarryOutTheReview",
-    );
+    await enterWhenTestingWasCarriedOutAndContinue("whenTheVetVisitedTheFarmToCarryOutTheReview");
 
     await clickOnElementAndContinue(getSpeciesNumbersSelector("yes"));
 
@@ -75,9 +73,7 @@ describe("Review claim journeys for various species", () => {
 
     await enterVisitDateAndContinue();
 
-    await enterWhenTestingWasCarriedOutAndContinue(
-      "whenTheVetVisitedTheFarmToCarryOutTheReview",
-    );
+    await enterWhenTestingWasCarriedOutAndContinue("whenTheVetVisitedTheFarmToCarryOutTheReview");
 
     await clickOnElementAndContinue(getSpeciesNumbersSelector("yes"));
 
@@ -115,9 +111,7 @@ describe("Review claim journeys for various species", () => {
 
     await enterVisitDateAndContinue();
 
-    await enterWhenTestingWasCarriedOutAndContinue(
-      "whenTheVetVisitedTheFarmToCarryOutTheReview",
-    );
+    await enterWhenTestingWasCarriedOutAndContinue("whenTheVetVisitedTheFarmToCarryOutTheReview");
 
     await clickOnElementAndContinue(getSpeciesNumbersSelector("yes"));
 
@@ -148,9 +142,7 @@ describe("Review claim journeys for various species", () => {
 
     await enterVisitDateAndContinue();
 
-    await enterWhenTestingWasCarriedOutAndContinue(
-      "whenTheVetVisitedTheFarmToCarryOutTheReview",
-    );
+    await enterWhenTestingWasCarriedOutAndContinue("whenTheVetVisitedTheFarmToCarryOutTheReview");
 
     await clickOnElementAndContinue(getSpeciesNumbersSelector("yes"));
 

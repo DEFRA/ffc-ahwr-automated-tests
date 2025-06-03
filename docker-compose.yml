@@ -67,6 +67,7 @@ services:
       MULTI_SPECIES_RELEASE_DATE: "2025-02-20"
       DEV_LOGIN_ENABLED: true
       NODE_ENV: development
+      MULTI_HERDS_ENABLED: false
 
   ffc-ahwr-application:
     platform: linux/amd64
@@ -116,6 +117,7 @@ services:
       CARBON_COPY_EMAIL_ADDRESS: "defra-vets-visits-testing@equalexperts.com"
       MESSAGE_GENERATOR_QUEUE_ADDRESS: ${MESSAGE_GENERATOR_QUEUE_ADDRESS:-ffc-ahwr-message-generator}${MESSAGE_QUEUE_SUFFIX}
       STORE_HISTORY_IN_DB_ENABLED: "true"
+      MULTI_HERDS_ENABLED: false
 
   ffc-ahwr-application-postgres:
     networks:
@@ -209,6 +211,7 @@ services:
       RPA_GET_ORGANISATION_URL: random-value
       RPA_GET_CPH_NUMBERS_URL: random-value
       APPLICATIONINSIGHTS_CONNECTION_STRING: random-value
+      MULTI_HERDS_ENABLED: false
 
   ffc-ahwr-farmer-claim:
     platform: linux/amd64
@@ -259,6 +262,7 @@ services:
       APIM_SCOPE: random-value
       NODE_ENV: development
       DEV_LOGIN_ENABLED: true
+      MULTI_HERDS_ENABLED: false
 
   ffc-ahwr-backoffice:
     platform: linux/amd64
@@ -289,6 +293,7 @@ services:
       ON_HOLD_APP_PROCESS_ENABLED: true
       ON_HOLD_APP_PROCESS_SCHEDULE: "0 0 * * 2-5"
       NODE_ENV: development
+      MULTI_HERDS_ENABLED: false
 
   redis:
     networks:

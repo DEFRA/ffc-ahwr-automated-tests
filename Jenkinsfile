@@ -1,3 +1,5 @@
+def preMHFailed = false
+
 pipeline {
     agent any
     options {
@@ -32,18 +34,37 @@ pipeline {
                 sh './scripts/build_wdio_test_image.sh'
             }
         }
-        stage('Run Tests') {
+        stage('Run pre-MH Tests') {
             steps {
-                sh './scripts/run_tests.sh'
+                script {
+                    try {
+                        sh './scripts/run_tests.sh preMH'
+                    } catch (err) {
+                        echo "⚠️ preMH tests failed"
+                        preMHFailed = true
+                    }
+                }
+            }
+        }
+        stage('Run post-MH Tests') {
+            steps {
+                sh './scripts/run_tests.sh postMH'
             }
         }
     }
     post {
+        always {
+            script {
+                if (preMHFailed) {
+                    error("❌ Failing pipeline because preMH tests failed")
+                }
+            }
+        }
         failure {
             script {
                 if (env.GIT_BRANCH == "$GIT_BRANCH_ALERTS") {
                     sh './scripts/send_alert.sh "$AZURE_STORAGE_CONNECTION_STRING_JENKINS_FAILURES" "main" "$RUN_NUMBER"'
-                    echo "ℹ️ Not sending alert as disabled"
+                    echo "ℹ️ Sending alert as tests failed"
                 } else {
                     echo "ℹ️ Only send alert for branch: $GIT_BRANCH_ALERTS"
                 }

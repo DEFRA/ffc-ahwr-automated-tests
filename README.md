@@ -51,8 +51,8 @@ az login
 # Build WDIO test image
 ./scripts/build_wdio_test_image.sh
 
-# Run tests
-./scripts/run_tests.sh
+# Run tests (provide preMH or postMH argument, dependant on which test suite you want to run from wdio.conf.js)
+./scripts/run_tests.sh preMH
 
 ```
 
