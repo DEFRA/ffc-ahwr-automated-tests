@@ -20,21 +20,33 @@ pipeline {
             when {
                 branch "$GIT_BRANCH_ALERTS"
             }
+            options {
+                timeout(time: 1, unit: 'MINUTES')
+            }
             steps {
                 sh './scripts/remove_alert.sh "$AZURE_STORAGE_CONNECTION_STRING_JENKINS_FAILURES" "main"'
             }
         }
         stage('Pull Service Images (ACR)') {
+            options {
+                timeout(time: 3, unit: 'MINUTES')
+            }
             steps {
                 sh './scripts/pull_latest_acr_images.sh'
             }
         }
         stage('Build WDIO (testing) Image') {
+            options {
+                timeout(time: 3, unit: 'MINUTES')
+            }
             steps {
                 sh './scripts/build_wdio_test_image.sh'
             }
         }
         stage('Run pre-MH Tests') {
+            options {
+                timeout(time: 7, unit: 'MINUTES')
+            }
             steps {
                 script {
                     try {
@@ -47,6 +59,9 @@ pipeline {
             }
         }
         stage('Run post-MH Tests') {
+            options {
+                timeout(time: 7, unit: 'MINUTES')
+            }
             steps {
                 sh './scripts/run_tests.sh postMH'
             }
