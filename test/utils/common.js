@@ -10,6 +10,18 @@ import {
   getWhenTestingWasCarriedOutSelector,
   getSheepTestsDiseaseConditionSelector,
   START_NEW_CLAIM_BUTTON,
+  AGREEMENT_NUMBER_SELECTOR,
+  TERMS_AND_CONDITIONS_CHECKBOX,
+  NUMBER_OF_ANIMALS_TESTED,
+  VETS_NAME,
+  VET_RCVS_NUMBER,
+  LABORATORY_URN,
+  SUBMIT_CLAIM_BUTTON,
+  REFERENCE,
+  getTypeOfLivestockSelector,
+  getTypeOfReviewSelector,
+  getSpeciesNumbersSelector,
+  getConfirmCheckDetailsSelector,
 } from "./selectors.js";
 
 export function getDevSignInUrl(type) {
@@ -105,4 +117,49 @@ export async function clickSubmitButton() {
 
 export async function clickStartNewClaimButton() {
   await $(START_NEW_CLAIM_BUTTON).click();
+}
+
+export async function createAgreement(sbi, browser) {
+  await browser.url(getDevSignInUrl("apply"));
+  await fillAndSubmitSBI(sbi);
+  await $(getConfirmCheckDetailsSelector("yes")).click();
+  await clickSubmitButton();
+  await clickSubmitButton();
+  await clickSubmitButton();
+  await clickSubmitButton();
+  await $(TERMS_AND_CONDITIONS_CHECKBOX).click();
+  await clickSubmitButton();
+  await verifySubmission("Application complete");
+  const agreementNumber = (await $(AGREEMENT_NUMBER_SELECTOR).getText()).trim();
+
+  return agreementNumber;
+}
+
+export async function createClaim(sbi, browser) {
+  await browser.url(getDevSignInUrl("claim"));
+  await fillAndSubmitSBI(sbi);
+  await $(getConfirmCheckDetailsSelector("yes")).click();
+  await clickSubmitButton();
+  await clickStartNewClaimButton();
+  await clickOnElementAndContinue(getTypeOfLivestockSelector("sheep"));
+  await clickOnElementAndContinue(getTypeOfReviewSelector("review"));
+  await enterVisitDateAndContinue();
+  await enterWhenTestingWasCarriedOutAndContinue("whenTheVetVisitedTheFarmToCarryOutTheReview");
+  await clickOnElementAndContinue(getSpeciesNumbersSelector("yes"));
+  await fillInputAndContinue(NUMBER_OF_ANIMALS_TESTED, "10");
+  await fillInputAndContinue(VETS_NAME, "Mr Auto Test");
+  await fillInputAndContinue(VET_RCVS_NUMBER, "1234567");
+  await fillInputAndContinue(LABORATORY_URN, "sh-rr-534346");
+  await $(SUBMIT_CLAIM_BUTTON).click();
+  await verifySubmission("Claim complete");
+  await expect($(REFERENCE)).toHaveText(expect.stringContaining("RESH"));
+  const claimNumber = await $(REFERENCE).getText();
+
+  return claimNumber;
+}
+
+export async function swapBackOfficeUser(userName, browser) {
+  const backOfficeClaimsRoute = getDevSignInUrl("backoffice");
+  const loginRoute = backOfficeClaimsRoute.replace("claims", `login?userId=${userName}`);
+  await browser.url(loginRoute);
 }

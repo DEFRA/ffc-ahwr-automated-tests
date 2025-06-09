@@ -36,7 +36,9 @@
   <include file="changelog/db.changelog-1.33.xml" />
   <include file="changelog/db.changelog-1.34.xml" />
   <include file="changelog/db.changelog-1.35.xml" />
+  <include file="changelog/db.changelog-1.36.xml" />
   <include file="changelog/insert_sheep_apply_review_claim.sql" />
   <include file="changelog/insert_beef_apply_review_claim.sql" />
   <include file="changelog/insert_mh_sheep_application.sql" />
+  <include file="changelog/insert_on_hold_claim.sql" />
 </databaseChangeLog>
