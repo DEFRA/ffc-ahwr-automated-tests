@@ -1,41 +1,23 @@
 import { expect, browser, $, $$ } from "@wdio/globals";
 import {
   getDevSignInUrl,
-  fillAndSubmitSBI,
-  clickSubmitButton,
-  clickOnElementAndContinue,
-  enterVisitDateAndContinue,
-  enterWhenTestingWasCarriedOutAndContinue,
-  fillInputAndContinue,
   fillInput,
-  verifySubmission,
-  clickStartNewClaimButton,
+  createAgreement,
+  createClaim,
+  swapBackOfficeUser,
 } from "../../utils/common.js";
-import {
-  AGREEMENT_NUMBER_SELECTOR,
-  TERMS_AND_CONDITIONS_CHECKBOX,
-  NUMBER_OF_ANIMALS_TESTED,
-  VETS_NAME,
-  VET_RCVS_NUMBER,
-  LABORATORY_URN,
-  SUBMIT_CLAIM_BUTTON,
-  REFERENCE,
-  getTypeOfLivestockSelector,
-  getTypeOfReviewSelector,
-  getSpeciesNumbersSelector,
-  getConfirmCheckDetailsSelector,
-} from "../../utils/selectors.js";
 import {
   BO_AGREEMENTS_TAB,
   BO_FLAGS_TAB,
-  BO_VIEW_CLAIMS_LINK_SELECTOR,
+  BO_VIEW_CLAIMS_LINK,
   BO_RECOMMEND_TO_PAY_BUTTON,
-  BO_CHECKED_AGAINST_CHECKLIST_SELECTOR,
-  BO_SENT_CHECKLIST_SELECTOR,
+  BO_RECOMMEND_TO_REJECT_BUTTON,
+  BO_CHECKED_CHECKLIST_CHECKBOX,
+  BO_SENT_CHECK_LIST_CHECKBOX,
   BO_CONFIRM_AND_CONTINUE_BUTTON,
-  BO_CLAIM_STATUS_TEXT_SELECTOR,
-  BO_BACK_TO_ALL_CLAIMS_SELECTOR,
-  BO_CLAIMS_MAIN_HEADING_SELECTOR,
+  BO_CLAIM_STATUS_TEXT,
+  BO_PAY_CHECKBOX_ONE,
+  BO_PAY_CHECKBOX_TWO,
   BO_CREATE_AGREEMENT_FLAG_CTA,
   BO_AGREEMENT_REFERENCE,
   BO_FLAG_CREATION_NOTE,
@@ -47,111 +29,154 @@ import {
   getViewClaimLinkSelector,
   getAgreeToMultipleHerdTermsSelector,
   getFlaggedAgreementRowSelector,
+  BO_PAY_BUTTON,
+  BO_REJECT_BUTTON,
+  BO_MOVE_TO_IN_CHECK_BUTTON,
+  BO_ON_HOLD_TO_IN_CHECK_CHECKBOX,
+  BO_UPDATE_ISSUES_LOG_CHECKBOX,
+  BO_CLAIM_SEARCH,
+  BO_SEARCH_BUTTON,
+  getClaimSelectorFromTable,
+  BO_HISTORY_TAB,
 } from "../../utils/backoffice-selectors.js";
-import { BACK_OFFICE_SBI, BACK_OFFICE_FLAG_SBI } from "../../utils/constants.js";
+import {
+  BACK_OFFICE_APPROVE_SBI,
+  BACK_OFFICE_REJECT_SBI,
+  ON_HOLD_AGREEMENT_REF,
+  ON_HOLD_CLAIM_REF,
+} from "../../utils/constants.js";
 
 describe("Backoffice journeys", () => {
-  it("can move a claim from 'In check' to 'Recommend to pay'", async () => {
-    // Create an agreement
-    await browser.url(getDevSignInUrl("apply"));
-    await fillAndSubmitSBI(BACK_OFFICE_SBI);
-    await $(getConfirmCheckDetailsSelector("yes")).click();
-    await clickSubmitButton();
-    await clickSubmitButton();
-    await clickSubmitButton();
-    await clickSubmitButton();
-    await $(TERMS_AND_CONDITIONS_CHECKBOX).click();
-    await clickSubmitButton();
-    await verifySubmission("Application complete");
-    const agreementNumber = (await $(AGREEMENT_NUMBER_SELECTOR).getText()).trim();
+  it("can move a claim from 'In check' to 'Recommend to pay' and then to 'Ready to pay'", async () => {
+    const agreementNumber = await createAgreement(BACK_OFFICE_APPROVE_SBI);
+    const claimNumber = await createClaim(BACK_OFFICE_APPROVE_SBI);
 
-    // Create a claim
-    await browser.url(getDevSignInUrl("claim"));
-    await fillAndSubmitSBI(BACK_OFFICE_SBI);
-    await $(getConfirmCheckDetailsSelector("yes")).click();
-    await clickSubmitButton();
-    await clickStartNewClaimButton();
-    await clickOnElementAndContinue(getTypeOfLivestockSelector("sheep"));
-    await clickOnElementAndContinue(getTypeOfReviewSelector("review"));
-    await enterVisitDateAndContinue();
-    await enterWhenTestingWasCarriedOutAndContinue("whenTheVetVisitedTheFarmToCarryOutTheReview");
-    await clickOnElementAndContinue(getSpeciesNumbersSelector("yes"));
-    await fillInputAndContinue(NUMBER_OF_ANIMALS_TESTED, "10");
-    await fillInputAndContinue(VETS_NAME, "Mr Auto Test");
-    await fillInputAndContinue(VET_RCVS_NUMBER, "1234567");
-    await fillInputAndContinue(LABORATORY_URN, "sh-rr-534346");
-    await $(SUBMIT_CLAIM_BUTTON).click();
-    await verifySubmission("Claim complete");
-    await expect($(REFERENCE)).toHaveText(expect.stringContaining("RESH"));
-    const claimNumber = await $(REFERENCE).getText();
-
-    // Backoffice verifications
     await browser.url(getDevSignInUrl("backoffice"));
     await $(BO_AGREEMENTS_TAB).click();
     const agreementRow = $(getAgreementNumberSelector(agreementNumber)).parentElement();
-    await agreementRow.$(BO_VIEW_CLAIMS_LINK_SELECTOR).click();
+    await agreementRow.$(BO_VIEW_CLAIMS_LINK).click();
     await $(getViewClaimLinkSelector(claimNumber)).click();
     await $(BO_RECOMMEND_TO_PAY_BUTTON).click();
-    await $(BO_CHECKED_AGAINST_CHECKLIST_SELECTOR).click();
-    await $(BO_SENT_CHECKLIST_SELECTOR).click();
+    await $(BO_CHECKED_CHECKLIST_CHECKBOX).click();
+    await $(BO_SENT_CHECK_LIST_CHECKBOX).click();
     await $(BO_CONFIRM_AND_CONTINUE_BUTTON).click();
-    await expect($(BO_CLAIM_STATUS_TEXT_SELECTOR)).toHaveText(
-      expect.stringContaining("Recommended to pay"),
+    await expect($(BO_CLAIM_STATUS_TEXT)).toHaveText(expect.stringContaining("Recommended to pay"));
+
+    // Swapping to another user to approve the claim
+    await swapBackOfficeUser("Approver");
+    await $(BO_AGREEMENTS_TAB).click();
+    const agreementRowTwo = $(getAgreementNumberSelector(agreementNumber)).parentElement();
+    await agreementRowTwo.$(BO_VIEW_CLAIMS_LINK).click();
+    await $(getViewClaimLinkSelector(claimNumber)).click();
+    await $(BO_PAY_BUTTON).click();
+    await $(BO_PAY_CHECKBOX_ONE).click();
+    await $(BO_PAY_CHECKBOX_TWO).click();
+    await $(BO_CONFIRM_AND_CONTINUE_BUTTON).click();
+    await expect($(BO_CLAIM_STATUS_TEXT)).toHaveText(expect.stringContaining("Ready to pay"));
+  });
+
+  it("can move a claim from 'In check' to 'Recommend to reject' and then to 'Rejected'", async () => {
+    const agreementNumber = await createAgreement(BACK_OFFICE_REJECT_SBI);
+    const claimNumber = await createClaim(BACK_OFFICE_REJECT_SBI);
+
+    await browser.url(getDevSignInUrl("backoffice"));
+    await $(BO_AGREEMENTS_TAB).click();
+    const agreementRow = $(getAgreementNumberSelector(agreementNumber)).parentElement();
+    await agreementRow.$(BO_VIEW_CLAIMS_LINK).click();
+    await $(getViewClaimLinkSelector(claimNumber)).click();
+    await $(BO_RECOMMEND_TO_REJECT_BUTTON).click();
+    await $(BO_CHECKED_CHECKLIST_CHECKBOX).click();
+    await $(BO_SENT_CHECK_LIST_CHECKBOX).click();
+    await $(BO_CONFIRM_AND_CONTINUE_BUTTON).click();
+    await expect($(BO_CLAIM_STATUS_TEXT)).toHaveText(
+      expect.stringContaining("Recommended to reject"),
     );
-    await $(BO_BACK_TO_ALL_CLAIMS_SELECTOR).click();
-    await expect($(BO_CLAIMS_MAIN_HEADING_SELECTOR)).toHaveText(
-      expect.stringContaining("Claims, Agreements and Flags"),
-    );
+
+    // Swapping to another user to reject the claim
+    await swapBackOfficeUser("Rejector");
+    await $(BO_AGREEMENTS_TAB).click();
+    const agreementRowTwo = $(getAgreementNumberSelector(agreementNumber)).parentElement();
+    await agreementRowTwo.$(BO_VIEW_CLAIMS_LINK).click();
+    await $(getViewClaimLinkSelector(claimNumber)).click();
+    await $(BO_REJECT_BUTTON).click();
+    await $(BO_PAY_CHECKBOX_ONE).click();
+    await $(BO_PAY_CHECKBOX_TWO).click();
+    await $(BO_CONFIRM_AND_CONTINUE_BUTTON).click();
+    await expect($(BO_CLAIM_STATUS_TEXT)).toHaveText(expect.stringContaining("Rejected"));
   });
 
   it("creates and deletes a flag for an agreement", async () => {
-    // Create an agreement
-    await browser.url(getDevSignInUrl("apply"));
-    await fillAndSubmitSBI(BACK_OFFICE_FLAG_SBI);
-    await $(getConfirmCheckDetailsSelector("yes")).click();
-    await clickSubmitButton();
-    await clickSubmitButton();
-    await clickSubmitButton();
-    await clickSubmitButton();
-    await $(TERMS_AND_CONDITIONS_CHECKBOX).click();
-    await clickSubmitButton();
-    await verifySubmission("Application complete");
-    const agreementNumber = (await $(AGREEMENT_NUMBER_SELECTOR).getText()).trim();
-
-    // Create a claim
-    await browser.url(getDevSignInUrl("claim"));
-    await fillAndSubmitSBI(BACK_OFFICE_FLAG_SBI);
-    await $(getConfirmCheckDetailsSelector("yes")).click();
-    await clickSubmitButton();
-    await clickStartNewClaimButton();
-    await clickOnElementAndContinue(getTypeOfLivestockSelector("sheep"));
-    await clickOnElementAndContinue(getTypeOfReviewSelector("review"));
-    await enterVisitDateAndContinue();
-    await enterWhenTestingWasCarriedOutAndContinue("whenTheVetVisitedTheFarmToCarryOutTheReview");
-    await clickOnElementAndContinue(getSpeciesNumbersSelector("yes"));
-    await fillInputAndContinue(NUMBER_OF_ANIMALS_TESTED, "10");
-    await fillInputAndContinue(VETS_NAME, "Mr Auto Test");
-    await fillInputAndContinue(VET_RCVS_NUMBER, "1234567");
-    await fillInputAndContinue(LABORATORY_URN, "sh-rr-534346");
-    await $(SUBMIT_CLAIM_BUTTON).click();
-    await verifySubmission("Claim complete");
-    await expect($(REFERENCE)).toHaveText(expect.stringContaining("RESH"));
-
     // Agreement flag creation
     await browser.url(getDevSignInUrl("backoffice"));
     await $(BO_FLAGS_TAB).click();
     await $(BO_CREATE_AGREEMENT_FLAG_CTA).click();
-    await fillInput(BO_AGREEMENT_REFERENCE, agreementNumber);
+    await fillInput(BO_AGREEMENT_REFERENCE, ON_HOLD_AGREEMENT_REF);
     await fillInput(BO_FLAG_CREATION_NOTE, "Flag creation notes");
     await $(getAgreeToMultipleHerdTermsSelector("yes")).click();
     await $(BO_CREATE_FLAG_BUTTON).click();
 
     // Agreement flag deletion
-    const flaggedAgreementRow = $(getFlaggedAgreementRowSelector(agreementNumber, "Yes"));
+    const flaggedAgreementRow = $(getFlaggedAgreementRowSelector(ON_HOLD_AGREEMENT_REF, "Yes"));
     await flaggedAgreementRow.$(BO_DELETE_FLAG_BUTTON).click();
     await fillInput(BO_FLAG_DELETION_NOTE, "Flag deletion notes");
     await $(BO_SUBMIT_DELETE_FLAG_BUTTON).click();
-    const flaggedAgreementRows = await $$(getFlaggedAgreementRowSelector(agreementNumber, "Yes"));
-    await expect(flaggedAgreementRows.length).toBe(0);
+    const flaggedAgreementRows = await $$(
+      getFlaggedAgreementRowSelector(ON_HOLD_AGREEMENT_REF, "Yes"),
+    );
+    expect(flaggedAgreementRows.length).toBe(0);
+  });
+
+  it("can move an on hold claim from 'On hold' to 'In check' and then to 'Recommend to reject', and finally 'Rejected'", async () => {
+    await swapBackOfficeUser("Initial-user");
+    await $(BO_AGREEMENTS_TAB).click();
+    const agreementRow = $(getAgreementNumberSelector(ON_HOLD_AGREEMENT_REF)).parentElement();
+    await agreementRow.$(BO_VIEW_CLAIMS_LINK).click();
+    await $(getViewClaimLinkSelector(ON_HOLD_CLAIM_REF)).click();
+
+    await $(BO_MOVE_TO_IN_CHECK_BUTTON).click();
+    await $(BO_ON_HOLD_TO_IN_CHECK_CHECKBOX).click();
+    await $(BO_UPDATE_ISSUES_LOG_CHECKBOX).click();
+    await $(BO_CONFIRM_AND_CONTINUE_BUTTON).click();
+
+    await $(BO_RECOMMEND_TO_REJECT_BUTTON).click();
+    await $(BO_CHECKED_CHECKLIST_CHECKBOX).click();
+    await $(BO_SENT_CHECK_LIST_CHECKBOX).click();
+    await $(BO_CONFIRM_AND_CONTINUE_BUTTON).click();
+
+    await expect($(BO_CLAIM_STATUS_TEXT)).toHaveText(
+      expect.stringContaining("Recommended to reject"),
+    );
+
+    // Swapping to another user to reject the claim
+    await swapBackOfficeUser("Rejector");
+    await $(BO_AGREEMENTS_TAB).click();
+    const agreementRowTwo = $(getAgreementNumberSelector(ON_HOLD_AGREEMENT_REF)).parentElement();
+    await agreementRowTwo.$(BO_VIEW_CLAIMS_LINK).click();
+    await $(getViewClaimLinkSelector(ON_HOLD_CLAIM_REF)).click();
+
+    await $(BO_REJECT_BUTTON).click();
+    await $(BO_PAY_CHECKBOX_ONE).click();
+    await $(BO_PAY_CHECKBOX_TWO).click();
+    await $(BO_CONFIRM_AND_CONTINUE_BUTTON).click();
+
+    await expect($(BO_CLAIM_STATUS_TEXT)).toHaveText(expect.stringContaining("Rejected"));
+  });
+
+  it("can search for a claim and view its information", async () => {
+    await browser.url(getDevSignInUrl("backoffice"));
+    await $(BO_CLAIM_SEARCH).setValue(ON_HOLD_CLAIM_REF);
+    await $(BO_SEARCH_BUTTON).click();
+    await $(getClaimSelectorFromTable(ON_HOLD_CLAIM_REF)).click();
+    const agreementSummary = await $$("dl.govuk-summary-list")[0];
+    const agreementReference = await agreementSummary.$(
+      ".govuk-summary-list__row .govuk-summary-list__value",
+    );
+
+    expect(agreementReference).toHaveText(ON_HOLD_AGREEMENT_REF);
+
+    await $(BO_HISTORY_TAB).click();
+
+    const rows = await $$("table.govuk-table tbody tr");
+    await expect(rows.length).toBeGreaterThan(0);
   });
 });
