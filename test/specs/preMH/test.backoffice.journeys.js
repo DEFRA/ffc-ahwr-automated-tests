@@ -48,8 +48,8 @@ import {
 
 describe("Backoffice journeys", () => {
   it("can move a claim from 'In check' to 'Recommend to pay' and then to 'Ready to pay'", async () => {
-    const agreementNumber = await createAgreement(BACK_OFFICE_APPROVE_SBI, browser);
-    const claimNumber = await createClaim(BACK_OFFICE_APPROVE_SBI, browser);
+    const agreementNumber = await createAgreement(BACK_OFFICE_APPROVE_SBI);
+    const claimNumber = await createClaim(BACK_OFFICE_APPROVE_SBI);
 
     await browser.url(getDevSignInUrl("backoffice"));
     await $(BO_AGREEMENTS_TAB).click();
@@ -63,7 +63,7 @@ describe("Backoffice journeys", () => {
     await expect($(BO_CLAIM_STATUS_TEXT)).toHaveText(expect.stringContaining("Recommended to pay"));
 
     // Swapping to another user to approve the claim
-    await swapBackOfficeUser("Approver", browser);
+    await swapBackOfficeUser("Approver");
     await $(BO_AGREEMENTS_TAB).click();
     const agreementRowTwo = $(getAgreementNumberSelector(agreementNumber)).parentElement();
     await agreementRowTwo.$(BO_VIEW_CLAIMS_LINK).click();
@@ -76,8 +76,8 @@ describe("Backoffice journeys", () => {
   });
 
   it("can move a claim from 'In check' to 'Recommend to reject' and then to 'Rejected'", async () => {
-    const agreementNumber = await createAgreement(BACK_OFFICE_REJECT_SBI, browser);
-    const claimNumber = await createClaim(BACK_OFFICE_REJECT_SBI, browser);
+    const agreementNumber = await createAgreement(BACK_OFFICE_REJECT_SBI);
+    const claimNumber = await createClaim(BACK_OFFICE_REJECT_SBI);
 
     await browser.url(getDevSignInUrl("backoffice"));
     await $(BO_AGREEMENTS_TAB).click();
@@ -93,7 +93,7 @@ describe("Backoffice journeys", () => {
     );
 
     // Swapping to another user to reject the claim
-    await swapBackOfficeUser("Rejector", browser);
+    await swapBackOfficeUser("Rejector");
     await $(BO_AGREEMENTS_TAB).click();
     const agreementRowTwo = $(getAgreementNumberSelector(agreementNumber)).parentElement();
     await agreementRowTwo.$(BO_VIEW_CLAIMS_LINK).click();
@@ -127,7 +127,7 @@ describe("Backoffice journeys", () => {
   });
 
   it("can move an on hold claim from 'On hold' to 'In check' and then to 'Recommend to reject', and finally 'Rejected'", async () => {
-    await swapBackOfficeUser("Initial-user", browser);
+    await swapBackOfficeUser("Initial-user");
     await $(BO_AGREEMENTS_TAB).click();
     const agreementRow = $(getAgreementNumberSelector(ON_HOLD_AGREEMENT_REF)).parentElement();
     await agreementRow.$(BO_VIEW_CLAIMS_LINK).click();
@@ -148,7 +148,7 @@ describe("Backoffice journeys", () => {
     );
 
     // Swapping to another user to reject the claim
-    await swapBackOfficeUser("Rejector", browser);
+    await swapBackOfficeUser("Rejector");
     await $(BO_AGREEMENTS_TAB).click();
     const agreementRowTwo = $(getAgreementNumberSelector(ON_HOLD_AGREEMENT_REF)).parentElement();
     await agreementRowTwo.$(BO_VIEW_CLAIMS_LINK).click();

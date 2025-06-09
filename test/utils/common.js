@@ -1,4 +1,4 @@
-import { expect, $ } from "@wdio/globals";
+import { expect, browser, $ } from "@wdio/globals";
 import {
   SBI,
   CONTINUE_BUTTON,
@@ -119,7 +119,7 @@ export async function clickStartNewClaimButton() {
   await $(START_NEW_CLAIM_BUTTON).click();
 }
 
-export async function createAgreement(sbi, browser) {
+export async function createAgreement(sbi) {
   await browser.url(getDevSignInUrl("apply"));
   await fillAndSubmitSBI(sbi);
   await $(getConfirmCheckDetailsSelector("yes")).click();
@@ -135,7 +135,7 @@ export async function createAgreement(sbi, browser) {
   return agreementNumber;
 }
 
-export async function createClaim(sbi, browser) {
+export async function createClaim(sbi) {
   await browser.url(getDevSignInUrl("claim"));
   await fillAndSubmitSBI(sbi);
   await $(getConfirmCheckDetailsSelector("yes")).click();
@@ -158,7 +158,7 @@ export async function createClaim(sbi, browser) {
   return claimNumber;
 }
 
-export async function swapBackOfficeUser(userName, browser) {
+export async function swapBackOfficeUser(userName) {
   const backOfficeClaimsRoute = getDevSignInUrl("backoffice");
   const loginRoute = backOfficeClaimsRoute.replace("claims", `login?userId=${userName}`);
   await browser.url(loginRoute);
