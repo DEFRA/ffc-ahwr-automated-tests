@@ -128,7 +128,6 @@ services:
       APPINSIGHTS_CLOUDROLE: "ffc-ahwr-eligibility"
       APPLY_SERVICE_URI: "http://localhost:3000/apply"
       CLAIM_COMPLIANCE_CHECK_RATIO: 5
-      ENDEMICS_CLAIM_COMPLIANCE_CHECK_RATIO: 1
       TEN_MONTH_RULE_ENABLED: "true"
       ENDEMICS_ENABLED: "true"
       OPTIONAL_PIHUNT_ENABLED: "true"
