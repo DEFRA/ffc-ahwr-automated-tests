@@ -26,15 +26,20 @@ export const config = {
   // The path of the spec files will be resolved relative from the directory of
   // of the config file unless it's absolute.
   //
-  specs: [
-    [
+  // specs: [],
+  suites: {
+    preMH: [
       "./test/specs/test.apply.journeys.js",
-      "./test/specs/test.review-claim.journeys.js",
-      "./test/specs/test.follow-up-claim.journeys.js",
-      "./test/specs/test.dashboard.journeys.js",
-      "./test/specs/test.backoffice.journeys.js",
+      "./test/specs/preMH/test.review-claim.journeys.js",
+      "./test/specs/preMH/test.follow-up-claim.journeys.js",
+      "./test/specs/preMH/test.dashboard.journeys.js",
+      "./test/specs/preMH/test.backoffice.journeys.js",
     ],
-  ],
+    postMH: [
+      "./test/specs/test.apply.journeys.js",
+      "./test/specs/postMH/test.review-claim.mh.journeys.js",
+    ],
+  },
   // Patterns to exclude.
   exclude: [
     // 'path/to/excluded/files'
@@ -55,7 +60,7 @@ export const config = {
   // and 30 processes will get spawned. The property handles how many capabilities
   // from the same test should run tests.
   //
-  maxInstances: 10,
+  maxInstances: 1,
   //
   // If you have trouble getting all important capabilities together, check out the
   // Sauce Labs platform configurator - a great tool to configure your capabilities:
@@ -198,26 +203,8 @@ export const config = {
    * @param {Array.<String>} specs List of spec file paths that are to be run
    * @param {string} cid worker id (e.g. 0-0)
    */
-  beforeSession: function (config, capabilities, specs, cid) {
-    try {
-      const screenshotPath = path.join(
-        projectPath,
-        "screenshots"
-      );
-      
-      if (fs.existsSync(screenshotPath)) {
-        console.log("Clearing screenshots directory", screenshotPath);
-        // clear directory
-        fs.readdirSync(screenshotPath).forEach((file) => {
-          // give permission to delete
-          fs.chmodSync(path.join(screenshotPath, file), 0o777);
-          fs.unlinkSync(path.join(screenshotPath, file));
-        });
-      }
-    } catch (error) {
-      console.error("Error clearing screenshots directory", error);
-    }
-  },
+  // beforeSession: function (config, capabilities, specs, cid) {
+  // },
   /**
    * Gets executed before test execution begins. At this point you can access to all global
    * variables like `browser`. It is the perfect place to define custom commands.
@@ -273,10 +260,7 @@ export const config = {
       // To set the window size to see the full screen when screenshot is taken
       await browser.setWindowSize(1200, 1600);
       const screenshot = await browser.takeScreenshot();
-      await browser.setWindowSize(
-        originalWindowSize.width,
-        originalWindowSize.height,
-      );
+      await browser.setWindowSize(originalWindowSize.width, originalWindowSize.height);
       const screenshotPath = path.join(
         projectPath,
         "screenshots",
@@ -333,8 +317,34 @@ export const config = {
    * @param {Array.<Object>} capabilities list of capabilities details
    * @param {<Object>} results object containing test results
    */
-  // onComplete: function(exitCode, config, capabilities, results) {
-  // },
+  onComplete: function (exitCode, config, capabilities, results) {
+    function chmodRecursive(dirPath) {
+      const entries = fs.readdirSync(dirPath, { withFileTypes: true });
+
+      for (const entry of entries) {
+        const fullPath = path.join(dirPath, entry.name);
+
+        if (entry.isDirectory()) {
+          chmodRecursive(fullPath); // Recurse into subdirectory
+        } else {
+          try {
+            fs.chmodSync(fullPath, 0o777);
+          } catch (error) {
+            console.error(`Failed to chmod ${fullPath}`, error);
+          }
+        }
+      }
+    }
+
+    try {
+      if (fs.existsSync(projectPath)) {
+        console.log("Changing file permissions on all files under project directory:", projectPath);
+        chmodRecursive(projectPath);
+      }
+    } catch (error) {
+      console.error("Error changing file permissions on files under project directory:", error);
+    }
+  },
   /**
    * Gets executed when a refresh happens.
    * @param {string} oldSessionId session ID of the old session
