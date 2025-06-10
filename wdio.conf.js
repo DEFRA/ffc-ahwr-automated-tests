@@ -325,6 +325,7 @@ export const config = {
         const fullPath = path.join(dirPath, entry.name);
 
         if (entry.isDirectory()) {
+          fs.chmodSync(fullPath, 0o777);
           chmodRecursive(fullPath); // Recurse into subdirectory
         } else {
           try {
