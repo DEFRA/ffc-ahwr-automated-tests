@@ -319,13 +319,18 @@ export const config = {
    */
   onComplete: function (exitCode, config, capabilities, results) {
     function chmodRecursive(dirPath) {
+      try {
+        fs.chmodSync(dirPath, 0o777);
+      } catch (error) {
+        console.error(`Failed to chmod ${dirPath}`, error);
+      }
+
       const entries = fs.readdirSync(dirPath, { withFileTypes: true });
 
       for (const entry of entries) {
         const fullPath = path.join(dirPath, entry.name);
 
         if (entry.isDirectory()) {
-          fs.chmodSync(fullPath, 0o777);
           chmodRecursive(fullPath); // Recurse into subdirectory
         } else {
           try {
