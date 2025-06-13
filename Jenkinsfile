@@ -66,6 +66,15 @@ pipeline {
                 sh './scripts/run_tests.sh postMH'
             }
         }
+
+         stage('Run compliance Tests') {
+            options {
+                timeout(time: 7, unit: 'MINUTES')
+            }
+            steps {
+                sh './scripts/run_tests.sh preMH 4'
+            }
+        }
     }
     post {
         always {

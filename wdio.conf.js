@@ -11,6 +11,7 @@ export const config = {
   // ====================
   // WebdriverIO supports running e2e tests as well as unit and component tests.
   runner: "local",
+  maxInstances: 1,
   //
   // ==================
   // Specify Test Files
@@ -29,15 +30,19 @@ export const config = {
   // specs: [],
   suites: {
     preMH: [
-      "./test/specs/test.apply.journeys.js",
-      "./test/specs/preMH/test.review-claim.journeys.js",
-      "./test/specs/preMH/test.follow-up-claim.journeys.js",
-      "./test/specs/preMH/test.dashboard.journeys.js",
+      // "./test/specs/test.apply.journeys.js",
+      // "./test/specs/preMH/test.review-claim.journeys.js",
+      // "./test/specs/preMH/test.follow-up-claim.journeys.js",
+      // "./test/specs/preMH/test.dashboard.journeys.js",
+      // "./test/specs/preMH/test.claim-compliance.journeys.js",
       "./test/specs/preMH/test.backoffice.journeys.js",
     ],
     postMH: [
       "./test/specs/test.apply.journeys.js",
       "./test/specs/postMH/test.review-claim.mh.journeys.js",
+    ],
+    comp: [
+      "./test/specs/test.claim-compliance.journey2.js",
     ],
   },
   // Patterns to exclude.
