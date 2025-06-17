@@ -46,9 +46,9 @@ export const HERD_NAME = "#herdName";
 
 export const HERD_CPH = "#herdCph";
 
-export const OTHER_HERDS_ON_SBI_YES = "#herdOthersOnSbi";
+export const OTHER_HERDS_ON_SBI_YES = "#isOnlyHerdOnSbi";
 
-export const OTHER_HERDS_ON_SBI_NO = "#herdOthersOnSbi-2";
+export const OTHER_HERDS_ON_SBI_NO = "#isOnlyHerdOnSbi-2";
 
 export function getConfirmCheckDetailsSelector(value) {
   return `input[name="confirmCheckDetails"][value="${value}"]`;
