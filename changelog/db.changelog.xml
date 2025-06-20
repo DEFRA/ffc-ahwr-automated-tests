@@ -42,5 +42,5 @@
   <include file="changelog/insert_beef_apply_review_claim.sql" />
   <include file="changelog/insert_mh_sheep_application.sql" />
   <include file="changelog/insert_on_hold_claim.sql" />
-  <include file="changelog/insert_compliance_check_application.sql" />
+  <include file="changelog/insert_compliance_checks_application.sql" />
 </databaseChangeLog>
