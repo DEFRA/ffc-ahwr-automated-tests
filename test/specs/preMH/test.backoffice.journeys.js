@@ -42,21 +42,16 @@ import {
 import {
   BACK_OFFICE_APPROVE_SBI,
   BACK_OFFICE_REJECT_SBI,
+  SHEEP_ENDEMIC_CLAIM_SBI,
   ON_HOLD_AGREEMENT_REF,
   ON_HOLD_CLAIM_REF,
 } from "../../utils/constants.js";
 
-const fillerSbis = [
-  "101122333",
-  "101122334",
-  "101122335",
-  "101122336",
-];
+const fillerSbis = ["106416234", "107361798", "107645299", "106258541"];
 
 describe("Backoffice journeys", async () => {
-
   it("can move a claim from 'In check' to 'Recommend to pay' and then to 'Ready to pay'", async () => {
-     for (const sbi of fillerSbis) {
+    for (const sbi of fillerSbis) {
       // await createAgreement(sbi);
       await createClaim(sbi);
     }

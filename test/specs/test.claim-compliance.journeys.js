@@ -25,8 +25,8 @@ const VISIT_DATE_DAY_SELECTOR = "#visit-date-day";
 const VISIT_DATE_MONTH_SELECTOR = "#visit-date-month";
 const VISIT_DATE_YEAR_SELECTOR = "#visit-date-year";
 const HERD_NAME_SELECTOR = "#herdName";
-const HERD_ID_2_SELECTOR = "#herdId-2";
-const HERD_REASONS_SELECTOR = "#herdReasons";
+// const HERD_ID_2_SELECTOR = "#herdId-2";
+// const HERD_REASONS_SELECTOR = "#herdReasons";
 const HERD_OTHERS_ON_SBI_SELECTOR = "#herdOthersOnSbi";
 const WHEN_TESTING_WAS_CARRIED_OUT_SELECTOR = "#whenTestingWasCarriedOut";
 const SPECIES_NUMBERS_SELECTOR = "#speciesNumbers";
@@ -41,24 +41,24 @@ const CONFIRM_YES_ANSWER = "yes";
 
 const sheepCases = [
   {
-    typeOfLiveStock: 'sheep',
-    typeOfReview: 'review',
-    herdName: 'sheeps',
-    cph: '22/333/4444',
+    typeOfLiveStock: "sheep",
+    typeOfReview: "review",
+    herdName: "sheeps",
+    cph: "22/333/4444",
     speciesNumber: "22",
-    urn: 'urn-111',
-    sbi: '123456789',
-  }
+    urn: "urn-111",
+    sbi: "123456789",
+  },
 ];
 const beefCases = [
   {
-    typeOfLiveStock: 'beef',
-    typeOfReview: 'review',
-    herdName: 'beefs',
-    cph: '11/333/4444',
+    typeOfLiveStock: "beef",
+    typeOfReview: "review",
+    herdName: "beefs",
+    cph: "11/333/4444",
     speciesNumber: "22",
-    urn: 'urn-222',
-    sbi: '123456788',
+    urn: "urn-222",
+    sbi: "123456788",
   },
   // {
   //   typeOfLiveStock: 'beef',
@@ -91,7 +91,7 @@ const pigCases = [
 ];
 
 async function clickContinueButton() {
-  const continueBtn = await $('button=Continue')
+  const continueBtn = await $("button=Continue");
   if (continueBtn.isExisting()) {
     await continueBtn.click();
   } else {
@@ -104,8 +104,7 @@ export async function clickOnElementAndContinue(selector) {
   await clickContinueButton();
 }
 
-describe("Test claim compliance checks", async function(){
-
+describe("Test claim compliance checks", async function () {
   for (const testCase of sheepCases) {
     it("can create a new review claim for the breeding herd of sheep", async () => {
       await browser.url(getDevSignInUrl("claim"));
@@ -175,12 +174,12 @@ describe("Test claim compliance checks", async function(){
 
       // const herdReasons = await $(HERD_REASONS_SELECTOR).isExisting()
       // if (herdReasons) {
-        // await clickOnElementAndContinue(HERD_REASONS_SELECTOR);
+      // await clickOnElementAndContinue(HERD_REASONS_SELECTOR);
       // } else {
-        await clickOnElementAndContinue(HERD_OTHERS_ON_SBI_SELECTOR);
+      await clickOnElementAndContinue(HERD_OTHERS_ON_SBI_SELECTOR);
       // }
 
-      await expect($('#main-content > div > div > h1').getText()).toEqual('Check herd details');
+      await expect($("#main-content > div > div > h1").getText()).toEqual("Check herd details");
 
       await clickContinueButton();
 
