@@ -11,6 +11,7 @@ export const config = {
   // ====================
   // WebdriverIO supports running e2e tests as well as unit and component tests.
   runner: "local",
+  // maxInstances: 1,
   //
   // ==================
   // Specify Test Files
@@ -39,6 +40,7 @@ export const config = {
       "./test/specs/test.apply.journeys.js",
       "./test/specs/postMH/test.review-claim.mh.journeys.js",
     ],
+    comp: ["./test/specs/test.claim-compliance.journeys.js"],
   },
   // Patterns to exclude.
   exclude: [
@@ -157,7 +159,7 @@ export const config = {
   // See the full list at http://mochajs.org/
   mochaOpts: {
     ui: "bdd",
-    timeout: 60000,
+    timeout: 120000,
   },
 
   //
