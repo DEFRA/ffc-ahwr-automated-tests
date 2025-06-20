@@ -18,6 +18,9 @@ import {
   LABORATORY_URN,
   SUBMIT_CLAIM_BUTTON,
   REFERENCE,
+  HERD_NAME,
+  HERD_CPH,
+  OTHER_HERDS_ON_SBI_NO,
   getTypeOfLivestockSelector,
   getTypeOfReviewSelector,
   getSpeciesNumbersSelector,
@@ -135,7 +138,7 @@ export async function createAgreement(sbi) {
   return agreementNumber;
 }
 
-export async function createClaim(sbi) {
+export async function createClaim(sbi, multipleHerdFlag = false) {
   await browser.url(getDevSignInUrl("claim"));
   await fillAndSubmitSBI(sbi);
   await $(getConfirmCheckDetailsSelector("yes")).click();
@@ -143,8 +146,20 @@ export async function createClaim(sbi) {
   await clickStartNewClaimButton();
   await clickOnElementAndContinue(getTypeOfLivestockSelector("sheep"));
   await clickOnElementAndContinue(getTypeOfReviewSelector("review"));
-  await enterVisitDateAndContinue();
+
+  if (multipleHerdFlag) {
+    await enterPostMHReleaseDateAndContinue();
+    await fillInputAndContinue(HERD_NAME, "Breeding herd");
+    await fillInputAndContinue(HERD_CPH, "22/333/4444");
+    await clickOnElementAndContinue(OTHER_HERDS_ON_SBI_NO);
+    await chooseRandomHerdReasonsAndContinue();
+    await clickContinueButton();
+  } else {
+    await enterVisitDateAndContinue();
+  }
+
   await enterWhenTestingWasCarriedOutAndContinue("whenTheVetVisitedTheFarmToCarryOutTheReview");
+
   await clickOnElementAndContinue(getSpeciesNumbersSelector("yes"));
   await fillInputAndContinue(NUMBER_OF_ANIMALS_TESTED, "10");
   await fillInputAndContinue(VETS_NAME, "Mr Auto Test");

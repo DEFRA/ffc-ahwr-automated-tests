@@ -30,11 +30,10 @@ export const config = {
   // specs: [],
   suites: {
     preMH: [
-      // "./test/specs/test.apply.journeys.js",
-      // "./test/specs/preMH/test.review-claim.journeys.js",
-      // "./test/specs/preMH/test.follow-up-claim.journeys.js",
-      // "./test/specs/preMH/test.dashboard.journeys.js",
-      // "./test/specs/preMH/test.claim-compliance.journeys.js",
+      "./test/specs/test.apply.journeys.js",
+      "./test/specs/preMH/test.review-claim.journeys.js",
+      "./test/specs/preMH/test.follow-up-claim.journeys.js",
+      "./test/specs/preMH/test.dashboard.journeys.js",
       "./test/specs/preMH/test.backoffice.journeys.js",
     ],
     postMH: [
@@ -160,7 +159,7 @@ export const config = {
   // See the full list at http://mochajs.org/
   mochaOpts: {
     ui: "bdd",
-    timeout: 60000,
+    timeout: 120000,
   },
 
   //

@@ -91,6 +91,6 @@ docker exec -i --user root "$WDIO_CONTAINER" npm run test:"$TEST_COMMAND" | tee 
 EXIT_CODE=${PIPESTATUS[0]}
 
 echo "🛑 Stopping services..."
-# docker compose down
+docker compose down
 
 exit $EXIT_CODE

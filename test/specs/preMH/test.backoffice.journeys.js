@@ -42,26 +42,18 @@ import {
 import {
   BACK_OFFICE_APPROVE_SBI,
   BACK_OFFICE_REJECT_SBI,
-  SHEEP_ENDEMIC_CLAIM_SBI,
   ON_HOLD_AGREEMENT_REF,
   ON_HOLD_CLAIM_REF,
 } from "../../utils/constants.js";
 
-const fillerSbis = ["106416234", "107361798", "107645299", "106258541"];
-
-describe("Backoffice journeys", async () => {
+describe("Backoffice journeys", () => {
   it("can move a claim from 'In check' to 'Recommend to pay' and then to 'Ready to pay'", async () => {
-    for (const sbi of fillerSbis) {
-      // await createAgreement(sbi);
-      await createClaim(sbi);
-    }
-
     const agreementNumber = await createAgreement(BACK_OFFICE_APPROVE_SBI);
     const claimNumber = await createClaim(BACK_OFFICE_APPROVE_SBI);
 
     await browser.url(getDevSignInUrl("backoffice"));
     await $(BO_AGREEMENTS_TAB).click();
-    const agreementRow = $(getAgreementNumberSelector(SHEEP_ENDEMIC_CLAIM_SBI)).parentElement();
+    const agreementRow = $(getAgreementNumberSelector(agreementNumber)).parentElement();
     await agreementRow.$(BO_VIEW_CLAIMS_LINK).click();
     await $(getViewClaimLinkSelector(claimNumber)).click();
     await $(BO_RECOMMEND_TO_PAY_BUTTON).click();
@@ -83,7 +75,7 @@ describe("Backoffice journeys", async () => {
     await expect($(BO_CLAIM_STATUS_TEXT)).toHaveText(expect.stringContaining("Ready to pay"));
   });
 
-  it.skip("can move a claim from 'In check' to 'Recommend to reject' and then to 'Rejected'", async () => {
+  it("can move a claim from 'In check' to 'Recommend to reject' and then to 'Rejected'", async () => {
     const agreementNumber = await createAgreement(BACK_OFFICE_REJECT_SBI);
     const claimNumber = await createClaim(BACK_OFFICE_REJECT_SBI);
 
@@ -113,7 +105,7 @@ describe("Backoffice journeys", async () => {
     await expect($(BO_CLAIM_STATUS_TEXT)).toHaveText(expect.stringContaining("Rejected"));
   });
 
-  it.skip("creates and deletes a flag for an agreement", async () => {
+  it("creates and deletes a flag for an agreement", async () => {
     // Agreement flag creation
     await browser.url(getDevSignInUrl("backoffice"));
     await $(BO_FLAGS_TAB).click();
@@ -134,7 +126,7 @@ describe("Backoffice journeys", async () => {
     expect(flaggedAgreementRows.length).toBe(0);
   });
 
-  it.skip("can move an on hold claim from 'On hold' to 'In check' and then to 'Recommend to reject', and finally 'Rejected'", async () => {
+  it("can move an on hold claim from 'On hold' to 'In check' and then to 'Recommend to reject', and finally 'Rejected'", async () => {
     await swapBackOfficeUser("Initial-user");
     await $(BO_AGREEMENTS_TAB).click();
     const agreementRow = $(getAgreementNumberSelector(ON_HOLD_AGREEMENT_REF)).parentElement();
@@ -170,7 +162,7 @@ describe("Backoffice journeys", async () => {
     await expect($(BO_CLAIM_STATUS_TEXT)).toHaveText(expect.stringContaining("Rejected"));
   });
 
-  it.skip("can search for a claim and view its information", async () => {
+  it("can search for a claim and view its information", async () => {
     await browser.url(getDevSignInUrl("backoffice"));
     await $(BO_CLAIM_SEARCH).setValue(ON_HOLD_CLAIM_REF);
     await $(BO_SEARCH_BUTTON).click();

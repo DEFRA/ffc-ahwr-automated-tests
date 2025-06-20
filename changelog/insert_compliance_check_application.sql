@@ -1,4 +1,4 @@
--- Script to insert an application and a review claim for sheep before doing a follow-up claim journey
+-- Script to insert 5 applications for compliance check 
 INSERT INTO
     public.application (
         id,
@@ -47,6 +47,16 @@ VALUES
         '19d3e386-c355-4aa3-ba1e-bb8fa57b3c4a',
         'IAHW-KH2H-WNA5',
         '{"type": "EE", "reference": "TEMP-KH2H-WNA5", "declaration": true, "offerStatus": "accepted", "organisation": {"crn": "1103161962", "sbi": "106258541", "name": "madeUpCo", "email": "ted+11@farm.com", "address": "Somewhere", "orgEmail": "org@company.com", "userType": "newUser", "farmerName": "Ted Holmes"}, "confirmCheckDetails": "yes"}',
+        '2025-02-01 18:44:49.782000 +00:00',
+        '2025-02-01 18:44:49.790000 +00:00',
+        'admin',
+        false,
+        1,
+        'EE'
+    ),(
+        'b5c91aef-3530-403c-bd23-9a03716ab9d9',
+        'IAHW-KH2H-WNA6',
+        '{"type": "EE", "reference": "TEMP-KH2H-WNA6", "declaration": true, "offerStatus": "accepted", "organisation": {"crn": "1103161962", "sbi": "107346082", "name": "madeUpCo", "email": "ted+11@farm.com", "address": "Somewhere", "orgEmail": "org@company.com", "userType": "newUser", "farmerName": "Ted Holmes"}, "confirmCheckDetails": "yes"}',
         '2025-02-01 18:44:49.782000 +00:00',
         '2025-02-01 18:44:49.790000 +00:00',
         'admin',

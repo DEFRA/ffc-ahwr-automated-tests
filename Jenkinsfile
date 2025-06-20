@@ -72,7 +72,7 @@ pipeline {
                 timeout(time: 7, unit: 'MINUTES')
             }
             steps {
-                sh './scripts/run_tests.sh preMH 4'
+                sh './scripts/run_tests.sh comp 5'
             }
         }
     }
