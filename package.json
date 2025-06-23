@@ -1,11 +1,12 @@
 {
   "name": "ffc-ahwr-automated-tests",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "Automated tests for AHWR services",
   "type": "module",
   "scripts": {
     "test:preMH": "wdio run wdio.conf.js --suite preMH",
     "test:postMH": "wdio run wdio.conf.js --suite postMH",
+    "test:comp": "wdio run wdio.conf.js --suite comp",
     "lint": "prettier . --check && eslint",
     "lint:fix": "prettier . --write && eslint --fix",
     "hooks": "cp -r hooks/. .git/hooks/ && chmod -R +x .git/hooks && echo 'hooks copied'"

@@ -3,18 +3,21 @@
 set -e
 
 TEST_COMMAND="$1"
+CLAIM_COMPLIANCE_CHECK_RATIO="$2"
 
 if [ -z "$TEST_COMMAND" ]; then
-  echo "❌ Error: No test command provided. Usage: ./run-tests.sh <preMH|postMH>"
+  echo "❌ Error: No test command provided. Usage: ./run-tests.sh <preMH|postMH|comp>"
   exit 1
 fi
 
 if [[ "$TEST_COMMAND" == "postMH" ]]; then
   MULTI_HERDS_ENABLED="true"
+elif [[ "$TEST_COMMAND" == "comp" ]]; then
+  MULTI_HERDS_ENABLED="true"
 elif [[ "$TEST_COMMAND" == "preMH" ]]; then
   MULTI_HERDS_ENABLED="false"
 else
-  echo "❌ Invalid TEST_COMMAND: $TEST_COMMAND (expected 'preMH' or 'postMH')"
+  echo "❌ Invalid TEST_COMMAND: $TEST_COMMAND (expected 'preMH' or 'postMH' or 'comp')"
   exit 1
 fi
 
@@ -52,13 +55,19 @@ fi
 echo "🚀 Starting services..."
 
 # Run docker compose after injecting secrets and replacing host IP placeholder
-sed -E \
-  -e "s|(MESSAGE_QUEUE_PASSWORD:).*|\1 ${MESSAGE_QUEUE_PASSWORD}|g" \
-  -e "s|(APPLICATIONINSIGHTS_CONNECTION_STRING:).*|\1 ${APPLICATIONINSIGHTS_CONNECTION_STRING}|g" \
-  -e "s|(AZURE_STORAGE_CONNECTION_STRING:).*|\1 ${AZURE_STORAGE_CONNECTION_STRING}|g" \
-  -e "s|(MULTI_HERDS_ENABLED:).*|\1 ${MULTI_HERDS_ENABLED}|g" \
-  -e "s|host.docker.internal:JENKINS-PORT|host.docker.internal:${HOST_INTERNAL_IP}|g" \
-  docker-compose.yml | docker compose -f - up -d
+SED_ARGS=(
+  -e "s|(MESSAGE_QUEUE_PASSWORD:).*|\1 ${MESSAGE_QUEUE_PASSWORD}|g"
+  -e "s|(APPLICATIONINSIGHTS_CONNECTION_STRING:).*|\1 ${APPLICATIONINSIGHTS_CONNECTION_STRING}|g"
+  -e "s|(AZURE_STORAGE_CONNECTION_STRING:).*|\1 ${AZURE_STORAGE_CONNECTION_STRING}|g"
+  -e "s|(MULTI_HERDS_ENABLED:).*|\1 ${MULTI_HERDS_ENABLED}|g"
+  -e "s|host.docker.internal:JENKINS-PORT|host.docker.internal:${HOST_INTERNAL_IP}|g"
+)
+
+if [[ -n "${CLAIM_COMPLIANCE_CHECK_RATIO:-}" ]]; then
+  SED_ARGS+=(-e "s|(CLAIM_COMPLIANCE_CHECK_RATIO:).*|\1 ${CLAIM_COMPLIANCE_CHECK_RATIO}|g")
+fi
+
+sed -E "${SED_ARGS[@]}" docker-compose.yml | docker compose -f - up -d
 
 WDIO_CONTAINER=$(docker ps -qf "name=wdio-tests")
 
