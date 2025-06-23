@@ -81,6 +81,8 @@ echo "🧪 Running WDIO tests: "$TEST_COMMAND""
 LOG_DIR="logs"
 if [[ "$TEST_COMMAND" == "postMH" ]]; then
   LOG_DIR="logsMH"
+elif [[ "$TEST_COMMAND" == "comp" ]]; then
+  LOG_DIR="logsComp"
 fi
 
 mkdir -p "$LOG_DIR"
