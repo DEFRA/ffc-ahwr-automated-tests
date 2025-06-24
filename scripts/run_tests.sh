@@ -12,10 +12,13 @@ fi
 
 if [[ "$TEST_COMMAND" == "postMH" ]]; then
   MULTI_HERDS_ENABLED="true"
-elif [[ "$TEST_COMMAND" == "comp" ]]; then
-  MULTI_HERDS_ENABLED="true"
 elif [[ "$TEST_COMMAND" == "preMH" ]]; then
   MULTI_HERDS_ENABLED="false"
+elif [[ "$TEST_COMMAND" == "comp" ]]; then
+  MULTI_HERDS_ENABLED="true"
+elif [[ "$TEST_COMMAND" == "compFA" ]]; then
+  MULTI_HERDS_ENABLED="true"
+  FEATURE_ASSURANCE_ENABLED="true"
 else
   echo "❌ Invalid TEST_COMMAND: $TEST_COMMAND (expected 'preMH' or 'postMH' or 'comp')"
   exit 1
@@ -66,6 +69,9 @@ SED_ARGS=(
 if [[ -n "${CLAIM_COMPLIANCE_CHECK_RATIO:-}" ]]; then
   SED_ARGS+=(-e "s|(CLAIM_COMPLIANCE_CHECK_RATIO:).*|\1 ${CLAIM_COMPLIANCE_CHECK_RATIO}|g")
 fi
+if [[ -n "${FEATURE_ASSURANCE_ENABLED:-}" ]]; then
+  SED_ARGS+=(-e "s|(FEATURE_ASSURANCE_ENABLED:).*|\1 ${FEATURE_ASSURANCE_ENABLED}|g")
+fi
 
 sed -E "${SED_ARGS[@]}" docker-compose.yml | docker compose -f - up -d
 
@@ -83,7 +89,10 @@ if [[ "$TEST_COMMAND" == "postMH" ]]; then
   LOG_DIR="logsMH"
 elif [[ "$TEST_COMMAND" == "comp" ]]; then
   LOG_DIR="logsComp"
+elif [[ "$TEST_COMMAND" == "compFA" ]]; then
+  LOG_DIR="logsCompFA"
 fi
+
 
 mkdir -p "$LOG_DIR"
 

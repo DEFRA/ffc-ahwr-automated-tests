@@ -41,6 +41,7 @@ export const config = {
       "./test/specs/postMH/test.review-claim.mh.journeys.js",
     ],
     comp: ["./test/specs/test.claim-compliance.journeys.js"],
+    compFA: ["./test/specs/test.claim-compliance-feature-assurance.journeys.js"],
   },
   // Patterns to exclude.
   exclude: [

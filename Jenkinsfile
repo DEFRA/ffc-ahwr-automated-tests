@@ -67,12 +67,21 @@ pipeline {
             }
         }
 
-         stage('Run compliance Tests') {
+        stage('Run compliance Tests') {
             options {
                 timeout(time: 7, unit: 'MINUTES')
             }
             steps {
                 sh './scripts/run_tests.sh comp 5'
+            }
+        }
+
+        stage('Run compliance feature assurance Tests') {
+            options {
+                timeout(time: 7, unit: 'MINUTES')
+            }
+            steps {
+                sh './scripts/run_tests.sh compFA 5'
             }
         }
     }
