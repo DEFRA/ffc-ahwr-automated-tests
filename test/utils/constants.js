@@ -11,3 +11,6 @@ export const MULTIPLE_HERDS_SBI = "123454321";
 // Below references from changelog/insert_on_hold_claim.sql
 export const ON_HOLD_AGREEMENT_REF = "IAHW-SCV6-E55L";
 export const ON_HOLD_CLAIM_REF = "REPI-UG9L-I1XP";
+
+// Below references from changelog/insert_mh_sheep_application.sql
+export const MULTIPLE_HERDS_SHEEP_AGREEMENT_REF = "IAHW-KH2H-WNA1";

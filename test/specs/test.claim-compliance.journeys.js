@@ -1,19 +1,12 @@
 import { browser, $, expect } from "@wdio/globals";
 
-import {
-  createClaim,
-  getDevSignInUrl
-} from "../utils/common.js";
+import { createClaim, getDevSignInUrl } from "../utils/common.js";
 
-
-import {
-  getAgreementNumberSelector,
-} from "../utils/backoffice-selectors.js";
+import { getAgreementNumberSelector } from "../utils/backoffice-selectors.js";
 
 const fillerSbis = ["106416234", "107361798", "107645299", "106258541", "107346082"];
 
 describe("Test claim compliance checks", async function () {
-
   beforeEach(async () => {
     for (const sbi of fillerSbis) {
       await createClaim(sbi, true);
