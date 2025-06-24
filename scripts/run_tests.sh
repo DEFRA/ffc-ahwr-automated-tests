@@ -93,7 +93,6 @@ elif [[ "$TEST_COMMAND" == "compFA" ]]; then
   LOG_DIR="logsCompFA"
 fi
 
-
 mkdir -p "$LOG_DIR"
 
 docker image ls --format "{{.Repository}}" | grep '^ffc-ahwr-' | grep -v '^ffc-ahwr-application-development$' | xargs -I {} sh -c "docker compose logs -f \"{}\" > $LOG_DIR/{}.log 2>&1 &"

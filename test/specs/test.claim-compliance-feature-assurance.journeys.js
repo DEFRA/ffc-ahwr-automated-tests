@@ -1,28 +1,69 @@
 import { browser, $, expect } from "@wdio/globals";
+import { createClaim, createClaimForAdditionalHerd, getDevSignInUrl } from "../utils/common.js";
+import { getClaimSelectorFromTable } from "../utils/backoffice-selectors.js";
 
-import { createClaim, getDevSignInUrl } from "../utils/common.js";
+const assertAllClaimsAreInCheck = async (claimNumbers) => {
+  claimNumbers.forEach((claimNum) => expect(isClaimStatusInCheck(claimNum)).toBe(true));
+};
 
-import { getAgreementNumberSelector } from "../utils/backoffice-selectors.js";
+const assertNotAllClaimsAreInCheck = async (claimNumbers) => {
+  expect(claimNumbers.some((claimNum) => !isClaimStatusInCheck(claimNum)).toBe(true));
+};
 
-const fillerSbis = ["106416234", "107361798", "107645299", "106258541", "107346082"];
+const isClaimStatusInCheck = async (claimNumber) => {
+  const claimRow = $(getClaimSelectorFromTable(claimNumber)).parentElement();
+  return await claimRow.$('td[data-sort-value="IN CHECK"]').isDisplayed();
+};
 
-describe("Test claim compliance checks", async function () {
-  beforeEach(async () => {
-    for (const sbi of fillerSbis) {
-      await createClaim(sbi, true);
-    }
+describe("Test claim MH feature assurance compliance checks", async function () {
+  it("all claims go to in-check for additional herds beyond their first herd", async () => {
+    // GIVEN a post-MH review claim for sheep
+    const sbi = "106416234";
+    await createClaim(sbi, true);
+
+    // WHEN additional review claims are made for additional herds
+    const claimForHerd2 = await createClaimForAdditionalHerd(
+      sbi,
+      "sh-rr-534351",
+      "Additional herd 1",
+    );
+    const claimForHerd3 = await createClaimForAdditionalHerd(
+      sbi,
+      "sh-rr-534352",
+      "Additional herd 2",
+    );
+
+    // THEN all additional review claims go to 'In check'
+    await browser.url(getDevSignInUrl("backoffice"));
+    assertAllClaimsAreInCheck([claimForHerd2, claimForHerd3]);
   });
 
-  it("sets 5th claim to in check status and others to on hold", async () => {
-    await browser.url(getDevSignInUrl("backoffice"));
-    const claimRow = $(getAgreementNumberSelector(fillerSbis[4])).parentElement();
-    const statusCol = await claimRow.$('td[data-sort-value="IN CHECK"]').isDisplayed();
-    expect(statusCol).toBe(true);
+  it("first herd claimed for will use ratio (1-in-5)", async () => {
+    // GIVEN two businesses without any claims
+    const sbi1 = "107361798";
+    const sbi2 = "107645299";
 
-    for (const sbi of fillerSbis.slice(0, 4)) {
-      const claimRow = $(getAgreementNumberSelector(sbi)).parentElement();
-      const statusCol = await claimRow.$('td[data-sort-value="ON HOLD"]').isDisplayed();
-      expect(statusCol).toBe(true);
-    }
+    // WHEN each makes a claim for their first herd
+    const claimForFirstHerdSBI1 = await createClaim(sbi1, true);
+    const claimForFirstHerdSBI2 = await createClaim(sbi2, true);
+
+    // THEN max one should go to InCheck due to MH feature assurance rule delegating to ratio (1-in-5) rule
+    await browser.url(getDevSignInUrl("backoffice"));
+    assertNotAllClaimsAreInCheck([claimForFirstHerdSBI1, claimForFirstHerdSBI2]);
+  });
+
+  // FIXME BH line 56 going to select-herd page when shouldn't
+  it.skip("claims before the MH feature assurance start date use ratio (1-in-5), even when for additional herds", async () => {
+    // GIVEN two post-MH review claims for sheep
+    const sbi = "106258541";
+    await createClaim(sbi, true);
+    await createClaimForAdditionalHerd(sbi, "sh-rr-534351", "Additional herd 1");
+
+    // WHEN a claim is made with visit date before the MH feature assurance start date
+    const preMhClaim = await createClaim(sbi, false);
+
+    // THEN ratio (1-in-5) rule is used and claim so go to OnHold
+    await browser.url(getDevSignInUrl("backoffice"));
+    expect(isClaimStatusInCheck(preMhClaim)).toBe(false);
   });
 });

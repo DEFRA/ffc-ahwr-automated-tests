@@ -97,3 +97,7 @@ export function getTestResultsSelector(value) {
 export function getBiosecuritySelector(value) {
   return `input[name="biosecurity"][value="${value}"]`;
 }
+
+export function getSelectHerdSelector(textValue) {
+  return `//div[contains(@class, "govuk-radios__item")][.//label[contains(normalize-space(), "${textValue}")]]//input`;
+}
