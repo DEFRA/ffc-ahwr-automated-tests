@@ -145,7 +145,7 @@ describe("Backoffice journeys", () => {
     await $(BO_CLAIM_SEARCH).setValue(ON_HOLD_CLAIM_REF);
     await $(BO_SEARCH_BUTTON).click();
     await $(getClaimSelectorFromTable(ON_HOLD_CLAIM_REF)).click();
-    const agreementSummary = $$("dl.govuk-summary-list")[0];
+    const agreementSummary = await $$("dl.govuk-summary-list")[0];
     const agreementReference = agreementSummary.$(
       ".govuk-summary-list__row .govuk-summary-list__value",
     );
@@ -154,7 +154,7 @@ describe("Backoffice journeys", () => {
 
     await $(BO_HISTORY_TAB).click();
 
-    const rows = $$("table.govuk-table tbody tr");
+    const rows = await $$("table.govuk-table tbody tr");
     await expect(rows.length).toBeGreaterThan(0);
   });
 });

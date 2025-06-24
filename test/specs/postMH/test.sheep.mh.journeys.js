@@ -28,6 +28,7 @@ import {
   getTestResultSelector,
   CLAIMS_MAIN_HEADING_SELECTOR,
   LABORATORY_URN,
+  EXTERNAL_GOV_LINK,
 } from "../../utils/selectors.js";
 import {
   HERD_NAME,
@@ -49,7 +50,7 @@ describe("Multiple herds - Review claim journeys for a flock of sheep", () => {
     claimNumber = await createSheepReviewClaim(MULTIPLE_HERDS_SBI, true);
   });
 
-  it("cannot create a sheep follow-up claim when its review claim is not approved", async () => {
+  it("cannot create a follow-up claim for a flock of sheep when its review claim is not approved", async () => {
     await browser.url(getDevSignInUrl("claim"));
     await fillAndSubmitSBI(MULTIPLE_HERDS_SBI);
     await $(getConfirmCheckDetailsSelector("yes")).click();
@@ -63,9 +64,14 @@ describe("Multiple herds - Review claim journeys for a flock of sheep", () => {
     await expect($(CLAIMS_MAIN_HEADING_SELECTOR)).toHaveText(
       expect.stringContaining("You cannot continue with your claim"),
     );
+    await expect($(EXTERNAL_GOV_LINK)).toHaveText(
+      expect.stringContaining(
+        "Your review claim must have been approved before you claim for the follow-up that happened after it.",
+      ),
+    );
   });
 
-  it("cannot create a sheep follow-up claim when a review claim hasn't been created", async () => {
+  it("cannot create follow-up claim for a different flock of sheep when a review claim hasn't been created and approved for it", async () => {
     await browser.url(getDevSignInUrl("claim"));
     await fillAndSubmitSBI(MULTIPLE_HERDS_SBI);
     await $(getConfirmCheckDetailsSelector("yes")).click();
@@ -79,9 +85,17 @@ describe("Multiple herds - Review claim journeys for a flock of sheep", () => {
     await expect($(CLAIMS_MAIN_HEADING_SELECTOR)).toHaveText(
       expect.stringContaining("You cannot continue with your claim"),
     );
+    await expect($(EXTERNAL_GOV_LINK)).toHaveText(
+      expect.stringContaining("Your review claim must have been approved"),
+    );
+    await expect($(EXTERNAL_GOV_LINK)).toHaveText(
+      expect.stringContaining(
+        "You must have an approved review claim for the different herd or flock, before you can claim for a follow-up.",
+      ),
+    );
   });
 
-  it("can create a sheep follow-up claim when its review claim is approved", async () => {
+  it("can create a follow-up claim when a review claim is approved for a flock of sheep", async () => {
     await approveClaim(MULTIPLE_HERDS_SHEEP_AGREEMENT_REF, claimNumber);
 
     await browser.url(getDevSignInUrl("claim"));
@@ -108,7 +122,7 @@ describe("Multiple herds - Review claim journeys for a flock of sheep", () => {
     await expect($(REFERENCE)).toHaveText(expect.stringContaining("FUSH"));
   });
 
-  it("can create a second review claim for a flock of sheep for the same business", async () => {
+  it("can create a second review claim for a different flock of sheep for the same business", async () => {
     await browser.url(getDevSignInUrl("claim"));
     await fillAndSubmitSBI(MULTIPLE_HERDS_SBI);
     await $(getConfirmCheckDetailsSelector("yes")).click();
