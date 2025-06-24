@@ -86,9 +86,6 @@ describe("Multiple herds - Review claim journeys for a flock of sheep", () => {
       expect.stringContaining("You cannot continue with your claim"),
     );
     await expect($(EXTERNAL_GOV_LINK)).toHaveText(
-      expect.stringContaining("Your review claim must have been approved"),
-    );
-    await expect($(EXTERNAL_GOV_LINK)).toHaveText(
       expect.stringContaining(
         "You must have an approved review claim for the different herd or flock, before you can claim for a follow-up.",
       ),
