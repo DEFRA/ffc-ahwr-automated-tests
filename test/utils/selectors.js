@@ -42,13 +42,7 @@ export const START_NEW_CLAIM_BUTTON = "#start";
 
 export const MANAGE_YOUR_CLAIMS_LINK = 'a[href*="/vet-visits"]';
 
-export const HERD_NAME = "#herdName";
-
-export const HERD_CPH = "#herdCph";
-
-export const OTHER_HERDS_ON_SBI_YES = "#isOnlyHerdOnSbi";
-
-export const OTHER_HERDS_ON_SBI_NO = "#isOnlyHerdOnSbi-2";
+export const EXTERNAL_GOV_LINK = '.govuk-link[rel="external"]';
 
 export function getConfirmCheckDetailsSelector(value) {
   return `input[name="confirmCheckDetails"][value="${value}"]`;
