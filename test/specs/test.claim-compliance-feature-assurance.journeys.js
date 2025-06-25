@@ -1,5 +1,10 @@
 import { browser, $, expect } from "@wdio/globals";
-import { createClaim, createClaimForAdditionalHerd, getDevSignInUrl } from "../utils/common.js";
+import {
+  createClaim,
+  createClaimForAdditionalHerd,
+  getDevSignInUrl,
+  enterPreMHReleaseDateAndContinue,
+} from "../utils/common.js";
 import { getClaimSelectorFromTable } from "../utils/backoffice-selectors.js";
 
 const assertAllClaimsAreInCheck = async (claimNumbers) => {
@@ -52,7 +57,6 @@ describe("Test claim MH feature assurance compliance checks", async function () 
     assertNotAllClaimsAreInCheck([claimForFirstHerdSBI1, claimForFirstHerdSBI2]);
   });
 
-  // FIXME BH line 56 going to select-herd page when shouldn't
   it.skip("claims before the MH feature assurance start date use ratio (1-in-5), even when for additional herds", async () => {
     // GIVEN two post-MH review claims for sheep
     const sbi = "106258541";
@@ -60,7 +64,7 @@ describe("Test claim MH feature assurance compliance checks", async function () 
     await createClaimForAdditionalHerd(sbi, "sh-rr-534351", "Additional herd 1");
 
     // WHEN a claim is made with visit date before the MH feature assurance start date
-    const preMhClaim = await createClaim(sbi, false);
+    const preMhClaim = await createClaim(sbi, false, enterPreMHReleaseDateAndContinue);
 
     // THEN ratio (1-in-5) rule is used and claim so go to OnHold
     await browser.url(getDevSignInUrl("backoffice"));

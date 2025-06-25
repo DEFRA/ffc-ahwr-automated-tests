@@ -146,7 +146,11 @@ export async function createAgreement(sbi) {
   return agreementNumber;
 }
 
-export async function createClaim(sbi, multipleHerdFlag = false) {
+export async function createClaim(
+  sbi,
+  multipleHerdFlag = false,
+  enterVisitDateAndContinueFunc = enterVisitDateAndContinue,
+) {
   await browser.url(getDevSignInUrl("claim"));
   await fillAndSubmitSBI(sbi);
   await $(getConfirmCheckDetailsSelector("yes")).click();
@@ -163,7 +167,7 @@ export async function createClaim(sbi, multipleHerdFlag = false) {
     await chooseRandomHerdReasonsAndContinue();
     await clickContinueButton();
   } else {
-    await enterPreMHReleaseDateAndContinue();
+    await enterVisitDateAndContinueFunc();
   }
 
   await enterWhenTestingWasCarriedOutAndContinue("whenTheVetVisitedTheFarmToCarryOutTheReview");
