@@ -57,7 +57,7 @@ describe("Test claim MH feature assurance compliance checks", async function () 
     assertNotAllClaimsAreInCheck([claimForFirstHerdSBI1, claimForFirstHerdSBI2]);
   });
 
-  it.skip("claims before the MH feature assurance start date use ratio (1-in-5), even when for additional herds", async () => {
+  it("claims before the MH feature assurance start date use ratio (1-in-5), even when for additional herds", async () => {
     // GIVEN two post-MH review claims for sheep
     const sbi = "106258541";
     await createClaim(sbi, true);
