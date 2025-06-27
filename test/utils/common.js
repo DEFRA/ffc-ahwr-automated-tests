@@ -149,8 +149,8 @@ export async function createAgreement(sbi) {
 export async function createClaim(
   sbi,
   multipleHerdFlag = false,
+  urn = "sh-rr-534346",
   enterVisitDateAndContinueFunc = enterVisitDateAndContinue,
-  labURN = "sh-rr-534346",
 ) {
   await browser.url(getDevSignInUrl("claim"));
   await fillAndSubmitSBI(sbi);
@@ -177,7 +177,7 @@ export async function createClaim(
   await fillInputAndContinue(NUMBER_OF_ANIMALS_TESTED, "10");
   await fillInputAndContinue(VETS_NAME, "Mr Auto Test");
   await fillInputAndContinue(VET_RCVS_NUMBER, "1234567");
-  await fillInputAndContinue(LABORATORY_URN, labURN);
+  await fillInputAndContinue(LABORATORY_URN, urn);
   await $(SUBMIT_CLAIM_BUTTON).click();
   await verifySubmission("Claim complete");
   await expect($(REFERENCE)).toHaveText(expect.stringContaining("RESH"));
