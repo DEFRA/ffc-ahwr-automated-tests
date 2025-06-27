@@ -38,7 +38,7 @@ export const config = {
     ],
     postMH: [
       "./test/specs/test.apply.journeys.js",
-      "./test/specs/postMH/test.review-claim.mh.journeys.js",
+      "./test/specs/postMH/test.sheep.mh.journeys.js",
     ],
     comp: ["./test/specs/test.claim-compliance.journeys.js"],
     compFA: ["./test/specs/test.claim-compliance-feature-assurance.journeys.js"],

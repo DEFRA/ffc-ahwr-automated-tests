@@ -18,15 +18,17 @@ import {
   LABORATORY_URN,
   SUBMIT_CLAIM_BUTTON,
   REFERENCE,
-  getSelectHerdSelector,
-  HERD_NAME,
-  HERD_CPH,
-  OTHER_HERDS_ON_SBI_NO,
   getTypeOfLivestockSelector,
   getTypeOfReviewSelector,
   getSpeciesNumbersSelector,
   getConfirmCheckDetailsSelector,
 } from "./selectors.js";
+import {
+  HERD_NAME,
+  HERD_CPH,
+  OTHER_HERDS_ON_SBI_NO,
+  getSelectHerdSelector,
+} from "./multiple-herd-selectors.js";
 
 export function getDevSignInUrl(type) {
   const baseUrls = {
@@ -146,7 +148,7 @@ export async function createAgreement(sbi) {
   return agreementNumber;
 }
 
-export async function createClaim(
+export async function createSheepReviewClaim(
   sbi,
   multipleHerdFlag = false,
   urn = "sh-rr-534346",
@@ -162,7 +164,7 @@ export async function createClaim(
 
   if (multipleHerdFlag) {
     await enterPostMHReleaseDateAndContinue();
-    await fillInputAndContinue(HERD_NAME, "Breeding herd");
+    await fillInputAndContinue(HERD_NAME, "Breeding flock");
     await fillInputAndContinue(HERD_CPH, "22/333/4444");
     await clickOnElementAndContinue(OTHER_HERDS_ON_SBI_NO);
     await chooseRandomHerdReasonsAndContinue();
@@ -186,7 +188,7 @@ export async function createClaim(
   return claimNumber;
 }
 
-export async function createClaimForAdditionalHerd(
+export async function createSheepReviewForAdditionalHerd(
   sbi,
   urn = "sh-rr-534351",
   herd = "Additional herd 1",
