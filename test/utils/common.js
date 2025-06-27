@@ -23,7 +23,12 @@ import {
   getSpeciesNumbersSelector,
   getConfirmCheckDetailsSelector,
 } from "./selectors.js";
-import { HERD_NAME, HERD_CPH, OTHER_HERDS_ON_SBI_NO } from "./multiple-herd-selectors.js";
+import {
+  HERD_NAME,
+  HERD_CPH,
+  OTHER_HERDS_ON_SBI_NO,
+  getSelectHerdSelector,
+} from "./multiple-herd-selectors.js";
 
 export function getDevSignInUrl(type) {
   const baseUrls = {
@@ -55,6 +60,13 @@ export async function enterVisitDateAndContinue() {
   await $(VISIT_DATE_DAY).setValue(day);
   await $(VISIT_DATE_MONTH).setValue(month);
   await $(VISIT_DATE_YEAR).setValue(year);
+  await clickContinueButton();
+}
+
+export async function enterPreMHReleaseDateAndContinue() {
+  await $(VISIT_DATE_DAY).setValue("30");
+  await $(VISIT_DATE_MONTH).setValue("4");
+  await $(VISIT_DATE_YEAR).setValue("2025");
   await clickContinueButton();
 }
 
@@ -136,7 +148,12 @@ export async function createAgreement(sbi) {
   return agreementNumber;
 }
 
-export async function createSheepReviewClaim(sbi, multipleHerdFlag = false) {
+export async function createSheepReviewClaim(
+  sbi,
+  multipleHerdFlag = false,
+  urn = "sh-rr-534346",
+  enterVisitDateAndContinueFunc = enterVisitDateAndContinue,
+) {
   await browser.url(getDevSignInUrl("claim"));
   await fillAndSubmitSBI(sbi);
   await $(getConfirmCheckDetailsSelector("yes")).click();
@@ -153,7 +170,7 @@ export async function createSheepReviewClaim(sbi, multipleHerdFlag = false) {
     await chooseRandomHerdReasonsAndContinue();
     await clickContinueButton();
   } else {
-    await enterVisitDateAndContinue();
+    await enterVisitDateAndContinueFunc();
   }
 
   await enterWhenTestingWasCarriedOutAndContinue("whenTheVetVisitedTheFarmToCarryOutTheReview");
@@ -162,7 +179,43 @@ export async function createSheepReviewClaim(sbi, multipleHerdFlag = false) {
   await fillInputAndContinue(NUMBER_OF_ANIMALS_TESTED, "10");
   await fillInputAndContinue(VETS_NAME, "Mr Auto Test");
   await fillInputAndContinue(VET_RCVS_NUMBER, "1234567");
-  await fillInputAndContinue(LABORATORY_URN, "sh-rr-534346");
+  await fillInputAndContinue(LABORATORY_URN, urn);
+  await $(SUBMIT_CLAIM_BUTTON).click();
+  await verifySubmission("Claim complete");
+  await expect($(REFERENCE)).toHaveText(expect.stringContaining("RESH"));
+  const claimNumber = await $(REFERENCE).getText();
+
+  return claimNumber;
+}
+
+export async function createSheepReviewForAdditionalHerd(
+  sbi,
+  urn = "sh-rr-534351",
+  herd = "Additional herd 1",
+) {
+  await browser.url(getDevSignInUrl("claim"));
+  await fillAndSubmitSBI(sbi);
+  await $(getConfirmCheckDetailsSelector("yes")).click();
+  await clickSubmitButton();
+  await clickStartNewClaimButton();
+  await clickOnElementAndContinue(getTypeOfLivestockSelector("sheep"));
+  await clickOnElementAndContinue(getTypeOfReviewSelector("review"));
+  await enterPostMHReleaseDateAndContinue();
+
+  await clickOnElementAndContinue(getSelectHerdSelector("a different "));
+  await fillInputAndContinue(HERD_NAME, herd);
+  await fillInputAndContinue(HERD_CPH, "22/333/4444");
+  await chooseRandomHerdReasonsAndContinue();
+  await clickContinueButton();
+
+  await enterWhenTestingWasCarriedOutAndContinue("whenTheVetVisitedTheFarmToCarryOutTheReview");
+
+  await clickOnElementAndContinue(getSpeciesNumbersSelector("yes"));
+  await fillInputAndContinue(NUMBER_OF_ANIMALS_TESTED, "10");
+  await fillInputAndContinue(VETS_NAME, "Mr Auto Test");
+  await fillInputAndContinue(VET_RCVS_NUMBER, "1234567");
+  await fillInputAndContinue(LABORATORY_URN, urn);
+
   await $(SUBMIT_CLAIM_BUTTON).click();
   await verifySubmission("Claim complete");
   await expect($(REFERENCE)).toHaveText(expect.stringContaining("RESH"));

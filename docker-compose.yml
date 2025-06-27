@@ -117,6 +117,8 @@ services:
       MESSAGE_GENERATOR_QUEUE_ADDRESS: ${MESSAGE_GENERATOR_QUEUE_ADDRESS:-ffc-ahwr-message-generator}${MESSAGE_QUEUE_SUFFIX}
       STORE_HISTORY_IN_DB_ENABLED: "true"
       MULTI_HERDS_ENABLED: false
+      FEATURE_ASSURANCE_ENABLED: false
+      FEATURE_ASSURANCE_START: "2025-05-01"
 
   ffc-ahwr-application-postgres:
     networks:
