@@ -71,3 +71,7 @@ export function getAgreeToMultipleHerdTermsSelector(value) {
 export function getFlaggedAgreementRowSelector(agreementNumber, multipleHerdTermsValue) {
   return `//tr[td[contains(text(), "${agreementNumber}")] and td[text()="${multipleHerdTermsValue}"]]`;
 }
+
+export function getClaimTableStatusColumnIfStatusSelector(status) {
+  return `td[data-sort-value="${status}"]`;
+}

@@ -1,32 +1,17 @@
-import { browser, $, expect } from "@wdio/globals";
+import { browser } from "@wdio/globals";
 import {
   createSheepReviewClaim,
   createSheepReviewForAdditionalHerd,
   getDevSignInUrl,
   enterPreMHReleaseDateAndContinue,
 } from "../utils/common.js";
-import { getClaimSelectorFromTable } from "../utils/backoffice-selectors.js";
-
-const assertAllClaimsAreInCheck = async (claimNumbers) => {
-  claimNumbers.forEach((claimNum) => expect(isClaimStatusInCheck(claimNum)).toBe(true));
-};
-
-const assertSomeClaimsAreOnHold = async (claimNumbers) => {
-  expect(claimNumbers.some((claimNum) => isClaimStatusOnHold(claimNum)).toBe(true));
-};
-
-const isClaimStatusInCheck = async (claimNumber) => {
-  const claimRow = $(getClaimSelectorFromTable(claimNumber)).parentElement();
-  return await claimRow.$('td[data-sort-value="IN CHECK"]').isDisplayed();
-};
-
-const isClaimStatusOnHold = async (claimNumber) => {
-  const claimRow = $(getClaimSelectorFromTable(claimNumber)).parentElement();
-  return await claimRow.$('td[data-sort-value="ON HOLD"]').isDisplayed();
-};
+import {
+  assertAllClaimsAreInCheck,
+  assertSomeClaimsAreOnHold,
+} from "../utils/common-assertions.js";
 
 describe("Test claim MH feature assurance compliance checks", async function () {
-  it("all claims go to in-check once a user has claimed for more than one herd of a given species", async () => {
+  it("moves all claims to in-check once a user has claimed for more than one herd of a given species", async () => {
     // GIVEN a post-MH review claim for sheep
     const sbi = "106416234";
     await createSheepReviewClaim(sbi, true);
@@ -48,7 +33,7 @@ describe("Test claim MH feature assurance compliance checks", async function () 
     assertAllClaimsAreInCheck([claimForHerd2, claimForHerd3]);
   });
 
-  it("first herd claimed for will use ratio (1-in-5)", async () => {
+  it("uses the ratio (1-in-5) check when user claiming for their first herd", async () => {
     // GIVEN two businesses without any claims
     const sbi1 = "107361798";
     const sbi2 = "107645299";
@@ -62,7 +47,7 @@ describe("Test claim MH feature assurance compliance checks", async function () 
     assertSomeClaimsAreOnHold([claimForFirstHerdSBI1, claimForFirstHerdSBI2]);
   });
 
-  it("claims before the MH feature assurance start date use ratio (1-in-5), even when user has claimed for more than one herd", async () => {
+  it("uses ratio (1-in-5) check when claim is before the MH feature assurance start date, even if user has claimed for more than one herd", async () => {
     // GIVEN two post-MH review claims for sheep
     const sbi1 = "106258541";
     await createSheepReviewClaim(sbi1, true);
