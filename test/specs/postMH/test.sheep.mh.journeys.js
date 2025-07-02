@@ -4,7 +4,7 @@ import {
   fillAndSubmitSBI,
   clickSubmitButton,
   clickOnElementAndContinue,
-  enterPostMHReleaseDateAndContinue,
+  enterVisitDateAndContinue,
   fillInputAndContinue,
   verifySubmission,
   clickStartNewClaimButton,
@@ -58,7 +58,7 @@ describe("Multiple herds - Review claim journeys for a flock of sheep", () => {
     await clickStartNewClaimButton();
     await clickOnElementAndContinue(getTypeOfLivestockSelector("sheep"));
     await clickOnElementAndContinue(getTypeOfReviewSelector("endemics"));
-    await enterPostMHReleaseDateAndContinue();
+    await enterVisitDateAndContinue();
     await clickOnElementAndContinue(SAME_HERD_PREVIOUSLY_CLAIMED_YES);
 
     await expect($(CLAIMS_MAIN_HEADING_SELECTOR)).toHaveText(
@@ -79,7 +79,7 @@ describe("Multiple herds - Review claim journeys for a flock of sheep", () => {
     await clickStartNewClaimButton();
     await clickOnElementAndContinue(getTypeOfLivestockSelector("sheep"));
     await clickOnElementAndContinue(getTypeOfReviewSelector("endemics"));
-    await enterPostMHReleaseDateAndContinue();
+    await enterVisitDateAndContinue();
     await clickOnElementAndContinue(SAME_HERD_PREVIOUSLY_CLAIMED_NO);
 
     await expect($(CLAIMS_MAIN_HEADING_SELECTOR)).toHaveText(
@@ -102,7 +102,7 @@ describe("Multiple herds - Review claim journeys for a flock of sheep", () => {
     await clickStartNewClaimButton();
     await clickOnElementAndContinue(getTypeOfLivestockSelector("sheep"));
     await clickOnElementAndContinue(getTypeOfReviewSelector("endemics"));
-    await enterPostMHReleaseDateAndContinue();
+    await enterVisitDateAndContinue();
     await clickOnElementAndContinue(SAME_HERD_PREVIOUSLY_CLAIMED_YES);
     await clickContinueButton();
     await enterWhenTestingWasCarriedOutAndContinue("whenTheVetVisitedTheFarmToCarryOutTheReview");
@@ -128,7 +128,7 @@ describe("Multiple herds - Review claim journeys for a flock of sheep", () => {
     await clickOnElementAndContinue(getTypeOfLivestockSelector("sheep"));
     await clickOnElementAndContinue(getTypeOfReviewSelector("review"));
 
-    await enterPostMHReleaseDateAndContinue();
+    await enterVisitDateAndContinue();
     await clickOnElementAndContinue(SAME_HERD_PREVIOUSLY_CLAIMED_NO);
     await fillInputAndContinue(HERD_NAME, "Commercial flocks");
     await fillInputAndContinue(HERD_CPH, "22/333/4444");
