@@ -70,13 +70,6 @@ export async function enterPreMHReleaseDateAndContinue() {
   await clickContinueButton();
 }
 
-export async function enterPostMHReleaseDateAndContinue() {
-  await $(VISIT_DATE_DAY).setValue("5");
-  await $(VISIT_DATE_MONTH).setValue("5");
-  await $(VISIT_DATE_YEAR).setValue("2025");
-  await clickContinueButton();
-}
-
 export async function chooseRandomHerdReasonsAndContinue() {
   const count = Math.floor(Math.random() * 5) + 1;
 
@@ -162,15 +155,14 @@ export async function createSheepReviewClaim(
   await clickOnElementAndContinue(getTypeOfLivestockSelector("sheep"));
   await clickOnElementAndContinue(getTypeOfReviewSelector("review"));
 
+  await enterVisitDateAndContinueFunc();
+
   if (multipleHerdFlag) {
-    await enterPostMHReleaseDateAndContinue();
     await fillInputAndContinue(HERD_NAME, "Breeding flock");
     await fillInputAndContinue(HERD_CPH, "22/333/4444");
     await clickOnElementAndContinue(OTHER_HERDS_ON_SBI_NO);
     await chooseRandomHerdReasonsAndContinue();
     await clickContinueButton();
-  } else {
-    await enterVisitDateAndContinueFunc();
   }
 
   await enterWhenTestingWasCarriedOutAndContinue("whenTheVetVisitedTheFarmToCarryOutTheReview");
@@ -200,7 +192,7 @@ export async function createSheepReviewForAdditionalHerd(
   await clickStartNewClaimButton();
   await clickOnElementAndContinue(getTypeOfLivestockSelector("sheep"));
   await clickOnElementAndContinue(getTypeOfReviewSelector("review"));
-  await enterPostMHReleaseDateAndContinue();
+  await enterVisitDateAndContinue();
 
   await clickOnElementAndContinue(getSelectHerdSelector("a different "));
   await fillInputAndContinue(HERD_NAME, herd);

@@ -34,11 +34,11 @@ export const config = {
       "./test/specs/preMH/test.review-claim.journeys.js",
       "./test/specs/preMH/test.follow-up-claim.journeys.js",
       "./test/specs/preMH/test.dashboard.journeys.js",
-      "./test/specs/preMH/test.backoffice.journeys.js",
     ],
     postMH: [
       "./test/specs/test.apply.journeys.js",
       "./test/specs/postMH/test.sheep.mh.journeys.js",
+      "./test/specs/postMH/test.backoffice.journeys.js",
     ],
     comp: ["./test/specs/test.claim-compliance.journeys.js"],
     compFA: ["./test/specs/test.claim-compliance-feature-assurance.journeys.js"],
