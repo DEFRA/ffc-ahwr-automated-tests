@@ -47,12 +47,10 @@ describe("Pre-MH journeys for sheep when MH is switched on", () => {
     await enterPreMHReleaseDateAndContinue();
 
     await expect($(CLAIMS_MAIN_HEADING_SELECTOR)).toHaveText(
-      expect.stringContaining("You cannot continue with your claim")
+      expect.stringContaining("You cannot continue with your claim"),
     );
     await expect($(EXTERNAL_GOV_LINK)).toHaveText(
-      expect.stringContaining(
-        "There must be at least 10 months between your reviews."
-      )
+      expect.stringContaining("There must be at least 10 months between your reviews."),
     );
   });
 
@@ -76,16 +74,12 @@ describe("Pre-MH journeys for sheep when MH is switched on", () => {
 
     await enterPreMHReleaseDateAndContinue();
 
-    await enterWhenTestingWasCarriedOutAndContinue(
-      "whenTheVetVisitedTheFarmToCarryOutTheReview"
-    );
+    await enterWhenTestingWasCarriedOutAndContinue("whenTheVetVisitedTheFarmToCarryOutTheReview");
     await clickOnElementAndContinue(getSpeciesNumbersSelector("yes"));
     await fillInputAndContinue(NUMBER_OF_ANIMALS_TESTED, "10");
     await fillInputAndContinue(VETS_NAME, "Mr Auto Test");
     await fillInputAndContinue(VET_RCVS_NUMBER, "1234567");
-    await clickOnElementAndContinue(
-      getSheepEndemicsPackageSelector("improvedEwePerformance")
-    );
+    await clickOnElementAndContinue(getSheepEndemicsPackageSelector("improvedEwePerformance"));
     await selectSheepTestsAndContinue([JOHNES_DISEASE]);
     await clickOnElementAndContinue(getTestResultSelector("positive"));
     await $(SUBMIT_CLAIM_BUTTON).click();

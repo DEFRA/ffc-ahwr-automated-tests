@@ -37,6 +37,7 @@ export const config = {
     ],
     postMH: [
       "./test/specs/test.apply.journeys.js",
+      "./test/specs/postMH/test.pre.mh.journeys.js",
       "./test/specs/postMH/test.sheep.mh.journeys.js",
       "./test/specs/postMH/test.backoffice.journeys.js",
     ],
