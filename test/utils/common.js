@@ -143,10 +143,12 @@ export async function createAgreement(sbi) {
 
 export async function createSheepReviewClaim(
   sbi,
-  multipleHerdFlag = false,
-  urn = "sh-rr-534346",
-  enterVisitDateAndContinueFunc = enterVisitDateAndContinue,
-  isUnnamedHerdClaimPresent = false,
+  {
+    multipleHerdFlag = false,
+    urn = "sh-rr-534346",
+    enterVisitDateAndContinueFunc = enterVisitDateAndContinue,
+    isUnnamedHerdClaimPresent = false,
+  } = {},
 ) {
   await browser.url(getDevSignInUrl("claim"));
   await fillAndSubmitSBI(sbi);
@@ -167,7 +169,7 @@ export async function createSheepReviewClaim(
   }
 
   if (isUnnamedHerdClaimPresent) {
-    await clickOnElementAndContinue(getSelectHerdSelector("a different "));
+    await clickOnElementAndContinue(getSelectHerdSelector("a different flock"));
   }
 
   await enterWhenTestingWasCarriedOutAndContinue("whenTheVetVisitedTheFarmToCarryOutTheReview");
