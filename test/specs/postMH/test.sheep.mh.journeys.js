@@ -47,7 +47,9 @@ let claimNumber;
 
 describe("Multiple herds - Review claim journeys for a flock of sheep", () => {
   it("can create the first review claim for a flock of sheep", async () => {
-    claimNumber = await createSheepReviewClaim(MULTIPLE_HERDS_SBI, true);
+    claimNumber = await createSheepReviewClaim(MULTIPLE_HERDS_SBI, {
+      multipleHerdFlag: true,
+    });
   });
 
   it("cannot create a follow-up claim for a flock of sheep when its review claim is not approved", async () => {
@@ -141,7 +143,7 @@ describe("Multiple herds - Review claim journeys for a flock of sheep", () => {
     await fillInputAndContinue(NUMBER_OF_ANIMALS_TESTED, "10");
     await fillInputAndContinue(VETS_NAME, "Mr Auto Test");
     await fillInputAndContinue(VET_RCVS_NUMBER, "1234567");
-    await fillInputAndContinue(LABORATORY_URN, "sh-rr-534347");
+    await fillInputAndContinue(LABORATORY_URN, "sh-rr-534344");
     await $(SUBMIT_CLAIM_BUTTON).click();
     await verifySubmission("Claim complete");
     await expect($(REFERENCE)).toHaveText(expect.stringContaining("RESH"));

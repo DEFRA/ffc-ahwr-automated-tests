@@ -25,6 +25,7 @@ services:
       - "3003:3000"
     depends_on:
       - redis
+      - ffc-ahwr-application
     environment:
       APPINSIGHTS_CLOUDROLE: ffc-ahwr-dashboard-local
       APPLICATIONINSIGHTS_CONNECTION_STRING: random-value
@@ -168,6 +169,7 @@ services:
       - "3000:3000"
     depends_on:
       - redis
+      - ffc-ahwr-application
     environment:
       APPINSIGHTS_CLOUDROLE: ffc-ahwr-farmer-apply-local
       GOOGLE_TAG_MANAGER_KEY: random-value
@@ -225,6 +227,7 @@ services:
       - "3004:3000"
     depends_on:
       - redis
+      - ffc-ahwr-application
     environment:
       APPINSIGHTS_CLOUDROLE: ffc-ahwr-farmer-claim-local
       APPLICATIONINSIGHTS_CONNECTION_STRING: random-value
@@ -251,16 +254,6 @@ services:
       DEFRA_ID_CLIENT_ID: random-value
       DEFRA_ID_CLIENT_SECRET: random-value
       DEFRA_ID_SERVICE_ID: random-value
-      RPA_HOST_NAME: random-value
-      RPA_GET_PERSON_SUMMARY_URL: random-value
-      RPA_GET_ORGANISATION_PERMISSIONS_URL: random-value
-      RPA_GET_ORGANISATION_URL: random-value
-      APIM_OCP_SUBSCRIPTION_KEY: random-value
-      APIM_HOST_NAME: random-value
-      APIM_OAUTH_PATH: random-value
-      APIM_CLIENT_ID: random-value
-      APIM_CLIENT_SECRET: random-value
-      APIM_SCOPE: random-value
       NODE_ENV: development
       DEV_LOGIN_ENABLED: true
       MULTI_HERDS_ENABLED: false
@@ -276,6 +269,7 @@ services:
       - "3002:3000"
     depends_on:
       - redis
+      - ffc-ahwr-application
     environment:
       APPINSIGHTS_CLOUDROLE: ffc-ahwr-backoffice-local
       APPLICATIONINSIGHTS_CONNECTION_STRING: random-value

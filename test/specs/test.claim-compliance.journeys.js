@@ -7,7 +7,7 @@ const fillerSbis = ["106416234", "107361798", "107645299", "106258541", "1073460
 describe("Test claim compliance checks", async function () {
   beforeEach(async () => {
     for (const sbi of fillerSbis) {
-      await createSheepReviewClaim(sbi, true);
+      await createSheepReviewClaim(sbi, { multipleHerdFlag: true });
     }
   });
 
