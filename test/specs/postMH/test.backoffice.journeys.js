@@ -3,7 +3,6 @@ import {
   getDevSignInUrl,
   fillInput,
   createAgreement,
-  createSheepReviewClaim,
   swapBackOfficeUser,
 } from "../../utils/common.js";
 import {
@@ -44,6 +43,7 @@ import {
   ON_HOLD_CLAIM_REF,
 } from "../../utils/constants.js";
 import { approveClaim } from "../../utils/backoffice-common.js";
+import { createSheepReviewClaim } from "../../utils/review-claim.js";
 
 describe("Backoffice journeys", () => {
   it("can move a claim from 'In check' to 'Recommend to pay' and then to 'Ready to pay'", async () => {

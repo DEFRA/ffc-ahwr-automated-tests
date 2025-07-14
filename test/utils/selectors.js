@@ -30,6 +30,12 @@ export const LABORATORY_URN = "#laboratoryURN";
 
 export const NUMBER_OF_ORAL_FLUID_SAMPLES = "#numberOfOralFluidSamples";
 
+export const NUMBER_OF_SAMPLES_TESTED = "#numberOfSamplesTested";
+
+export const DISEASE_STATUS = "#diseaseStatus";
+
+export const ASSESSMENT_PERCENTAGE = "#assessmentPercentage";
+
 export const SUBMIT_CLAIM_BUTTON = "#submit-claim";
 
 export const SUBMIT_BUTTON = 'button[type="submit"]';
@@ -90,4 +96,12 @@ export function getTestResultsSelector(value) {
 
 export function getBiosecuritySelector(value) {
   return `input[name="biosecurity"][value="${value}"]`;
+}
+
+export function getHerdVaccinationStatus(value) {
+  return `input[name="herdVaccinationStatus"][value="${value}"]`;
+}
+
+export function getDiseaseStatusSelector(diseaseStatus) {
+  return `input[name="diseaseStatus"][value="${diseaseStatus}"]`;
 }

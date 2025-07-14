@@ -11,7 +11,6 @@ import {
   clickContinueButton,
   enterWhenTestingWasCarriedOutAndContinue,
   selectSheepTestsAndContinue,
-  createSheepReviewClaim,
   chooseRandomHerdReasonsAndContinue,
 } from "../../utils/common.js";
 import {
@@ -38,10 +37,11 @@ import {
 } from "../../utils/multiple-herd-selectors.js";
 import {
   MULTIPLE_HERDS_SBI,
-  MULTIPLE_HERDS_SHEEP_AGREEMENT_REF,
+  MULTIPLE_HERD_SHEEP_AGREEMENT_REF,
   JOHNES_DISEASE,
 } from "../../utils/constants.js";
 import { approveClaim } from "../../utils/backoffice-common.js";
+import { createSheepReviewClaim } from "../../utils/review-claim.js";
 
 let claimNumber;
 
@@ -95,7 +95,7 @@ describe("Multiple herds - Review claim journeys for a flock of sheep", () => {
   });
 
   it("can create a follow-up claim when a review claim is approved for a flock of sheep", async () => {
-    await approveClaim(MULTIPLE_HERDS_SHEEP_AGREEMENT_REF, claimNumber);
+    await approveClaim(MULTIPLE_HERD_SHEEP_AGREEMENT_REF, claimNumber);
 
     await browser.url(getDevSignInUrl("claim"));
     await fillAndSubmitSBI(MULTIPLE_HERDS_SBI);
