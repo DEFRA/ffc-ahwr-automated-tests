@@ -1,14 +1,13 @@
 import { browser } from "@wdio/globals";
-import {
-  createSheepReviewClaim,
-  createSheepReviewForAdditionalHerd,
-  getDevSignInUrl,
-  enterPreMHReleaseDateAndContinue,
-} from "../utils/common.js";
+import { getDevSignInUrl, enterPreMHReleaseDateAndContinue } from "../utils/common.js";
 import {
   assertAllClaimsAreInCheck,
   assertSomeClaimsAreOnHold,
 } from "../utils/common-assertions.js";
+import {
+  createSheepReviewClaim,
+  createSheepReviewForAdditionalHerd,
+} from "../utils/review-claim.js";
 
 describe("Test claim MH feature assurance compliance checks", async function () {
   it("moves all claims to in-check once a user has claimed for more than one herd of a given species", async () => {

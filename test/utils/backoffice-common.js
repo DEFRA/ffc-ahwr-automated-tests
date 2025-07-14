@@ -28,7 +28,7 @@ export async function approveClaim(agreementNumber, claimNumber) {
   await expect($(BO_CLAIM_STATUS_TEXT)).toHaveText(expect.stringContaining("Recommended to pay"));
 
   // Swapping to another user to approve the claim
-  await swapBackOfficeUser("Approver");
+  await swapBackOfficeUser("Admin");
   await $(BO_AGREEMENTS_TAB).click();
   const agreementRowTwo = $(getAgreementNumberSelector(agreementNumber)).parentElement();
   await agreementRowTwo.$(BO_VIEW_CLAIMS_LINK).click();
@@ -38,4 +38,7 @@ export async function approveClaim(agreementNumber, claimNumber) {
   await $(BO_PAY_CHECKBOX_TWO).click();
   await $(BO_CONFIRM_AND_CONTINUE_BUTTON).click();
   await expect($(BO_CLAIM_STATUS_TEXT)).toHaveText(expect.stringContaining("Ready to pay"));
+
+  // Swapping to a different user to the approver to continue with other journeys
+  await swapBackOfficeUser("Admin2");
 }
