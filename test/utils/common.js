@@ -131,3 +131,9 @@ export async function swapBackOfficeUser(userName) {
   const loginRoute = backOfficeClaimsRoute.replace("claims", `login?userId=${userName}`);
   await browser.url(loginRoute);
 }
+
+export async function verifyElementsExist(selectors = []) {
+  for (const selector of selectors) {
+    await expect($(selector)).toBeExisting();
+  }
+}
