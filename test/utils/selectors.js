@@ -4,11 +4,19 @@ export const TERMS_AND_CONDITIONS_CHECKBOX = "#terms";
 
 export const CLAIMS_MAIN_HEADING_SELECTOR = "#main-content h1.govuk-heading-l";
 
+export const LIVESTOCK_BEEF_RADIO = 'input[value="beef"]';
+
+export const LIVESTOCK_DIARY_RADIO = 'input[value="dairy"]';
+
+export const LIVESTOCK_PIGS_RADIO = 'input[value="pigs"]';
+
+export const LIVESTOCK_SHEEP_RADIO = 'input[value="sheep"]';
+
 export const AGREEMENT_SUMMARY_LINK = 'a[href*="download-application"]';
 
 export const AGREEMENT_NUMBER_SELECTOR = ".govuk-panel__body strong";
 
-export const CONTINUE_BUTTON = "button=Continue";
+export const CONTINUE_BUTTON = "//button[contains(text(), 'Continue')]";
 
 export const START_A_NEW_CLAIM_BUTTON = "#start";
 
