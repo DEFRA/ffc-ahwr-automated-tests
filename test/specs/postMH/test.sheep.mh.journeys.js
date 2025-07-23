@@ -28,6 +28,7 @@ import {
   CLAIMS_MAIN_HEADING_SELECTOR,
   LABORATORY_URN,
   EXTERNAL_GOV_LINK,
+  DATE_OF_VISIT_GOV_LINK,
 } from "../../utils/selectors.js";
 import {
   HERD_NAME,
@@ -46,10 +47,33 @@ import { createSheepReviewClaim } from "../../utils/review-claim.js";
 let claimNumber;
 
 describe("Multiple herds - Review claim journeys for a flock of sheep", () => {
-  it("can create the first review claim for a flock of sheep", async () => {
+  it("can create the first review claim for a flock of sheep for a business", async () => {
     claimNumber = await createSheepReviewClaim(MULTIPLE_HERDS_SBI, {
       multipleHerdFlag: true,
     });
+  });
+
+  it("cannot create a second review claim for the same flock of sheep for the same business", async () => {
+    await browser.url(getDevSignInUrl("claim"));
+    await fillAndSubmitSBI(MULTIPLE_HERDS_SBI);
+    await $(getConfirmCheckDetailsSelector("yes")).click();
+    await clickSubmitButton();
+    await clickStartNewClaimButton();
+    await clickOnElementAndContinue(getTypeOfLivestockSelector("sheep"));
+    await clickOnElementAndContinue(getTypeOfReviewSelector("review"));
+
+    await enterVisitDateAndContinue();
+    await clickOnElementAndContinue(SAME_HERD_PREVIOUSLY_CLAIMED_YES);
+
+    await expect($(CLAIMS_MAIN_HEADING_SELECTOR)).toHaveText(
+      expect.stringContaining("You cannot continue with your claim"),
+    );
+    await expect($(EXTERNAL_GOV_LINK)).toHaveText(
+      expect.stringContaining("There must be at least 10 months between your reviews."),
+    );
+    await expect($(DATE_OF_VISIT_GOV_LINK)).toHaveText(
+      "Enter the date the vet last visited your farm for this review.",
+    );
   });
 
   it("cannot create a follow-up claim for a flock of sheep when its review claim is not approved", async () => {
