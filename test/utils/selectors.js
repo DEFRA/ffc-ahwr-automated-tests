@@ -58,6 +58,8 @@ export const MANAGE_YOUR_CLAIMS_LINK = 'a[href*="/vet-visits"]';
 
 export const EXTERNAL_GOV_LINK = '.govuk-link[rel="external"]';
 
+export const DATE_OF_VISIT_GOV_LINK = '.govuk-link[href="/claim/endemics/date-of-visit"]';
+
 export function getConfirmCheckDetailsSelector(value) {
   return `input[name="confirmCheckDetails"][value="${value}"]`;
 }
