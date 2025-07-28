@@ -6,7 +6,7 @@ TEST_COMMAND="$1"
 CLAIM_COMPLIANCE_CHECK_RATIO="$2"
 
 if [ -z "$TEST_COMMAND" ]; then
-  echo "❌ Error: No test command provided. Usage: ./run-tests.sh <preMH|postMH|comp>"
+  echo "❌ Error: No test command provided. Usage: ./run-tests.sh <preMH|postMH|comp|compFA|bo>"
   exit 1
 fi
 
@@ -19,8 +19,10 @@ elif [[ "$TEST_COMMAND" == "comp" ]]; then
 elif [[ "$TEST_COMMAND" == "compFA" ]]; then
   MULTI_HERDS_ENABLED="true"
   FEATURE_ASSURANCE_ENABLED="true"
+elif [[ "$TEST_COMMAND" == "bo" ]]; then
+  MULTI_HERDS_ENABLED="true"
 else
-  echo "❌ Invalid TEST_COMMAND: $TEST_COMMAND (expected 'preMH' or 'postMH' or 'comp')"
+  echo "❌ Invalid TEST_COMMAND: $TEST_COMMAND (expected 'preMH' or 'postMH' or 'comp' or 'compFA' or 'bo')"
   exit 1
 fi
 
@@ -91,6 +93,8 @@ elif [[ "$TEST_COMMAND" == "comp" ]]; then
   LOG_DIR="logsComp"
 elif [[ "$TEST_COMMAND" == "compFA" ]]; then
   LOG_DIR="logsCompFA"
+elif [[ "$TEST_COMMAND" == "bo" ]]; then
+  LOG_DIR="logsBo"
 fi
 
 mkdir -p "$LOG_DIR"

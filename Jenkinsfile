@@ -84,6 +84,15 @@ pipeline {
                 sh './scripts/run_tests.sh compFA 5'
             }
         }
+
+        stage('Run Backoffice Tests') {
+            options {
+                timeout(time: 7, unit: 'MINUTES')
+            }
+            steps {
+                sh './scripts/run_tests.sh bo'
+            }
+        }
     }
     post {
         always {
