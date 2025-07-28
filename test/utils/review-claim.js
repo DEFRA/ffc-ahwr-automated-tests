@@ -11,13 +11,13 @@ import {
   clickContinueButton,
   enterWhenTestingWasCarriedOutAndContinue,
   verifySubmission,
-} from "./common";
+} from "./common.js";
 import {
   HERD_NAME,
   HERD_CPH,
   OTHER_HERDS_ON_SBI_NO,
   getSelectHerdSelector,
-} from "./multiple-herd-selectors";
+} from "./multiple-herd-selectors.js";
 import {
   getConfirmCheckDetailsSelector,
   getTypeOfLivestockSelector,
@@ -31,7 +31,7 @@ import {
   REFERENCE,
   getTestResultsSelector,
   NUMBER_OF_ORAL_FLUID_SAMPLES,
-} from "./selectors";
+} from "./selectors.js";
 
 export async function createSheepReviewClaim(
   sbi,

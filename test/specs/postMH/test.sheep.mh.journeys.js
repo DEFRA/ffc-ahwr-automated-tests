@@ -10,7 +10,6 @@ import {
   clickStartNewClaimButton,
   clickContinueButton,
   enterWhenTestingWasCarriedOutAndContinue,
-  selectSheepTestsAndContinue,
   chooseRandomHerdReasonsAndContinue,
 } from "../../utils/common.js";
 import {
@@ -23,8 +22,6 @@ import {
   getTypeOfReviewSelector,
   getSpeciesNumbersSelector,
   getConfirmCheckDetailsSelector,
-  getSheepEndemicsPackageSelector,
-  getTestResultSelector,
   CLAIMS_MAIN_HEADING_SELECTOR,
   LABORATORY_URN,
   EXTERNAL_GOV_LINK,
@@ -33,16 +30,13 @@ import {
 import {
   HERD_NAME,
   HERD_CPH,
-  SAME_HERD_PREVIOUSLY_CLAIMED_NO,
-  SAME_HERD_PREVIOUSLY_CLAIMED_YES,
+  PREVIOUSLY_CLAIMED_NO_ON_SELECT_THE_HERD_PAGE,
+  PREVIOUSLY_CLAIMED_YES_ON_SELECT_THE_HERD_PAGE,
 } from "../../utils/multiple-herd-selectors.js";
-import {
-  MULTIPLE_HERDS_SBI,
-  MULTIPLE_HERD_SHEEP_AGREEMENT_REF,
-  JOHNES_DISEASE,
-} from "../../utils/constants.js";
+import { MULTIPLE_HERDS_SBI, MULTIPLE_HERD_SHEEP_AGREEMENT_REF } from "../../utils/constants.js";
 import { approveClaim } from "../../utils/backoffice-common.js";
 import { createSheepReviewClaim } from "../../utils/review-claim.js";
+import { createMultipleHerdSheepFollowUp } from "../../utils/follow-up-claim.js";
 
 let claimNumber;
 
@@ -63,7 +57,7 @@ describe("Multiple herds - Review claim journeys for a flock of sheep", () => {
     await clickOnElementAndContinue(getTypeOfReviewSelector("review"));
 
     await enterVisitDateAndContinue();
-    await clickOnElementAndContinue(SAME_HERD_PREVIOUSLY_CLAIMED_YES);
+    await clickOnElementAndContinue(PREVIOUSLY_CLAIMED_YES_ON_SELECT_THE_HERD_PAGE);
 
     await expect($(CLAIMS_MAIN_HEADING_SELECTOR)).toHaveText(
       expect.stringContaining("You cannot continue with your claim"),
@@ -85,7 +79,7 @@ describe("Multiple herds - Review claim journeys for a flock of sheep", () => {
     await clickOnElementAndContinue(getTypeOfLivestockSelector("sheep"));
     await clickOnElementAndContinue(getTypeOfReviewSelector("endemics"));
     await enterVisitDateAndContinue();
-    await clickOnElementAndContinue(SAME_HERD_PREVIOUSLY_CLAIMED_YES);
+    await clickOnElementAndContinue(PREVIOUSLY_CLAIMED_YES_ON_SELECT_THE_HERD_PAGE);
 
     await expect($(CLAIMS_MAIN_HEADING_SELECTOR)).toHaveText(
       expect.stringContaining("You cannot continue with your claim"),
@@ -106,7 +100,7 @@ describe("Multiple herds - Review claim journeys for a flock of sheep", () => {
     await clickOnElementAndContinue(getTypeOfLivestockSelector("sheep"));
     await clickOnElementAndContinue(getTypeOfReviewSelector("endemics"));
     await enterVisitDateAndContinue();
-    await clickOnElementAndContinue(SAME_HERD_PREVIOUSLY_CLAIMED_NO);
+    await clickOnElementAndContinue(PREVIOUSLY_CLAIMED_NO_ON_SELECT_THE_HERD_PAGE);
 
     await expect($(CLAIMS_MAIN_HEADING_SELECTOR)).toHaveText(
       expect.stringContaining("You cannot continue with your claim"),
@@ -121,28 +115,7 @@ describe("Multiple herds - Review claim journeys for a flock of sheep", () => {
   it("can create a follow-up claim when a review claim is approved for a flock of sheep", async () => {
     await approveClaim(MULTIPLE_HERD_SHEEP_AGREEMENT_REF, claimNumber);
 
-    await browser.url(getDevSignInUrl("claim"));
-    await fillAndSubmitSBI(MULTIPLE_HERDS_SBI);
-    await $(getConfirmCheckDetailsSelector("yes")).click();
-    await clickSubmitButton();
-    await clickStartNewClaimButton();
-    await clickOnElementAndContinue(getTypeOfLivestockSelector("sheep"));
-    await clickOnElementAndContinue(getTypeOfReviewSelector("endemics"));
-    await enterVisitDateAndContinue();
-    await clickOnElementAndContinue(SAME_HERD_PREVIOUSLY_CLAIMED_YES);
-    await clickContinueButton();
-    await enterWhenTestingWasCarriedOutAndContinue("whenTheVetVisitedTheFarmToCarryOutTheReview");
-    await clickOnElementAndContinue(getSpeciesNumbersSelector("yes"));
-    await fillInputAndContinue(NUMBER_OF_ANIMALS_TESTED, "10");
-    await fillInputAndContinue(VETS_NAME, "Mr Auto Test");
-    await fillInputAndContinue(VET_RCVS_NUMBER, "1234567");
-    await clickOnElementAndContinue(getSheepEndemicsPackageSelector("improvedEwePerformance"));
-    await selectSheepTestsAndContinue([JOHNES_DISEASE]);
-    await clickOnElementAndContinue(getTestResultSelector("positive"));
-    await $(SUBMIT_CLAIM_BUTTON).click();
-    await verifySubmission("Claim complete");
-
-    await expect($(REFERENCE)).toHaveText(expect.stringContaining("FUSH"));
+    await createMultipleHerdSheepFollowUp(MULTIPLE_HERDS_SBI);
   });
 
   it("can create a second review claim for a different flock of sheep for the same business", async () => {
@@ -155,7 +128,7 @@ describe("Multiple herds - Review claim journeys for a flock of sheep", () => {
     await clickOnElementAndContinue(getTypeOfReviewSelector("review"));
 
     await enterVisitDateAndContinue();
-    await clickOnElementAndContinue(SAME_HERD_PREVIOUSLY_CLAIMED_NO);
+    await clickOnElementAndContinue(PREVIOUSLY_CLAIMED_NO_ON_SELECT_THE_HERD_PAGE);
     await fillInputAndContinue(HERD_NAME, "Commercial flocks");
     await fillInputAndContinue(HERD_CPH, "22/333/4444");
     await chooseRandomHerdReasonsAndContinue();
