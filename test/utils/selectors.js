@@ -48,7 +48,7 @@ export const SUBMIT_CLAIM_BUTTON = "#submit-claim";
 
 export const SUBMIT_BUTTON = 'button[type="submit"]';
 
-export const REFERENCE = "#reference";
+export const CLAIM_REFERENCE = "#reference";
 
 export const SUBMISSION_PANEL_TITLE = ".govuk-panel__title";
 

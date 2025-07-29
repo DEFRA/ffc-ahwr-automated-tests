@@ -1,8 +1,6 @@
-import { expect, browser, $ } from "@wdio/globals";
+import { expect, $ } from "@wdio/globals";
 import {
-  getDevSignInUrl,
-  fillAndSubmitSBI,
-  clickSubmitButton,
+  performDevLogin,
   clickOnElementAndContinue,
   enterVisitDateAndContinue,
   enterWhenTestingWasCarriedOutAndContinue,
@@ -17,22 +15,17 @@ import {
   LABORATORY_URN,
   NUMBER_OF_ORAL_FLUID_SAMPLES,
   SUBMIT_CLAIM_BUTTON,
-  REFERENCE,
+  CLAIM_REFERENCE,
   getTypeOfLivestockSelector,
   getTypeOfReviewSelector,
   getSpeciesNumbersSelector,
   getTestResultsSelector,
-  getConfirmCheckDetailsSelector,
 } from "../../utils/selectors.js";
 import { APPLY_REVIEW_CLAIM_SBI } from "../../utils/constants.js";
 
 describe("Review claim journeys for various species", () => {
   it("can create a new review claim for Sheep", async () => {
-    await browser.url(getDevSignInUrl("claim"));
-
-    await fillAndSubmitSBI(APPLY_REVIEW_CLAIM_SBI);
-    await $(getConfirmCheckDetailsSelector("yes")).click();
-    await clickSubmitButton();
+    await performDevLogin(APPLY_REVIEW_CLAIM_SBI, "claim");
 
     await clickStartNewClaimButton();
 
@@ -55,15 +48,11 @@ describe("Review claim journeys for various species", () => {
 
     await verifySubmission("Claim complete");
 
-    await expect($(REFERENCE)).toHaveText(expect.stringContaining("RESH"));
+    await expect($(CLAIM_REFERENCE)).toHaveText(expect.stringContaining("RESH"));
   });
 
   it("can create a new review claim for Pigs", async () => {
-    await browser.url(getDevSignInUrl("claim"));
-
-    await fillAndSubmitSBI(APPLY_REVIEW_CLAIM_SBI);
-    await $(getConfirmCheckDetailsSelector("yes")).click();
-    await clickSubmitButton();
+    await performDevLogin(APPLY_REVIEW_CLAIM_SBI, "claim");
 
     await clickStartNewClaimButton();
 
@@ -93,15 +82,11 @@ describe("Review claim journeys for various species", () => {
 
     await verifySubmission("Claim complete");
 
-    await expect($(REFERENCE)).toHaveText(expect.stringContaining("REPI"));
+    await expect($(CLAIM_REFERENCE)).toHaveText(expect.stringContaining("REPI"));
   });
 
   it("can create a new review claim for Dairy cattle", async () => {
-    await browser.url(getDevSignInUrl("claim"));
-
-    await fillAndSubmitSBI(APPLY_REVIEW_CLAIM_SBI);
-    await $(getConfirmCheckDetailsSelector("yes")).click();
-    await clickSubmitButton();
+    await performDevLogin(APPLY_REVIEW_CLAIM_SBI, "claim");
 
     await clickStartNewClaimButton();
 
@@ -124,15 +109,11 @@ describe("Review claim journeys for various species", () => {
 
     await verifySubmission("Claim complete");
 
-    await expect($(REFERENCE)).toHaveText(expect.stringContaining("REDC"));
+    await expect($(CLAIM_REFERENCE)).toHaveText(expect.stringContaining("REDC"));
   });
 
   it("can create a new review claim for Beef cattle", async () => {
-    await browser.url(getDevSignInUrl("claim"));
-
-    await fillAndSubmitSBI(APPLY_REVIEW_CLAIM_SBI);
-    await $(getConfirmCheckDetailsSelector("yes")).click();
-    await clickSubmitButton();
+    await performDevLogin(APPLY_REVIEW_CLAIM_SBI, "claim");
 
     await clickStartNewClaimButton();
 
@@ -160,6 +141,6 @@ describe("Review claim journeys for various species", () => {
 
     await verifySubmission("Claim complete");
 
-    await expect($(REFERENCE)).toHaveText(expect.stringContaining("REBC"));
+    await expect($(CLAIM_REFERENCE)).toHaveText(expect.stringContaining("REBC"));
   });
 });

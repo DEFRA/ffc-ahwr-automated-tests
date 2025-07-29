@@ -1,9 +1,6 @@
-import { browser, $, expect } from "@wdio/globals";
+import { $ } from "@wdio/globals";
 import {
   enterVisitDateAndContinue,
-  getDevSignInUrl,
-  fillAndSubmitSBI,
-  clickSubmitButton,
   clickStartNewClaimButton,
   clickOnElementAndContinue,
   fillInputAndContinue,
@@ -19,7 +16,6 @@ import {
   getSelectHerdSelector,
 } from "./multiple-herd-selectors.js";
 import {
-  getConfirmCheckDetailsSelector,
   getTypeOfLivestockSelector,
   getTypeOfReviewSelector,
   getSpeciesNumbersSelector,
@@ -28,24 +24,17 @@ import {
   VET_RCVS_NUMBER,
   LABORATORY_URN,
   SUBMIT_CLAIM_BUTTON,
-  REFERENCE,
+  CLAIM_REFERENCE,
   getTestResultsSelector,
   NUMBER_OF_ORAL_FLUID_SAMPLES,
 } from "./selectors.js";
 
-export async function createSheepReviewClaim(
-  sbi,
-  {
-    multipleHerdFlag = false,
-    urn = "sh-rr-534346",
-    enterVisitDateAndContinueFunc = enterVisitDateAndContinue,
-    isUnnamedHerdClaimPresent = false,
-  } = {},
-) {
-  await browser.url(getDevSignInUrl("claim"));
-  await fillAndSubmitSBI(sbi);
-  await $(getConfirmCheckDetailsSelector("yes")).click();
-  await clickSubmitButton();
+export async function createSheepReviewClaim({
+  multipleHerdFlag = false,
+  urn = "sh-rr-534346",
+  enterVisitDateAndContinueFunc = enterVisitDateAndContinue,
+  isUnnamedHerdClaimPresent = false,
+} = {}) {
   await clickStartNewClaimButton();
   await clickOnElementAndContinue(getTypeOfLivestockSelector("sheep"));
   await clickOnElementAndContinue(getTypeOfReviewSelector("review"));
@@ -73,21 +62,15 @@ export async function createSheepReviewClaim(
   await fillInputAndContinue(LABORATORY_URN, urn);
   await $(SUBMIT_CLAIM_BUTTON).click();
   await verifySubmission("Claim complete");
-  await expect($(REFERENCE)).toHaveText(expect.stringContaining("RESH"));
-  const claimNumber = await $(REFERENCE).getText();
+  const claimNumber = await $(CLAIM_REFERENCE).getText();
 
   return claimNumber;
 }
 
 export async function createSheepReviewForAdditionalHerd(
-  sbi,
   urn = "sh-rr-534351",
   herd = "Additional herd 1",
 ) {
-  await browser.url(getDevSignInUrl("claim"));
-  await fillAndSubmitSBI(sbi);
-  await $(getConfirmCheckDetailsSelector("yes")).click();
-  await clickSubmitButton();
   await clickStartNewClaimButton();
   await clickOnElementAndContinue(getTypeOfLivestockSelector("sheep"));
   await clickOnElementAndContinue(getTypeOfReviewSelector("review"));
@@ -109,25 +92,17 @@ export async function createSheepReviewForAdditionalHerd(
 
   await $(SUBMIT_CLAIM_BUTTON).click();
   await verifySubmission("Claim complete");
-  await expect($(REFERENCE)).toHaveText(expect.stringContaining("RESH"));
-  const claimNumber = await $(REFERENCE).getText();
+  const claimNumber = await $(CLAIM_REFERENCE).getText();
 
   return claimNumber;
 }
 
-export async function createPigsReviewClaim(
-  sbi,
-  {
-    multipleHerdFlag = false,
-    urn = "pg-rr-5343461",
-    enterVisitDateAndContinueFunc = enterVisitDateAndContinue,
-    isUnnamedHerdClaimPresent = false,
-  } = {},
-) {
-  await browser.url(getDevSignInUrl("claim"));
-  await fillAndSubmitSBI(sbi);
-  await $(getConfirmCheckDetailsSelector("yes")).click();
-  await clickSubmitButton();
+export async function createPigsReviewClaim({
+  multipleHerdFlag = false,
+  urn = "pg-rr-5343461",
+  enterVisitDateAndContinueFunc = enterVisitDateAndContinue,
+  isUnnamedHerdClaimPresent = false,
+} = {}) {
   await clickStartNewClaimButton();
   await clickOnElementAndContinue(getTypeOfLivestockSelector("pigs"));
   await clickOnElementAndContinue(getTypeOfReviewSelector("review"));
@@ -156,8 +131,7 @@ export async function createPigsReviewClaim(
   await clickOnElementAndContinue(getTestResultsSelector("positive"));
   await $(SUBMIT_CLAIM_BUTTON).click();
   await verifySubmission("Claim complete");
-  await expect($(REFERENCE)).toHaveText(expect.stringContaining("REPI"));
-  const claimNumber = await $(REFERENCE).getText();
+  const claimNumber = await $(CLAIM_REFERENCE).getText();
 
   return claimNumber;
 }

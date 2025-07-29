@@ -1,8 +1,5 @@
-import { browser, $, expect } from "@wdio/globals";
+import { $ } from "@wdio/globals";
 import {
-  getDevSignInUrl,
-  fillAndSubmitSBI,
-  clickSubmitButton,
   clickStartNewClaimButton,
   clickOnElementAndContinue,
   enterPreMHReleaseDateAndContinue,
@@ -16,7 +13,6 @@ import {
 } from "./common.js";
 import { JOHNES_DISEASE } from "./constants.js";
 import {
-  getConfirmCheckDetailsSelector,
   getTypeOfLivestockSelector,
   getTypeOfReviewSelector,
   getSpeciesNumbersSelector,
@@ -26,7 +22,6 @@ import {
   getSheepEndemicsPackageSelector,
   getTestResultSelector,
   SUBMIT_CLAIM_BUTTON,
-  REFERENCE,
   ASSESSMENT_PERCENTAGE,
   getBiosecuritySelector,
   getDiseaseStatusSelector,
@@ -42,11 +37,7 @@ import {
   OTHER_HERDS_ON_SBI_NO,
 } from "./multiple-herd-selectors.js";
 
-export async function createPreMultipleHerdSheepFollowUp(sbi) {
-  await browser.url(getDevSignInUrl("claim"));
-  await fillAndSubmitSBI(sbi);
-  await $(getConfirmCheckDetailsSelector("yes")).click();
-  await clickSubmitButton();
+export async function createPreMultipleHerdSheepFollowUp() {
   await clickStartNewClaimButton();
   await clickOnElementAndContinue(getTypeOfLivestockSelector("sheep"));
   await clickOnElementAndContinue(getTypeOfReviewSelector("endemics"));
@@ -61,15 +52,9 @@ export async function createPreMultipleHerdSheepFollowUp(sbi) {
   await clickOnElementAndContinue(getTestResultSelector("positive"));
   await $(SUBMIT_CLAIM_BUTTON).click();
   await verifySubmission("Claim complete");
-
-  await expect($(REFERENCE)).toHaveText(expect.stringContaining("FUSH"));
 }
 
 export async function createPreMultipleHerdPigsFollowUp(sbi, { urn = "pg-fc-5343462" } = {}) {
-  await browser.url(getDevSignInUrl("claim"));
-  await fillAndSubmitSBI(sbi);
-  await $(getConfirmCheckDetailsSelector("yes")).click();
-  await clickSubmitButton();
   await clickStartNewClaimButton();
   await clickOnElementAndContinue(getTypeOfLivestockSelector("pigs"));
   await clickOnElementAndContinue(getTypeOfReviewSelector("endemics"));
@@ -87,18 +72,9 @@ export async function createPreMultipleHerdPigsFollowUp(sbi, { urn = "pg-fc-5343
   await fillInputAndContinue(ASSESSMENT_PERCENTAGE, "50");
   await $(SUBMIT_CLAIM_BUTTON).click();
   await verifySubmission("Claim complete");
-
-  await expect($(REFERENCE)).toHaveText(expect.stringContaining("FUPI"));
 }
 
-export async function createMultipleHerdSheepFollowUp(
-  sbi,
-  { isUnnamedHerdClaimPresent = false } = {},
-) {
-  await browser.url(getDevSignInUrl("claim"));
-  await fillAndSubmitSBI(sbi);
-  await $(getConfirmCheckDetailsSelector("yes")).click();
-  await clickSubmitButton();
+export async function createMultipleHerdSheepFollowUp({ isUnnamedHerdClaimPresent = false } = {}) {
   await clickStartNewClaimButton();
   await clickOnElementAndContinue(getTypeOfLivestockSelector("sheep"));
   await clickOnElementAndContinue(getTypeOfReviewSelector("endemics"));
@@ -126,18 +102,12 @@ export async function createMultipleHerdSheepFollowUp(
   await clickOnElementAndContinue(getTestResultSelector("positive"));
   await $(SUBMIT_CLAIM_BUTTON).click();
   await verifySubmission("Claim complete");
-
-  await expect($(REFERENCE)).toHaveText(expect.stringContaining("FUSH"));
 }
 
-export async function createMultipleHerdPigsFollowUp(
-  sbi,
-  { isUnnamedHerdClaimPresent = false, urn = "pg-fc-5343461" } = {},
-) {
-  await browser.url(getDevSignInUrl("claim"));
-  await fillAndSubmitSBI(sbi);
-  await $(getConfirmCheckDetailsSelector("yes")).click();
-  await clickSubmitButton();
+export async function createMultipleHerdPigsFollowUp({
+  isUnnamedHerdClaimPresent = false,
+  urn = "pg-fc-5343461",
+} = {}) {
   await clickStartNewClaimButton();
   await clickOnElementAndContinue(getTypeOfLivestockSelector("pigs"));
   await clickOnElementAndContinue(getTypeOfReviewSelector("endemics"));
@@ -167,6 +137,4 @@ export async function createMultipleHerdPigsFollowUp(
   await fillInputAndContinue(ASSESSMENT_PERCENTAGE, "50");
   await $(SUBMIT_CLAIM_BUTTON).click();
   await verifySubmission("Claim complete");
-
-  await expect($(REFERENCE)).toHaveText(expect.stringContaining("FUPI"));
 }

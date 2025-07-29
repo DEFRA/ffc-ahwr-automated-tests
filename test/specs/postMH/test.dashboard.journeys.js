@@ -1,10 +1,9 @@
-import { expect, browser, $ } from "@wdio/globals";
+import { expect, $ } from "@wdio/globals";
 import {
-  getDevSignInUrl,
-  fillAndSubmitSBI,
   clickSubmitButton,
   verifySubmission,
   verifyElementsExist,
+  performDevLogin,
 } from "../../utils/common.js";
 import {
   TERMS_AND_CONDITIONS_CHECKBOX,
@@ -17,30 +16,31 @@ import {
   LIVESTOCK_SHEEP_RADIO,
   MANAGE_YOUR_CLAIMS_LINK,
   AGREEMENT_NUMBER_SELECTOR,
-  getConfirmCheckDetailsSelector,
 } from "../../utils/selectors.js";
 import { DASHBOARD_SBI } from "../../utils/constants.js";
 import { createSheepReviewClaim } from "../../utils/review-claim.js";
 
 describe("Vet-visits Dashboard journeys", () => {
   it("can Verify agreement summary exists and a claim journey can be started from the dashboard", async () => {
+    await performDevLogin(DASHBOARD_SBI, "apply");
+
     // Create an agreement
-    await browser.url(getDevSignInUrl("apply"));
-    await fillAndSubmitSBI(DASHBOARD_SBI);
-    await $(getConfirmCheckDetailsSelector("yes")).click();
-    await clickSubmitButton();
     await clickSubmitButton();
     await clickSubmitButton();
     await clickSubmitButton();
     await $(TERMS_AND_CONDITIONS_CHECKBOX).click();
     await clickSubmitButton();
     await verifySubmission("Application complete");
+
     const agreementNumber = (await $(AGREEMENT_NUMBER_SELECTOR).getText()).trim();
 
-    // // create a claim
-    const claimNumber = await createSheepReviewClaim(DASHBOARD_SBI, {
+    // Create a claim
+    await performDevLogin(DASHBOARD_SBI, "claim");
+    const claimNumber = await createSheepReviewClaim({
       multipleHerdFlag: true,
     });
+
+    expect(claimNumber).toEqual(expect.stringContaining("RESH"));
 
     // Dashboard verifications
     await $(MANAGE_YOUR_CLAIMS_LINK).click();

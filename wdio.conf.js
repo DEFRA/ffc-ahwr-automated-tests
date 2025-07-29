@@ -41,10 +41,10 @@ export const config = {
       "./test/specs/test.apply.journeys.js",
       "./test/specs/postMH/test.dashboard.journeys.js",
       "./test/specs/postMH/test.sheep.mh.journeys.js",
+      "./test/specs/postMH/test.backoffice.journeys.js",
     ],
     comp: ["./test/specs/test.claim-compliance.journeys.js"],
     compFA: ["./test/specs/test.claim-compliance-feature-assurance.journeys.js"],
-    bo: ["./test/specs/postMH/test.backoffice.journeys.js"],
   },
   // Patterns to exclude.
   exclude: [

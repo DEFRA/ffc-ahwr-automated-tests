@@ -4,6 +4,7 @@ import {
   fillInput,
   createAgreement,
   swapBackOfficeUser,
+  performDevLogin,
 } from "../../utils/common.js";
 import {
   BO_AGREEMENTS_TAB,
@@ -48,18 +49,28 @@ import { createSheepReviewClaim } from "../../utils/review-claim.js";
 describe("Backoffice journeys", () => {
   it("can move a claim from 'In check' to 'Recommend to pay' and then to 'Ready to pay'", async () => {
     const agreementNumber = await createAgreement(BACK_OFFICE_APPROVE_SBI);
-    const claimNumber = await createSheepReviewClaim(BACK_OFFICE_APPROVE_SBI, {
+
+    await performDevLogin(BACK_OFFICE_APPROVE_SBI, "claim");
+
+    const claimNumber = await createSheepReviewClaim({
       multipleHerdFlag: true,
     });
+
+    expect(claimNumber).toEqual(expect.stringContaining("RESH"));
 
     await approveClaim(agreementNumber, claimNumber);
   });
 
   it("can move a claim from 'In check' to 'Recommend to reject' and then to 'Rejected'", async () => {
     const agreementNumber = await createAgreement(BACK_OFFICE_REJECT_SBI);
-    const claimNumber = await createSheepReviewClaim(BACK_OFFICE_REJECT_SBI, {
+
+    await performDevLogin(BACK_OFFICE_REJECT_SBI, "claim");
+
+    const claimNumber = await createSheepReviewClaim({
       multipleHerdFlag: true,
     });
+
+    expect(claimNumber).toEqual(expect.stringContaining("RESH"));
 
     await browser.url(getDevSignInUrl("backoffice"));
     await $(BO_AGREEMENTS_TAB).click();

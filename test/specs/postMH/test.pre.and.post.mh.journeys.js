@@ -1,19 +1,17 @@
-import { expect, browser, $ } from "@wdio/globals";
+import { expect, $ } from "@wdio/globals";
 import {
   clickOnElementAndContinue,
   clickStartNewClaimButton,
-  clickSubmitButton,
   enterPreMHReleaseDateAndContinue,
   enterVisitDateAndContinue,
-  fillAndSubmitSBI,
-  getDevSignInUrl,
+  performDevLogin,
 } from "../../utils/common.js";
 import {
+  CLAIM_REFERENCE,
   CLAIMS_MAIN_HEADING_SELECTOR,
   EXTERNAL_GOV_LINK,
   getTypeOfLivestockSelector,
   getTypeOfReviewSelector,
-  getConfirmCheckDetailsSelector,
 } from "../../utils/selectors.js";
 import { PREVIOUSLY_CLAIMED_YES_ON_SELECT_THE_HERD_PAGE } from "../../utils/multiple-herd-selectors.js";
 import {
@@ -27,26 +25,24 @@ import {
 } from "../../utils/constants.js";
 import { approveClaim } from "../../utils/backoffice-common.js";
 
-describe("Pre-MH journeys when MH is switched on", () => {
+// This test suite covers various claim journeys with a visit date after the MH release date for the pre-MH claims
+
+describe("MH journeys when Pre-MH claims present", () => {
   it("can create a follow-up claim for a pre-MH sheep review claim if the follow-up visit date is after the MH release date - associating the pre-MH unnamed flock with a real flock", async () => {
-    /* Prerequisites – This test requires an application and a pre-MH sheep review claim, both added using the script
-    located at changelog/insert_pre_post_mh_application_review.sql */
-    // Do a follow-up for the pre-MH sheep review claim by using a visit date after the MH release date
-    // This associates the pre-MH sheep review with the flock created as part of the follow-up claim
-    await createMultipleHerdSheepFollowUp(PRE_POST_MULTIPLE_HERD_SBI, {
+    // This test uses data from the script located at changelog/insert_pre_post_mh_application_review.sql
+    await performDevLogin(PRE_POST_MULTIPLE_HERD_SBI, "claim");
+
+    await createMultipleHerdSheepFollowUp({
       isUnnamedHerdClaimPresent: true,
     });
+
+    await expect($(CLAIM_REFERENCE)).toHaveText(expect.stringContaining("FUSH"));
   });
 
-  it("A second follow-up claim, with visit date after MH release date, cannot be created within 10 months of the first follow-up claim for pre-MH sheep review", async () => {
-    /* Prerequisites – This test requires an application and a pre-MH sheep review claim, both added using the script 
-    located at changelog/insert_pre_post_mh_application_review.sql */
-    // Do a follow-up for the pre-MH sheep review claim by using a visit date after the MH release date
+  it("cannot create a second follow-up claim, with visit date after MH release date and within 10 months of the first follow-up claim for pre-MH sheep review", async () => {
+    // This test uses data from the script located at changelog/insert_pre_post_mh_application_review.sql
+    await performDevLogin(PRE_POST_MULTIPLE_HERD_SBI, "claim");
 
-    await browser.url(getDevSignInUrl("claim"));
-    await fillAndSubmitSBI(PRE_POST_MULTIPLE_HERD_SBI);
-    await $(getConfirmCheckDetailsSelector("yes")).click();
-    await clickSubmitButton();
     await clickStartNewClaimButton();
     await clickOnElementAndContinue(getTypeOfLivestockSelector("sheep"));
     await clickOnElementAndContinue(getTypeOfReviewSelector("endemics"));
@@ -62,26 +58,27 @@ describe("Pre-MH journeys when MH is switched on", () => {
   });
 
   it("can create follow-up claim with a visit date after the MH release date for a pre-MH pigs review - associating the pre-MH unnamed herd with a real herd", async () => {
-    // Create a pre-MH review claim for pigs
-    const claimNumber = await createPigsReviewClaim(PRE_POST_MULTIPLE_HERD_SBI, {
+    await performDevLogin(PRE_POST_MULTIPLE_HERD_SBI, "claim");
+
+    const claimNumber = await createPigsReviewClaim({
       enterVisitDateAndContinueFunc: enterPreMHReleaseDateAndContinue,
     });
+    await expect($(CLAIM_REFERENCE)).toHaveText(expect.stringContaining("REPI"));
 
-    // Approve the pre-MH review claim
     await approveClaim(PRE__POST_MULTIPLE_HERD_AGREEMENT_REF, claimNumber);
 
-    // Now do a follow-up for the pre-MH pigs review claim by using a visit date after the MH release date
-    // This associates the pre-MH pigs review with the herd created as part of the follow-up claim
-    await createMultipleHerdPigsFollowUp(PRE_POST_MULTIPLE_HERD_SBI, {
+    await performDevLogin(PRE_POST_MULTIPLE_HERD_SBI, "claim");
+
+    await createMultipleHerdPigsFollowUp({
       isUnnamedHerdClaimPresent: true,
     });
+
+    await expect($(CLAIM_REFERENCE)).toHaveText(expect.stringContaining("FUPI"));
   });
 
   it("cannot create a second review claim for pigs unnamed herd when visit date is after MH release date and second review claim date is within 10 months of its pre-MH review claim", async () => {
-    await browser.url(getDevSignInUrl("claim"));
-    await fillAndSubmitSBI(PRE_POST_MULTIPLE_HERD_SBI);
-    await $(getConfirmCheckDetailsSelector("yes")).click();
-    await clickSubmitButton();
+    await performDevLogin(PRE_POST_MULTIPLE_HERD_SBI, "claim");
+
     await clickStartNewClaimButton();
     await clickOnElementAndContinue(getTypeOfLivestockSelector("pigs"));
     await clickOnElementAndContinue(getTypeOfReviewSelector("review"));

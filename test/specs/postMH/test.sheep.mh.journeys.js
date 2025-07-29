@@ -3,6 +3,7 @@ import {
   getDevSignInUrl,
   fillAndSubmitSBI,
   clickSubmitButton,
+  performDevLogin,
   clickOnElementAndContinue,
   enterVisitDateAndContinue,
   fillInputAndContinue,
@@ -17,7 +18,7 @@ import {
   VETS_NAME,
   VET_RCVS_NUMBER,
   SUBMIT_CLAIM_BUTTON,
-  REFERENCE,
+  CLAIM_REFERENCE,
   getTypeOfLivestockSelector,
   getTypeOfReviewSelector,
   getSpeciesNumbersSelector,
@@ -42,16 +43,18 @@ let claimNumber;
 
 describe("Multiple herds - Review claim journeys for a flock of sheep", () => {
   it("can create the first review claim for a flock of sheep for a business", async () => {
-    claimNumber = await createSheepReviewClaim(MULTIPLE_HERDS_SBI, {
+    await performDevLogin(MULTIPLE_HERDS_SBI, "claim");
+
+    claimNumber = await createSheepReviewClaim({
       multipleHerdFlag: true,
     });
+
+    expect(claimNumber).toEqual(expect.stringContaining("RESH"));
   });
 
   it("cannot create a second review claim for the same flock of sheep for the same business", async () => {
-    await browser.url(getDevSignInUrl("claim"));
-    await fillAndSubmitSBI(MULTIPLE_HERDS_SBI);
-    await $(getConfirmCheckDetailsSelector("yes")).click();
-    await clickSubmitButton();
+    await performDevLogin(MULTIPLE_HERDS_SBI, "claim");
+
     await clickStartNewClaimButton();
     await clickOnElementAndContinue(getTypeOfLivestockSelector("sheep"));
     await clickOnElementAndContinue(getTypeOfReviewSelector("review"));
@@ -71,10 +74,8 @@ describe("Multiple herds - Review claim journeys for a flock of sheep", () => {
   });
 
   it("cannot create a follow-up claim for a flock of sheep when its review claim is not approved", async () => {
-    await browser.url(getDevSignInUrl("claim"));
-    await fillAndSubmitSBI(MULTIPLE_HERDS_SBI);
-    await $(getConfirmCheckDetailsSelector("yes")).click();
-    await clickSubmitButton();
+    await performDevLogin(MULTIPLE_HERDS_SBI, "claim");
+
     await clickStartNewClaimButton();
     await clickOnElementAndContinue(getTypeOfLivestockSelector("sheep"));
     await clickOnElementAndContinue(getTypeOfReviewSelector("endemics"));
@@ -115,14 +116,16 @@ describe("Multiple herds - Review claim journeys for a flock of sheep", () => {
   it("can create a follow-up claim when a review claim is approved for a flock of sheep", async () => {
     await approveClaim(MULTIPLE_HERD_SHEEP_AGREEMENT_REF, claimNumber);
 
-    await createMultipleHerdSheepFollowUp(MULTIPLE_HERDS_SBI);
+    await performDevLogin(MULTIPLE_HERDS_SBI, "claim");
+
+    await createMultipleHerdSheepFollowUp();
+
+    await expect($(CLAIM_REFERENCE)).toHaveText(expect.stringContaining("FUSH"));
   });
 
   it("can create a second review claim for a different flock of sheep for the same business", async () => {
-    await browser.url(getDevSignInUrl("claim"));
-    await fillAndSubmitSBI(MULTIPLE_HERDS_SBI);
-    await $(getConfirmCheckDetailsSelector("yes")).click();
-    await clickSubmitButton();
+    await performDevLogin(MULTIPLE_HERDS_SBI, "claim");
+
     await clickStartNewClaimButton();
     await clickOnElementAndContinue(getTypeOfLivestockSelector("sheep"));
     await clickOnElementAndContinue(getTypeOfReviewSelector("review"));
@@ -143,6 +146,7 @@ describe("Multiple herds - Review claim journeys for a flock of sheep", () => {
     await fillInputAndContinue(LABORATORY_URN, "sh-rr-534344");
     await $(SUBMIT_CLAIM_BUTTON).click();
     await verifySubmission("Claim complete");
-    await expect($(REFERENCE)).toHaveText(expect.stringContaining("RESH"));
+
+    await expect($(CLAIM_REFERENCE)).toHaveText(expect.stringContaining("RESH"));
   });
 });
