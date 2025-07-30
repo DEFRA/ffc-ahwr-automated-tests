@@ -43,5 +43,6 @@
   <include file="changelog/insert_mh_sheep_application.sql" />
   <include file="changelog/insert_on_hold_claim.sql" />
   <include file="changelog/insert_compliance_checks_application.sql" />
-  <include file="changelog/insert_pre_mh_application_sheep_review.sql" />
+  <include file="changelog/insert_pre_mh_application_review.sql" />
+  <include file="changelog/insert_pre_post_mh_application_review.sql" />
 </databaseChangeLog>

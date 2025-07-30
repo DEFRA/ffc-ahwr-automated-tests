@@ -1,14 +1,12 @@
-import { expect, browser, $ } from "@wdio/globals";
+import { expect, $ } from "@wdio/globals";
 import {
-  getDevSignInUrl,
-  fillAndSubmitSBI,
+  performDevLogin,
   clickOnElementAndContinue,
   enterVisitDateAndContinue,
   enterWhenTestingWasCarriedOutAndContinue,
   fillInputAndContinue,
   selectSheepTestsAndContinue,
   verifySubmission,
-  clickSubmitButton,
   clickStartNewClaimButton,
 } from "../../utils/common.js";
 import {
@@ -17,7 +15,7 @@ import {
   VET_RCVS_NUMBER,
   LABORATORY_URN,
   SUBMIT_CLAIM_BUTTON,
-  REFERENCE,
+  CLAIM_REFERENCE,
   getTypeOfLivestockSelector,
   getTypeOfReviewSelector,
   getSpeciesNumbersSelector,
@@ -27,7 +25,6 @@ import {
   getPiHuntDoneForAllCattleSelector,
   getTestResultsSelector,
   getBiosecuritySelector,
-  getConfirmCheckDetailsSelector,
 } from "../../utils/selectors.js";
 import {
   SHEEP_ENDEMIC_CLAIM_SBI,
@@ -37,11 +34,7 @@ import {
 
 describe("Follow-up claim journeys for various species", () => {
   it("can create a follow-up claim for sheep", async () => {
-    await browser.url(getDevSignInUrl("claim"));
-
-    await fillAndSubmitSBI(SHEEP_ENDEMIC_CLAIM_SBI);
-    await $(getConfirmCheckDetailsSelector("yes")).click();
-    await clickSubmitButton();
+    await performDevLogin(SHEEP_ENDEMIC_CLAIM_SBI, "claim");
 
     await clickStartNewClaimButton();
 
@@ -71,15 +64,11 @@ describe("Follow-up claim journeys for various species", () => {
 
     await verifySubmission("Claim complete");
 
-    await expect($(REFERENCE)).toHaveText(expect.stringContaining("FUSH"));
+    await expect($(CLAIM_REFERENCE)).toHaveText(expect.stringContaining("FUSH"));
   });
 
   it("can create a follow-up claim for beef", async () => {
-    await browser.url(getDevSignInUrl("claim"));
-
-    await fillAndSubmitSBI(BEEF_ENDEMIC_CLAIM_SBI);
-    await $(getConfirmCheckDetailsSelector("yes")).click();
-    await clickSubmitButton();
+    await performDevLogin(BEEF_ENDEMIC_CLAIM_SBI, "claim");
 
     await clickStartNewClaimButton();
 
@@ -111,6 +100,6 @@ describe("Follow-up claim journeys for various species", () => {
 
     await verifySubmission("Claim complete");
 
-    await expect($(REFERENCE)).toHaveText(expect.stringContaining("FUBC"));
+    await expect($(CLAIM_REFERENCE)).toHaveText(expect.stringContaining("FUBC"));
   });
 });

@@ -31,8 +31,19 @@ export function getDevSignInUrl(type) {
   return process.env.DOCKER_MODE === "true" ? dockerUrls[type] : baseUrls[type];
 }
 
+export async function clickSubmitButton() {
+  await $(SUBMIT_BUTTON).click();
+}
+
 export async function fillAndSubmitSBI(sbi) {
   await $(SBI).setValue(sbi);
+  await clickSubmitButton();
+}
+
+export async function performDevLogin(sbi, journeyType) {
+  await browser.url(getDevSignInUrl(journeyType));
+  await fillAndSubmitSBI(sbi);
+  await $(getConfirmCheckDetailsSelector("yes")).click();
   await clickSubmitButton();
 }
 
@@ -100,10 +111,6 @@ export async function verifySubmission(expectedText) {
 
 export async function clickContinueButton() {
   await $(CONTINUE_BUTTON).click();
-}
-
-export async function clickSubmitButton() {
-  await $(SUBMIT_BUTTON).click();
 }
 
 export async function clickStartNewClaimButton() {

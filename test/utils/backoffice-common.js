@@ -12,8 +12,8 @@ import {
   BO_PAY_BUTTON,
   BO_PAY_CHECKBOX_ONE,
   BO_PAY_CHECKBOX_TWO,
-} from "./backoffice-selectors";
-import { getDevSignInUrl, swapBackOfficeUser } from "./common";
+} from "./backoffice-selectors.js";
+import { getDevSignInUrl, swapBackOfficeUser } from "./common.js";
 
 export async function approveClaim(agreementNumber, claimNumber) {
   await browser.url(getDevSignInUrl("backoffice"));
