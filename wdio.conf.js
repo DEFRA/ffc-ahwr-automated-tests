@@ -29,16 +29,12 @@ export const config = {
   //
   // specs: [],
   suites: {
-    preMH: [
-      "./test/specs/test.apply.journeys.js",
-      "./test/specs/preMH/test.review-claim.journeys.js",
-      "./test/specs/preMH/test.follow-up-claim.journeys.js",
-      "./test/specs/preMH/test.dashboard.journeys.js",
-    ],
     mainSuite: [
+      "./test/specs/test.apply.journeys.js",
+      "./test/specs/mainSuite/test.review-claim-before-mh-launch.journeys.js",
+      "./test/specs/mainSuite/test.follow-up-claim-before-mh-launch.journeys.js",
       "./test/specs/mainSuite/test.pre.mh.journeys.js",
       "./test/specs/mainSuite/test.pre.and.post.mh.journeys.js",
-      "./test/specs/test.apply.journeys.js",
       "./test/specs/mainSuite/test.dashboard.journeys.js",
       "./test/specs/mainSuite/test.sheep.mh.journeys.js",
       "./test/specs/mainSuite/test.backoffice.journeys.js",
@@ -94,7 +90,7 @@ export const config = {
   // Define all options that are relevant for the WebdriverIO instance here
   //
   // Level of logging verbosity: trace | debug | info | warn | error | silent
-  logLevel: "info",
+  logLevel: "warn",
   //
   // Set specific log levels per logger
   // loggers:
@@ -280,6 +276,8 @@ export const config = {
 
       // Save the screenshot to a file
       fs.writeFileSync(screenshotPath, screenshot, "base64");
+    } else {
+      console.log(`Test passed: ${test.title}`);
     }
   },
 

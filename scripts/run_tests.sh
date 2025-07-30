@@ -45,11 +45,17 @@ else
   MESSAGE_QUEUE_PASSWORD=$(grep -E '^MESSAGE_QUEUE_PASSWORD=' "$ENV_FILE" | cut -d '=' -f2-)
   APPLICATIONINSIGHTS_CONNECTION_STRING=$(grep -E '^APPLICATIONINSIGHTS_CONNECTION_STRING=' "$ENV_FILE" | cut -d '=' -f2-)
   AZURE_STORAGE_CONNECTION_STRING=$(grep -E '^AZURE_STORAGE_CONNECTION_STRING=' "$ENV_FILE" | cut -d '=' -f2-)
+  CLEANUP_FIRST=$(grep -E '^CLEANUP_FIRST=' "$ENV_FILE" | cut -d '=' -f2-)
 fi
 
 if [ -z "$MESSAGE_QUEUE_PASSWORD" ] || [ -z "$APPLICATIONINSIGHTS_CONNECTION_STRING" ] || [ -z "$AZURE_STORAGE_CONNECTION_STRING" ]; then
   echo "❌ Error: One or more required environment variables are missing"
   exit 1
+fi
+
+if [[ "$CLEANUP_FIRST" == "true" ]]; then
+  echo "🧹 Cleaning up previous outputs..."
+  ./scripts/cleanup_outputs.sh
 fi
 
 echo "🚀 Starting services..."

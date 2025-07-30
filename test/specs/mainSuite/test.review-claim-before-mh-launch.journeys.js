@@ -6,8 +6,8 @@ import {
   enterWhenTestingWasCarriedOutAndContinue,
   fillInputAndContinue,
   verifySubmission,
-  clickStartNewClaimButton,
-} from "../../utils/common.js";
+  clickStartNewClaimButton, enterPreMHReleaseDateAndContinue,
+} from '../../utils/common.js'
 import {
   NUMBER_OF_ANIMALS_TESTED,
   VETS_NAME,
@@ -33,7 +33,7 @@ describe("Review claim journeys for various species", () => {
 
     await clickOnElementAndContinue(getTypeOfReviewSelector("review"));
 
-    await enterVisitDateAndContinue();
+    await enterPreMHReleaseDateAndContinue()
 
     await enterWhenTestingWasCarriedOutAndContinue("whenTheVetVisitedTheFarmToCarryOutTheReview");
 
@@ -51,7 +51,7 @@ describe("Review claim journeys for various species", () => {
     await expect($(CLAIM_REFERENCE)).toHaveText(expect.stringContaining("RESH"));
   });
 
-  it("can create a new review claim for Pigs", async () => {
+  it("can create a new pre-MH launch review claim for Pigs", async () => {
     await performDevLogin(APPLY_REVIEW_CLAIM_SBI, "claim");
 
     await clickStartNewClaimButton();
@@ -60,7 +60,7 @@ describe("Review claim journeys for various species", () => {
 
     await clickOnElementAndContinue(getTypeOfReviewSelector("review"));
 
-    await enterVisitDateAndContinue();
+    await enterPreMHReleaseDateAndContinue()
 
     await enterWhenTestingWasCarriedOutAndContinue("whenTheVetVisitedTheFarmToCarryOutTheReview");
 
@@ -85,7 +85,7 @@ describe("Review claim journeys for various species", () => {
     await expect($(CLAIM_REFERENCE)).toHaveText(expect.stringContaining("REPI"));
   });
 
-  it("can create a new review claim for Dairy cattle", async () => {
+  it("can create a new pre-MH launch review claim for Dairy cattle", async () => {
     await performDevLogin(APPLY_REVIEW_CLAIM_SBI, "claim");
 
     await clickStartNewClaimButton();
@@ -94,7 +94,7 @@ describe("Review claim journeys for various species", () => {
 
     await clickOnElementAndContinue(getTypeOfReviewSelector("review"));
 
-    await enterVisitDateAndContinue();
+    await enterPreMHReleaseDateAndContinue();
 
     await enterWhenTestingWasCarriedOutAndContinue("whenTheVetVisitedTheFarmToCarryOutTheReview");
 
@@ -112,7 +112,7 @@ describe("Review claim journeys for various species", () => {
     await expect($(CLAIM_REFERENCE)).toHaveText(expect.stringContaining("REDC"));
   });
 
-  it("can create a new review claim for Beef cattle", async () => {
+  it("can create a new pre-MH launch review claim for Beef cattle", async () => {
     await performDevLogin(APPLY_REVIEW_CLAIM_SBI, "claim");
 
     await clickStartNewClaimButton();
@@ -121,7 +121,7 @@ describe("Review claim journeys for various species", () => {
 
     await clickOnElementAndContinue(getTypeOfReviewSelector("review"));
 
-    await enterVisitDateAndContinue();
+    await enterPreMHReleaseDateAndContinue();
 
     await enterWhenTestingWasCarriedOutAndContinue("whenTheVetVisitedTheFarmToCarryOutTheReview");
 

@@ -7,8 +7,8 @@ import {
   fillInputAndContinue,
   selectSheepTestsAndContinue,
   verifySubmission,
-  clickStartNewClaimButton,
-} from "../../utils/common.js";
+  clickStartNewClaimButton, enterPreMHReleaseDateAndContinue,
+} from '../../utils/common.js'
 import {
   NUMBER_OF_ANIMALS_TESTED,
   VETS_NAME,
@@ -42,7 +42,7 @@ describe("Follow-up claim journeys for various species", () => {
 
     await clickOnElementAndContinue(getTypeOfReviewSelector("endemics"));
 
-    await enterVisitDateAndContinue();
+    await enterPreMHReleaseDateAndContinue();
 
     await enterWhenTestingWasCarriedOutAndContinue("whenTheVetVisitedTheFarmToCarryOutTheReview");
 
@@ -76,7 +76,7 @@ describe("Follow-up claim journeys for various species", () => {
 
     await clickOnElementAndContinue(getTypeOfReviewSelector("endemics"));
 
-    await enterVisitDateAndContinue();
+    await enterPreMHReleaseDateAndContinue();
 
     await clickOnElementAndContinue(getSpeciesNumbersSelector("yes"));
 
