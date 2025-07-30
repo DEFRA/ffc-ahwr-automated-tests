@@ -21,11 +21,11 @@ import {
   getSpeciesNumbersSelector,
   getTestResultsSelector,
 } from "../../utils/selectors.js";
-import { APPLY_REVIEW_CLAIM_SBI } from "../../utils/constants.js";
+import { APPLY_REVIEW_CLAIM_SBI, PRE_MH_REVIEWS_HERD_SBI } from '../../utils/constants.js'
 
 describe("Review claim journeys for various species", () => {
   it("can create a new review claim for Sheep", async () => {
-    await performDevLogin(APPLY_REVIEW_CLAIM_SBI, "claim");
+    await performDevLogin(PRE_MH_REVIEWS_HERD_SBI, "claim");
 
     await clickStartNewClaimButton();
 
@@ -52,7 +52,7 @@ describe("Review claim journeys for various species", () => {
   });
 
   it("can create a new pre-MH launch review claim for Pigs", async () => {
-    await performDevLogin(APPLY_REVIEW_CLAIM_SBI, "claim");
+    await performDevLogin(PRE_MH_REVIEWS_HERD_SBI, "claim");
 
     await clickStartNewClaimButton();
 
@@ -86,7 +86,7 @@ describe("Review claim journeys for various species", () => {
   });
 
   it("can create a new pre-MH launch review claim for Dairy cattle", async () => {
-    await performDevLogin(APPLY_REVIEW_CLAIM_SBI, "claim");
+    await performDevLogin(PRE_MH_REVIEWS_HERD_SBI, "claim");
 
     await clickStartNewClaimButton();
 
@@ -113,7 +113,7 @@ describe("Review claim journeys for various species", () => {
   });
 
   it("can create a new pre-MH launch review claim for Beef cattle", async () => {
-    await performDevLogin(APPLY_REVIEW_CLAIM_SBI, "claim");
+    await performDevLogin(PRE_MH_REVIEWS_HERD_SBI, "claim");
 
     await clickStartNewClaimButton();
 

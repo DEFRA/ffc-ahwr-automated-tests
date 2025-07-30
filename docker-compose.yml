@@ -116,7 +116,7 @@ services:
       CARBON_COPY_EMAIL_ADDRESS: "defra-vets-visits-testing@equalexperts.com"
       MESSAGE_GENERATOR_QUEUE_ADDRESS: ${MESSAGE_GENERATOR_QUEUE_ADDRESS:-ffc-ahwr-message-generator}${MESSAGE_QUEUE_SUFFIX}
       STORE_HISTORY_IN_DB_ENABLED: "true"
-            FEATURE_ASSURANCE_ENABLED: false
+      FEATURE_ASSURANCE_ENABLED: false
       FEATURE_ASSURANCE_START: "2025-05-01"
       PIG_UPDATES_ENABLED: false
 
@@ -237,7 +237,7 @@ services:
       DEFRA_ID_SERVICE_ID: random-value
       NODE_ENV: development
       DEV_LOGIN_ENABLED: true
-            PIG_UPDATES_ENABLED: false
+      PIG_UPDATES_ENABLED: false
 
   ffc-ahwr-backoffice:
     platform: linux/amd64
