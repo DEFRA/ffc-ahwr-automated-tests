@@ -6,21 +6,18 @@ TEST_COMMAND="$1"
 CLAIM_COMPLIANCE_CHECK_RATIO="$2"
 
 if [ -z "$TEST_COMMAND" ]; then
-  echo "❌ Error: No test command provided. Usage: ./run-tests.sh <preMH|postMH|comp|compFA>"
+  echo "❌ Error: No test command provided. Usage: ./run-tests.sh <mainSuite|comp|compFA>"
   exit 1
 fi
 
-if [[ "$TEST_COMMAND" == "postMH" ]]; then
-  MULTI_HERDS_ENABLED="true"
-elif [[ "$TEST_COMMAND" == "preMH" ]]; then
-  MULTI_HERDS_ENABLED="false"
+if [[ "$TEST_COMMAND" == "mainSuite" ]]; then
+  echo "No environment overrides required for test command mainSuite"
 elif [[ "$TEST_COMMAND" == "comp" ]]; then
-  MULTI_HERDS_ENABLED="true"
+  echo "No environment overrides required for test command comp"
 elif [[ "$TEST_COMMAND" == "compFA" ]]; then
-  MULTI_HERDS_ENABLED="true"
   FEATURE_ASSURANCE_ENABLED="true"
 else
-  echo "❌ Invalid TEST_COMMAND: $TEST_COMMAND (expected 'preMH' or 'postMH' or 'comp' or 'compFA')"
+  echo "❌ Invalid TEST_COMMAND: $TEST_COMMAND (expected 'mainSuite' or 'comp' or 'compFA')"
   exit 1
 fi
 
@@ -62,7 +59,6 @@ SED_ARGS=(
   -e "s|(MESSAGE_QUEUE_PASSWORD:).*|\1 ${MESSAGE_QUEUE_PASSWORD}|g"
   -e "s|(APPLICATIONINSIGHTS_CONNECTION_STRING:).*|\1 ${APPLICATIONINSIGHTS_CONNECTION_STRING}|g"
   -e "s|(AZURE_STORAGE_CONNECTION_STRING:).*|\1 ${AZURE_STORAGE_CONNECTION_STRING}|g"
-  -e "s|(MULTI_HERDS_ENABLED:).*|\1 ${MULTI_HERDS_ENABLED}|g"
   -e "s|host.docker.internal:JENKINS-PORT|host.docker.internal:${HOST_INTERNAL_IP}|g"
 )
 
@@ -85,9 +81,7 @@ fi
 echo "🧪 Running WDIO tests: "$TEST_COMMAND""
 
 LOG_DIR="logs"
-if [[ "$TEST_COMMAND" == "postMH" ]]; then
-  LOG_DIR="logsMH"
-elif [[ "$TEST_COMMAND" == "comp" ]]; then
+if [[ "$TEST_COMMAND" == "comp" ]]; then
   LOG_DIR="logsComp"
 elif [[ "$TEST_COMMAND" == "compFA" ]]; then
   LOG_DIR="logsCompFA"

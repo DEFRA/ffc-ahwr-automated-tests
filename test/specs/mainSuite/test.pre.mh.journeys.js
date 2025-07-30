@@ -24,9 +24,9 @@ import {
 import { PRE_MULTIPLE_HERD_SBI, PRE_MULTIPLE_HERD_AGREEMENT_REF } from "../../utils/constants.js";
 import { approveClaim } from "../../utils/backoffice-common.js";
 
-// This test suite covers various claim journeys with a visit date before the MH release date when MH is switched on
+// This test suite covers various claim journeys with a visit date before the MH release date
 
-describe("Pre-MH journeys when MH is switched on", () => {
+describe("Journeys involving Pre-MH launch claims", () => {
   it("cannot create a second review claim for sheep species when visit date is before MH release date and within 10 months of its pre-MH review claim", async () => {
     // This test uses data from the script in changelog/insert_pre_mh_application_review.sql
     await performDevLogin(PRE_MULTIPLE_HERD_SBI, "claim");
@@ -89,4 +89,5 @@ describe("Pre-MH journeys when MH is switched on", () => {
 
     await expect($(CLAIM_REFERENCE)).toHaveText(expect.stringContaining("FUPI"));
   });
+
 });

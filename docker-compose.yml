@@ -68,7 +68,7 @@ services:
       MULTI_SPECIES_RELEASE_DATE: "2025-02-26"
       DEV_LOGIN_ENABLED: true
       NODE_ENV: development
-      MULTI_HERDS_ENABLED: false
+      MULTI_HERDS_ENABLED: true
 
   ffc-ahwr-application:
     platform: linux/amd64
@@ -117,9 +117,10 @@ services:
       CARBON_COPY_EMAIL_ADDRESS: "defra-vets-visits-testing@equalexperts.com"
       MESSAGE_GENERATOR_QUEUE_ADDRESS: ${MESSAGE_GENERATOR_QUEUE_ADDRESS:-ffc-ahwr-message-generator}${MESSAGE_QUEUE_SUFFIX}
       STORE_HISTORY_IN_DB_ENABLED: "true"
-      MULTI_HERDS_ENABLED: false
+      MULTI_HERDS_ENABLED: true
       FEATURE_ASSURANCE_ENABLED: false
       FEATURE_ASSURANCE_START: "2025-05-01"
+      PIG_UPDATES_ENABLED: false
 
   ffc-ahwr-application-postgres:
     networks:
@@ -181,9 +182,6 @@ services:
       URL_PREFIX: "/apply"
       APPLICATION_API_URI: http://host.docker.internal:3001/api
       DEFRA_ID_SERVICE_ID: random-value
-      APIM_HOST_NAME: random-value
-      APIM_OAUTH_PATH: random-value
-      APIM_SCOPE: random-value
       NODE_ENV: development
       DEV_LOGIN_ENABLED: true
       MESSAGE_QUEUE_HOST: SNDFFCINFSB2001.servicebus.windows.net
@@ -197,24 +195,13 @@ services:
       EVENT_QUEUE_ADDRESS: ffc-ahwr-event${MESSAGE_QUEUE_SUFFIX}
       COOKIE_PASSWORD: important-this-is-the-same-across-front-ends
       DASHBOARD_SERVICE_URI: "http://ffc-ahwr-dashboard:3000"
-      DEFRA_ID_CLIENT_SECRET: random-value
-      APIM_CLIENT_ID: random-value
-      APIM_CLIENT_SECRET: random-value
-      APIM_OCP_SUBSCRIPTION_KEY: random-value
       DEFRA_ID_TENANT: random-value
       DEFRA_ID_POLICY: random-value
       DEFRA_ID_CLIENT_ID: random-value
-      DEFRA_ID_JWT_ISSUER_ID: random-value
-      DEFRA_ID_REDIRECT_URI: http://localhost:3003/signin-oidc
       DEFRA_ID_DASHBOARD_REDIRECT_URI: http://localhost:3003/signin-oidc
       TERMS_AND_CONDITIONS_URL: "http://localhost:3000/apply/terms/v3"
-      RPA_HOST_NAME: random-value
-      RPA_GET_PERSON_SUMMARY_URL: random-value
-      RPA_GET_ORGANISATION_PERMISSIONS_URL: random-value
-      RPA_GET_ORGANISATION_URL: random-value
-      RPA_GET_CPH_NUMBERS_URL: random-value
       APPLICATIONINSIGHTS_CONNECTION_STRING: random-value
-      MULTI_HERDS_ENABLED: false
+      MULTI_HERDS_ENABLED: true
 
   ffc-ahwr-farmer-claim:
     platform: linux/amd64
@@ -248,15 +235,13 @@ services:
       APPLICATION_API_URI: http://host.docker.internal:3001/api
       DEFRA_ID_TENANT: random-value
       DEFRA_ID_POLICY: random-value
-      DEFRA_ID_REDIRECT_URI: http://localhost:3003/signin-oidc
       DEFRA_ID_DASHBOARD_REDIRECT_URI: http://localhost:3003/signin-oidc
-      DEFRA_ID_JWT_ISSUER_ID: random-value
       DEFRA_ID_CLIENT_ID: random-value
-      DEFRA_ID_CLIENT_SECRET: random-value
       DEFRA_ID_SERVICE_ID: random-value
       NODE_ENV: development
       DEV_LOGIN_ENABLED: true
-      MULTI_HERDS_ENABLED: false
+      MULTI_HERDS_ENABLED: true
+      PIG_UPDATES_ENABLED: false
 
   ffc-ahwr-backoffice:
     platform: linux/amd64
@@ -288,7 +273,7 @@ services:
       ON_HOLD_APP_PROCESS_ENABLED: true
       ON_HOLD_APP_PROCESS_SCHEDULE: "0 0 * * 2-5"
       NODE_ENV: development
-      MULTI_HERDS_ENABLED: false
+      MULTI_HERDS_ENABLED: true
 
   redis:
     networks:
