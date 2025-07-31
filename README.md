@@ -34,6 +34,7 @@ logs also get generated in the pipeline when it runs, and they can be accessed v
 - Create a .env file in the root of the repo
 - Make sure you have MESSAGE_QUEUE_PASSWORD, MESSAGE_QUEUE_SUFFIX and APPLICATIONINSIGHTS_CONNECTION_STRING in your .env file
 - MESSAGE_QUEUE_SUFFIX should be whichever queues you want to use in SND2, e.g. -auto. The -pipe queues are reserved for the pipeline.
+- Add CLEANUP_FIRST=true to your .env file if you want to ensure a clean-up of logs and screenshots before running the tests locally
 - You can find these values by speaking to a dev
 
 ## 🧪 Running Automated Tests

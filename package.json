@@ -1,11 +1,10 @@
 {
   "name": "ffc-ahwr-automated-tests",
-  "version": "1.4.1",
+  "version": "1.5.0",
   "description": "Automated tests for AHWR services",
   "type": "module",
   "scripts": {
-    "test:preMH": "wdio run wdio.conf.js --suite preMH",
-    "test:postMH": "wdio run wdio.conf.js --suite postMH",
+    "test:mainSuite": "wdio run wdio.conf.js --suite mainSuite",
     "test:comp": "wdio run wdio.conf.js --suite comp",
     "test:compFA": "wdio run wdio.conf.js --suite compFA",
     "lint": "prettier . --check && eslint",

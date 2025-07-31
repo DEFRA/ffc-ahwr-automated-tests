@@ -43,27 +43,12 @@ pipeline {
                 sh './scripts/build_wdio_test_image.sh'
             }
         }
-        stage('Run pre-MH Tests') {
+        stage('Run mainSuite Tests') {
             options {
                 timeout(time: 7, unit: 'MINUTES')
             }
             steps {
-                script {
-                    try {
-                        sh './scripts/run_tests.sh preMH'
-                    } catch (err) {
-                        echo "⚠️ preMH tests failed"
-                        preMHFailed = true
-                    }
-                }
-            }
-        }
-        stage('Run post-MH Tests') {
-            options {
-                timeout(time: 7, unit: 'MINUTES')
-            }
-            steps {
-                sh './scripts/run_tests.sh postMH'
+                sh './scripts/run_tests.sh mainSuite'
             }
         }
 
@@ -86,13 +71,6 @@ pipeline {
         }
     }
     post {
-        always {
-            script {
-                if (preMHFailed) {
-                    error("❌ Failing pipeline because preMH tests failed")
-                }
-            }
-        }
         failure {
             script {
                 if (env.GIT_BRANCH == "$GIT_BRANCH_ALERTS") {

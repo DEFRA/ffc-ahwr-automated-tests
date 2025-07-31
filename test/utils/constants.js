@@ -22,3 +22,7 @@ export const PRE_MULTIPLE_HERD_AGREEMENT_REF = "IAHW-KH1H-BBA4";
 // Below references from changelog/insert_pre_post_mh_application_review.sql
 export const PRE_POST_MULTIPLE_HERD_SBI = "106817865";
 export const PRE__POST_MULTIPLE_HERD_AGREEMENT_REF = "IAHW-KH3H-BBA5";
+
+// Below references from changelog/insert_applications_for_reviews.sql
+export const PRE_MH_REVIEWS_HERD_SBI = "106817866";
+export const PRE_MH_REVIEWS_AGREEMENT_REF = "IAHW-AC1H-BBA4";
