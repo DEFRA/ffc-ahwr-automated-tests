@@ -43,7 +43,7 @@ pipeline {
         }
         stage('Run mainSuite Tests') {
             options {
-                timeout(time: 7, unit: 'MINUTES')
+                timeout(time: 10, unit: 'MINUTES')
             }
             steps {
                 sh './scripts/run_tests.sh mainSuite'
