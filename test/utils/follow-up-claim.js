@@ -59,7 +59,7 @@ export async function createPreMultipleHerdSheepFollowUp() {
   await verifySubmission("Claim complete");
 }
 
-export async function createPreMultipleHerdPigsFollowUp({ urn = "pg-fc-5343462" } = {}) {
+export async function createPreMultipleHerdPigsFollowUp(urn = "pg-fc-5343462") {
   await clickStartNewClaimButton();
   await clickOnElementAndContinue(getTypeOfLivestockSelector("pigs"));
   await clickOnElementAndContinue(getTypeOfReviewSelector("endemics"));
