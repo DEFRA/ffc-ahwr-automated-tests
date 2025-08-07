@@ -2,13 +2,13 @@ import { expect, $ } from "@wdio/globals";
 import {
   performDevLogin,
   clickOnElementAndContinue,
-  enterVisitDateAndContinue,
   enterWhenTestingWasCarriedOutAndContinue,
   fillInputAndContinue,
   selectSheepTestsAndContinue,
   verifySubmission,
-  clickStartNewClaimButton, enterPreMHReleaseDateAndContinue,
-} from '../../utils/common.js'
+  clickStartNewClaimButton,
+  enterPreMHReleaseDateAndContinue,
+} from "../../utils/common.js";
 import {
   NUMBER_OF_ANIMALS_TESTED,
   VETS_NAME,
@@ -90,7 +90,7 @@ describe("Follow-up claim journeys for various species", () => {
 
     await enterWhenTestingWasCarriedOutAndContinue("whenTheVetVisitedTheFarmToCarryOutTheReview");
 
-    await fillInputAndContinue(LABORATORY_URN, "521346");
+    await fillInputAndContinue(LABORATORY_URN, "bc-fu-521341");
 
     await clickOnElementAndContinue(getTestResultsSelector("positive"));
 

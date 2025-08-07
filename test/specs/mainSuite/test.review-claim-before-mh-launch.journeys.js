@@ -2,12 +2,12 @@ import { expect, $ } from "@wdio/globals";
 import {
   performDevLogin,
   clickOnElementAndContinue,
-  enterVisitDateAndContinue,
   enterWhenTestingWasCarriedOutAndContinue,
   fillInputAndContinue,
   verifySubmission,
-  clickStartNewClaimButton, enterPreMHReleaseDateAndContinue,
-} from '../../utils/common.js'
+  clickStartNewClaimButton,
+  enterPreMHReleaseDateAndContinue,
+} from "../../utils/common.js";
 import {
   NUMBER_OF_ANIMALS_TESTED,
   VETS_NAME,
@@ -21,7 +21,7 @@ import {
   getSpeciesNumbersSelector,
   getTestResultsSelector,
 } from "../../utils/selectors.js";
-import { APPLY_REVIEW_CLAIM_SBI, PRE_MH_REVIEWS_HERD_SBI } from '../../utils/constants.js'
+import { PRE_MH_REVIEWS_HERD_SBI } from "../../utils/constants.js";
 
 describe("Review claim journeys for various species", () => {
   it("can create a new review claim for Sheep", async () => {
@@ -33,7 +33,7 @@ describe("Review claim journeys for various species", () => {
 
     await clickOnElementAndContinue(getTypeOfReviewSelector("review"));
 
-    await enterPreMHReleaseDateAndContinue()
+    await enterPreMHReleaseDateAndContinue();
 
     await enterWhenTestingWasCarriedOutAndContinue("whenTheVetVisitedTheFarmToCarryOutTheReview");
 
@@ -60,7 +60,7 @@ describe("Review claim journeys for various species", () => {
 
     await clickOnElementAndContinue(getTypeOfReviewSelector("review"));
 
-    await enterPreMHReleaseDateAndContinue()
+    await enterPreMHReleaseDateAndContinue();
 
     await enterWhenTestingWasCarriedOutAndContinue("whenTheVetVisitedTheFarmToCarryOutTheReview");
 

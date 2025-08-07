@@ -10,6 +10,7 @@ import {
   clickContinueButton,
   enterVisitDateAndContinue,
   chooseRandomHerdReasonsAndContinue,
+  selectHerdAndContinue,
 } from "./common.js";
 import { JOHNES_DISEASE } from "./constants.js";
 import {
@@ -28,6 +29,10 @@ import {
   getHerdVaccinationStatus,
   LABORATORY_URN,
   NUMBER_OF_SAMPLES_TESTED,
+  getPiHuntForBvdDoneSelector,
+  getPiHuntRecommendedByVetSelector,
+  getPiHuntDoneForAllCattleSelector,
+  getTestResultsSelector,
 } from "./selectors.js";
 import {
   PREVIOUSLY_CLAIMED_YES_ON_SELECT_THE_HERD_PAGE,
@@ -54,7 +59,7 @@ export async function createPreMultipleHerdSheepFollowUp() {
   await verifySubmission("Claim complete");
 }
 
-export async function createPreMultipleHerdPigsFollowUp(sbi, { urn = "pg-fc-5343462" } = {}) {
+export async function createPreMultipleHerdPigsFollowUp(urn = "pg-fc-5343462") {
   await clickStartNewClaimButton();
   await clickOnElementAndContinue(getTypeOfLivestockSelector("pigs"));
   await clickOnElementAndContinue(getTypeOfReviewSelector("endemics"));
@@ -136,5 +141,84 @@ export async function createMultipleHerdPigsFollowUp({
   await clickOnElementAndContinue(getBiosecuritySelector("yes"));
   await fillInputAndContinue(ASSESSMENT_PERCENTAGE, "50");
   await $(SUBMIT_CLAIM_BUTTON).click();
+  await verifySubmission("Claim complete");
+}
+
+export async function createMultipleHerdBeefFollowUpForFirstHerd({
+  isUnnamedHerdClaimPresent = false,
+} = {}) {
+  await clickStartNewClaimButton();
+  await clickOnElementAndContinue(getTypeOfLivestockSelector("beef"));
+  await clickOnElementAndContinue(getTypeOfReviewSelector("endemics"));
+  await enterVisitDateAndContinue();
+
+  if (isUnnamedHerdClaimPresent) {
+    await fillInputAndContinue(HERD_NAME, "Black Label Beef");
+    await fillInputAndContinue(HERD_CPH, "33/123/1234");
+    await clickOnElementAndContinue(OTHER_HERDS_ON_SBI_NO);
+    await chooseRandomHerdReasonsAndContinue();
+    await clickContinueButton();
+    await clickOnElementAndContinue(PREVIOUSLY_CLAIMED_YES_ON_SAME_HERD_PAGE);
+  } else {
+    await clickOnElementAndContinue(PREVIOUSLY_CLAIMED_YES_ON_SELECT_THE_HERD_PAGE);
+  }
+
+  await clickContinueButton();
+  await clickOnElementAndContinue(getSpeciesNumbersSelector("yes"));
+  await fillInputAndContinue(VETS_NAME, "Mr Auto Test");
+
+  await fillInputAndContinue(VET_RCVS_NUMBER, "1234567");
+
+  await clickOnElementAndContinue(getPiHuntForBvdDoneSelector("yes"));
+
+  await clickOnElementAndContinue(getPiHuntDoneForAllCattleSelector("yes"));
+
+  await enterWhenTestingWasCarriedOutAndContinue("whenTheVetVisitedTheFarmToCarryOutTheReview");
+
+  await fillInputAndContinue(LABORATORY_URN, "bc-fu-521346");
+
+  await clickOnElementAndContinue(getTestResultsSelector("positive"));
+
+  await clickOnElementAndContinue(getBiosecuritySelector("yes"));
+  await $(SUBMIT_CLAIM_BUTTON).click();
+  await verifySubmission("Claim complete");
+}
+
+export async function createMultipleHerdBeefFollowUpForAdditionalHerd({
+  herdName,
+  testResult = "negative",
+  isUnnamedHerdClaimPresent = false,
+  urn = "bc-fu-521347",
+} = {}) {
+  await clickStartNewClaimButton();
+  await clickOnElementAndContinue(getTypeOfLivestockSelector("beef"));
+  await clickOnElementAndContinue(getTypeOfReviewSelector("endemics"));
+  await enterVisitDateAndContinue();
+
+  await selectHerdAndContinue(herdName);
+
+  if (isUnnamedHerdClaimPresent) {
+    await fillInputAndContinue(HERD_NAME, "Black Label Beef");
+    await fillInputAndContinue(HERD_CPH, "33/123/1234");
+    await chooseRandomHerdReasonsAndContinue();
+  }
+
+  await clickContinueButton();
+  await clickOnElementAndContinue(getSpeciesNumbersSelector("yes"));
+  await fillInputAndContinue(VETS_NAME, "Mr Auto Test");
+  await fillInputAndContinue(VET_RCVS_NUMBER, "1234567");
+  await clickOnElementAndContinue(getPiHuntForBvdDoneSelector("yes"));
+
+  if (testResult === "negative") {
+    await clickOnElementAndContinue(getPiHuntRecommendedByVetSelector("yes"));
+  }
+
+  await clickOnElementAndContinue(getPiHuntDoneForAllCattleSelector("yes"));
+  await enterWhenTestingWasCarriedOutAndContinue("whenTheVetVisitedTheFarmToCarryOutTheReview");
+  await fillInputAndContinue(LABORATORY_URN, urn);
+  await clickOnElementAndContinue(getTestResultsSelector("positive"));
+  await clickOnElementAndContinue(getBiosecuritySelector("yes"));
+  await $(SUBMIT_CLAIM_BUTTON).click();
+
   await verifySubmission("Claim complete");
 }

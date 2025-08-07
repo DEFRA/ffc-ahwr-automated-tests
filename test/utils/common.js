@@ -1,4 +1,4 @@
-import { expect, browser, $ } from "@wdio/globals";
+import { expect, browser, $, $$ } from "@wdio/globals";
 import {
   SBI,
   CONTINUE_BUTTON,
@@ -12,6 +12,7 @@ import {
   START_NEW_CLAIM_BUTTON,
   AGREEMENT_NUMBER_SELECTOR,
   TERMS_AND_CONDITIONS_CHECKBOX,
+  GOV_RADIOS_INPUT_LABEL,
   getConfirmCheckDetailsSelector,
 } from "./selectors.js";
 
@@ -101,6 +102,18 @@ export async function fillInput(selector, value) {
 
 export async function fillInputAndContinue(selector, value) {
   await fillInput(selector, value);
+  await clickContinueButton();
+}
+
+export async function selectHerdAndContinue(herdName) {
+  const herdLabelElement = await $$(GOV_RADIOS_INPUT_LABEL).find(async (element) => {
+    const text = await element.getText();
+    return text.trim() === herdName;
+  });
+
+  const herdInputId = await herdLabelElement.getAttribute("for");
+  await $(`#${herdInputId}`).click();
+
   await clickContinueButton();
 }
 
