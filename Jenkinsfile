@@ -28,6 +28,7 @@ pipeline {
         stage('Pull Service Images (ACR)') {
             options {
                 timeout(time: 3, unit: 'MINUTES')
+                retry(3)
             }
             steps {
                 sh './scripts/pull_latest_acr_images.sh'
