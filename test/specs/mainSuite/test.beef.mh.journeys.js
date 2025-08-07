@@ -1,7 +1,6 @@
 import { expect, $ } from "@wdio/globals";
 import { performDevLogin } from "../../utils/common.js";
 import { CLAIM_REFERENCE } from "../../utils/selectors.js";
-
 import { MULTIPLE_HERDS_SBI, MULTIPLE_HERD_SHEEP_AGREEMENT_REF } from "../../utils/constants.js";
 import { approveClaim } from "../../utils/backoffice-common.js";
 import {
