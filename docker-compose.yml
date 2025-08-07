@@ -68,7 +68,7 @@ services:
       MULTI_SPECIES_RELEASE_DATE: "2025-02-26"
       DEV_LOGIN_ENABLED: true
       NODE_ENV: development
-      
+
   ffc-ahwr-application:
     platform: linux/amd64
     networks:
@@ -199,7 +199,7 @@ services:
       DEFRA_ID_DASHBOARD_REDIRECT_URI: http://localhost:3003/signin-oidc
       TERMS_AND_CONDITIONS_URL: "http://localhost:3000/apply/terms/v3"
       APPLICATIONINSIGHTS_CONNECTION_STRING: random-value
-      
+
   ffc-ahwr-farmer-claim:
     platform: linux/amd64
     networks:
@@ -269,7 +269,7 @@ services:
       ON_HOLD_APP_PROCESS_ENABLED: true
       ON_HOLD_APP_PROCESS_SCHEDULE: "0 0 * * 2-5"
       NODE_ENV: development
-      
+
   redis:
     networks:
       - ffc-ahwr-network-auto

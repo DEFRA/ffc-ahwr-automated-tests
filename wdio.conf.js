@@ -37,6 +37,7 @@ export const config = {
       "./test/specs/mainSuite/test.pre.and.post.mh.journeys.js",
       "./test/specs/mainSuite/test.dashboard.journeys.js",
       "./test/specs/mainSuite/test.sheep.mh.journeys.js",
+      "./test/specs/mainSuite/test.beef.mh.journeys.js",
       "./test/specs/mainSuite/test.backoffice.journeys.js",
     ],
     comp: ["./test/specs/test.claim-compliance.journeys.js"],

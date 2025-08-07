@@ -41,7 +41,7 @@ import { createMultipleHerdSheepFollowUp } from "../../utils/follow-up-claim.js"
 
 let claimNumber;
 
-describe("Multiple herds - Review claim journeys for a flock of sheep", () => {
+describe("Multiple herds - review and follow-up claim journeys for a flock of sheep", () => {
   it("can create the first review claim for a flock of sheep for a business", async () => {
     await performDevLogin(MULTIPLE_HERDS_SBI, "claim");
 
@@ -123,7 +123,7 @@ describe("Multiple herds - Review claim journeys for a flock of sheep", () => {
     await expect($(CLAIM_REFERENCE)).toHaveText(expect.stringContaining("FUSH"));
   });
 
-  it("can create a second review claim for a different flock of sheep for the same business", async () => {
+  it("can create a review claim for a different flock of sheep for the same business", async () => {
     await performDevLogin(MULTIPLE_HERDS_SBI, "claim");
 
     await clickStartNewClaimButton();

@@ -52,8 +52,8 @@ az login
 # Build WDIO test image
 ./scripts/build_wdio_test_image.sh
 
-# Run tests (provide preMH, postMH, comp or compFA argument, dependant on which test suite you want to run from wdio.conf.js)
-./scripts/run_tests.sh preMH
+# Run tests (provide mainSuite, comp or compFA argument, dependant on which test suite you want to run from wdio.conf.js)
+./scripts/run_tests.sh mainSuite
 
 ```
 

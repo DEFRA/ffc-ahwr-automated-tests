@@ -1,5 +1,3 @@
-def preMHFailed = false
-
 pipeline {
     agent any
     options {

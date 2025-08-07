@@ -60,6 +60,8 @@ export const EXTERNAL_GOV_LINK = '.govuk-link[rel="external"]';
 
 export const DATE_OF_VISIT_GOV_LINK = '.govuk-link[href="/claim/endemics/date-of-visit"]';
 
+export const GOV_RADIOS_INPUT_LABEL = "label.govuk-radios__label";
+
 export function getConfirmCheckDetailsSelector(value) {
   return `input[name="confirmCheckDetails"][value="${value}"]`;
 }
@@ -94,6 +96,10 @@ export function getTestResultSelector(value) {
 
 export function getPiHuntForBvdDoneSelector(value) {
   return `input[name="piHunt"][value="${value}"]`;
+}
+
+export function getPiHuntRecommendedByVetSelector(value) {
+  return `input[name="piHuntRecommended"][value="${value}"]`;
 }
 
 export function getPiHuntDoneForAllCattleSelector(value) {

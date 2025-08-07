@@ -85,9 +85,8 @@ describe("Journeys involving Pre-MH launch claims", () => {
 
     await performDevLogin(PRE_MULTIPLE_HERD_SBI, "claim");
 
-    await createPreMultipleHerdPigsFollowUp(PRE_MULTIPLE_HERD_SBI);
+    await createPreMultipleHerdPigsFollowUp();
 
     await expect($(CLAIM_REFERENCE)).toHaveText(expect.stringContaining("FUPI"));
   });
-
 });
