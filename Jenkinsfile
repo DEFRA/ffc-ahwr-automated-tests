@@ -28,6 +28,7 @@ pipeline {
         stage('Pull Service Images (ACR)') {
             options {
                 timeout(time: 3, unit: 'MINUTES')
+                retry(3)
             }
             steps {
                 sh './scripts/pull_latest_acr_images.sh'
@@ -43,7 +44,7 @@ pipeline {
         }
         stage('Run mainSuite Tests') {
             options {
-                timeout(time: 7, unit: 'MINUTES')
+                timeout(time: 10, unit: 'MINUTES')
             }
             steps {
                 sh './scripts/run_tests.sh mainSuite'

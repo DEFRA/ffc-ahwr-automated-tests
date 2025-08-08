@@ -176,8 +176,40 @@ export const config = {
    * @param {object} config wdio configuration object
    * @param {Array.<Object>} capabilities list of capabilities details
    */
-  // onPrepare: function (config, capabilities) {
-  // },
+  onPrepare: function (config, capabilities) {
+    function chmodRecursive(dirPath) {
+      try {
+        fs.chmodSync(dirPath, 0o777);
+      } catch (error) {
+        console.error(`Failed to chmod ${dirPath}`, error);
+      }
+
+      const entries = fs.readdirSync(dirPath, { withFileTypes: true });
+
+      for (const entry of entries) {
+        const fullPath = path.join(dirPath, entry.name);
+
+        if (entry.isDirectory()) {
+          chmodRecursive(fullPath); // Recurse into subdirectory
+        } else {
+          try {
+            fs.chmodSync(fullPath, 0o777);
+          } catch (error) {
+            console.error(`Failed to chmod ${fullPath}`, error);
+          }
+        }
+      }
+    }
+
+    try {
+      if (fs.existsSync(projectPath)) {
+        console.log("Changing file permissions on all files under project directory:", projectPath);
+        chmodRecursive(projectPath);
+      }
+    } catch (error) {
+      console.error("Error changing file permissions on files under project directory:", error);
+    }
+  },
   /**
    * Gets executed before a worker process is spawned and can be used to initialize specific service
    * for that worker as well as modify runtime environments in an async fashion.
@@ -322,40 +354,8 @@ export const config = {
    * @param {Array.<Object>} capabilities list of capabilities details
    * @param {<Object>} results object containing test results
    */
-  onComplete: function (exitCode, config, capabilities, results) {
-    function chmodRecursive(dirPath) {
-      try {
-        fs.chmodSync(dirPath, 0o777);
-      } catch (error) {
-        console.error(`Failed to chmod ${dirPath}`, error);
-      }
-
-      const entries = fs.readdirSync(dirPath, { withFileTypes: true });
-
-      for (const entry of entries) {
-        const fullPath = path.join(dirPath, entry.name);
-
-        if (entry.isDirectory()) {
-          chmodRecursive(fullPath); // Recurse into subdirectory
-        } else {
-          try {
-            fs.chmodSync(fullPath, 0o777);
-          } catch (error) {
-            console.error(`Failed to chmod ${fullPath}`, error);
-          }
-        }
-      }
-    }
-
-    try {
-      if (fs.existsSync(projectPath)) {
-        console.log("Changing file permissions on all files under project directory:", projectPath);
-        chmodRecursive(projectPath);
-      }
-    } catch (error) {
-      console.error("Error changing file permissions on files under project directory:", error);
-    }
-  },
+  // onComplete: function (exitCode, config, capabilities, results) {
+  // },
   /**
    * Gets executed when a refresh happens.
    * @param {string} oldSessionId session ID of the old session

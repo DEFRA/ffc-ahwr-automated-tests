@@ -268,6 +268,7 @@ services:
       DISPLAY_PAGE_SIZE: 20
       ON_HOLD_APP_PROCESS_ENABLED: true
       ON_HOLD_APP_PROCESS_SCHEDULE: "0 0 * * 2-5"
+      DATA_REDACTION_PROCESS_SCHEDULE: "0 0 * * 2-5"
       NODE_ENV: development
 
   redis:
