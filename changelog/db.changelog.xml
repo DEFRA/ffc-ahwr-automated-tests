@@ -38,6 +38,8 @@
   <include file="changelog/db.changelog-1.35.xml" />
   <include file="changelog/db.changelog-1.36.xml" />
   <include file="changelog/db.changelog-1.37.xml" />
+  <include file="changelog/db.changelog-1.38.xml" />
+  <include file="changelog/db.changelog-1.39.xml" />
   <include file="changelog/insert_sheep_apply_review_claim.sql" />
   <include file="changelog/insert_beef_apply_review_claim.sql" />
   <include file="changelog/insert_mh_sheep_application.sql" />
