@@ -90,8 +90,6 @@ services:
       POSTGRES_PORT: 5432
       POSTGRES_SCHEMA_NAME: public
       POSTGRES_USERNAME: postgres
-      NOTIFY_TEMPLATE_ID_FARMER_ENDEMICS_REVIEW_COMPLETE: fe5ea908-dfcf-4b65-8514-2d4168b569a5
-      NOTIFY_TEMPLATE_ID_FARMER_ENDEMICS_FOLLOWUP_COMPLETE: fe5ea908-dfcf-4b65-8514-2d4168b569a5
       SERVICE_URI: http://localhost:3000
       AZURE_STORAGE_USE_CONNECTION_STRING: "true"
       SFD_MESSAGE_QUEUE_ADDRESS: ffc-ahwr-sfd-message${MESSAGE_QUEUE_SUFFIX}
@@ -110,10 +108,9 @@ services:
       COOKIE_PASSWORD: important-this-is-the-same-across-front-ends
       LIQUIBASE_CONTEXTS: "test"
       APPLICATIONINSIGHTS_CONNECTION_STRING: random-value
-      APPINSIGHTS_CLOUDROLE: "ffc-ahwr-eligibility"
+      APPINSIGHTS_CLOUDROLE: "ffc-ahwr-application"
       APPLY_SERVICE_URI: "http://localhost:3000/apply"
       CLAIM_COMPLIANCE_CHECK_RATIO: 1
-      CARBON_COPY_EMAIL_ADDRESS: "defra-vets-visits-testing@equalexperts.com"
       MESSAGE_GENERATOR_QUEUE_ADDRESS: ${MESSAGE_GENERATOR_QUEUE_ADDRESS:-ffc-ahwr-message-generator}${MESSAGE_QUEUE_SUFFIX}
       STORE_HISTORY_IN_DB_ENABLED: "true"
       FEATURE_ASSURANCE_ENABLED: false
