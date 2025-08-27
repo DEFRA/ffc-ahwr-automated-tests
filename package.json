@@ -1,6 +1,6 @@
 {
   "name": "ffc-ahwr-automated-tests",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "description": "Automated tests for AHWR services",
   "type": "module",
   "scripts": {
