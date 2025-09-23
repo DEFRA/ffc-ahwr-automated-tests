@@ -4,6 +4,7 @@ pipeline {
         disableConcurrentBuilds()
     }
     environment {
+        CI = "true"
         BRANCH_NAME = "${env.GIT_BRANCH}"
         RUN_NUMBER  = "${env.BUILD_NUMBER}"
         MESSAGE_QUEUE_PASSWORD = credentials('MESSAGE_QUEUE_PASSWORD')
