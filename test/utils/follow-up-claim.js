@@ -25,7 +25,6 @@ import {
   SUBMIT_CLAIM_BUTTON,
   ASSESSMENT_PERCENTAGE,
   getBiosecuritySelector,
-  getDiseaseStatusSelector,
   getHerdVaccinationStatus,
   LABORATORY_URN,
   NUMBER_OF_SAMPLES_TESTED,
@@ -33,6 +32,7 @@ import {
   getPiHuntRecommendedByVetSelector,
   getPiHuntDoneForAllCattleSelector,
   getTestResultsSelector,
+  getPcrTestResultSelector, getGeneticSequencingSelector
 } from "./selectors.js";
 import {
   PREVIOUSLY_CLAIMED_YES_ON_SELECT_THE_HERD_PAGE,
@@ -72,7 +72,8 @@ export async function createPreMultipleHerdPigsFollowUp(urn = "pg-fc-5343462") {
   await clickOnElementAndContinue(getHerdVaccinationStatus("vaccinated"));
   await fillInputAndContinue(LABORATORY_URN, urn);
   await fillInputAndContinue(NUMBER_OF_SAMPLES_TESTED, "6");
-  await clickOnElementAndContinue(getDiseaseStatusSelector("1"));
+  await clickOnElementAndContinue(getPcrTestResultSelector("positive"));
+  await clickOnElementAndContinue(getGeneticSequencingSelector("prrs1"));
   await clickOnElementAndContinue(getBiosecuritySelector("yes"));
   await fillInputAndContinue(ASSESSMENT_PERCENTAGE, "50");
   await $(SUBMIT_CLAIM_BUTTON).click();
@@ -137,7 +138,8 @@ export async function createMultipleHerdPigsFollowUp({
   await clickOnElementAndContinue(getHerdVaccinationStatus("vaccinated"));
   await fillInputAndContinue(LABORATORY_URN, urn);
   await fillInputAndContinue(NUMBER_OF_SAMPLES_TESTED, "6");
-  await clickOnElementAndContinue(getDiseaseStatusSelector("1"));
+  await clickOnElementAndContinue(getPcrTestResultSelector("positive"));
+  await clickOnElementAndContinue(getGeneticSequencingSelector("prrs1"));
   await clickOnElementAndContinue(getBiosecuritySelector("yes"));
   await fillInputAndContinue(ASSESSMENT_PERCENTAGE, "50");
   await $(SUBMIT_CLAIM_BUTTON).click();

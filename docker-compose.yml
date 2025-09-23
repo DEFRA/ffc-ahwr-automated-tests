@@ -115,7 +115,6 @@ services:
       STORE_HISTORY_IN_DB_ENABLED: "true"
       FEATURE_ASSURANCE_ENABLED: false
       FEATURE_ASSURANCE_START: "2025-05-01"
-      PIG_UPDATES_ENABLED: false
 
   ffc-ahwr-application-postgres:
     networks:
@@ -176,7 +175,6 @@ services:
       CLAIM_SERVICE_URI: http://ffc-ahwr-farmer-claim:3000/claim
       URL_PREFIX: "/apply"
       APPLICATION_API_URI: http://ffc-ahwr-application:3000/api
-      DEFRA_ID_SERVICE_ID: random-value
       NODE_ENV: development
       MESSAGE_QUEUE_HOST: SNDFFCINFSB2001.servicebus.windows.net
       MESSAGE_QUEUE_PASSWORD: AnyOldString
@@ -222,7 +220,6 @@ services:
       DASHBOARD_SERVICE_URI: http://ffc-ahwr-dashboard:3000
       APPLICATION_API_URI: http://host.docker.internal:3001/api
       NODE_ENV: development
-      PIG_UPDATES_ENABLED: false
 
   ffc-ahwr-backoffice:
     platform: linux/amd64
