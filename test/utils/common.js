@@ -16,20 +16,26 @@ import {
   getConfirmCheckDetailsSelector,
 } from "./selectors.js";
 
-export function getDevSignInUrl(type) {
-  const baseUrls = {
-    apply: "http://localhost:3000/apply/endemics/dev-sign-in",
-    claim: "http://localhost:3004/claim/endemics/dev-sign-in",
-    backoffice: "http://localhost:3002/claims",
-  };
+function getDevSignInUrl() {
+  const localhostDevLandingPage = "http://localhost:3003/dev-landing-page";
+  const dockerDevLandingPage = "http://nginx/dev-landing-page";
 
-  const dockerUrls = {
-    apply: "http://ffc-ahwr-farmer-apply:3000/apply/endemics/dev-sign-in",
-    claim: "http://ffc-ahwr-farmer-claim:3000/claim/endemics/dev-sign-in",
-    backoffice: "http://ffc-ahwr-backoffice:3000/claims",
-  };
+  if (process.env.DOCKER_MODE === "true") {
+    return dockerDevLandingPage;
+  }
 
-  return process.env.DOCKER_MODE === "true" ? dockerUrls[type] : baseUrls[type];
+  return localhostDevLandingPage;
+}
+
+export function getBackOfficeUrl() {
+  const localhostBackOfficeClaimsPage = "http://localhost:3002/claims";
+  const dockerBackOfficeClaimsPage = "http://ffc-ahwr-backoffice:3000/claims";
+
+  if (process.env.DOCKER_MODE === "true") {
+    return dockerBackOfficeClaimsPage;
+  }
+
+  return localhostBackOfficeClaimsPage;
 }
 
 export async function clickSubmitButton() {
@@ -41,8 +47,8 @@ export async function fillAndSubmitSBI(sbi) {
   await clickSubmitButton();
 }
 
-export async function performDevLogin(sbi, journeyType) {
-  await browser.url(getDevSignInUrl(journeyType));
+export async function performDevLogin(sbi) {
+  await browser.url(getDevSignInUrl());
   await fillAndSubmitSBI(sbi);
   await $(getConfirmCheckDetailsSelector("yes")).click();
   await clickSubmitButton();
@@ -131,7 +137,7 @@ export async function clickStartNewClaimButton() {
 }
 
 export async function createAgreement(sbi) {
-  await browser.url(getDevSignInUrl("apply"));
+  await browser.url(getDevSignInUrl());
   await fillAndSubmitSBI(sbi);
   await $(getConfirmCheckDetailsSelector("yes")).click();
   await clickSubmitButton();
@@ -147,7 +153,7 @@ export async function createAgreement(sbi) {
 }
 
 export async function swapBackOfficeUser(userName) {
-  const backOfficeClaimsRoute = getDevSignInUrl("backoffice");
+  const backOfficeClaimsRoute = getBackOfficeUrl();
   const loginRoute = backOfficeClaimsRoute.replace("claims", `login?userId=${userName}`);
   await browser.url(loginRoute);
 }

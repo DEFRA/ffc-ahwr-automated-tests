@@ -13,6 +13,7 @@ services:
         condition: service_completed_successfully
     environment:
       DOCKER_MODE: true
+      CI: true
 
   ffc-ahwr-dashboard:
     platform: linux/amd64
@@ -39,9 +40,9 @@ services:
       REDIS_PORT: 6379
       REDIS_PASSWORD: ""
       SERVICE_URI: http://host.docker.internal:3003/
-      CLAIM_SERVICE_URI: http://ffc-ahwr-farmer-claim:3000/claim
-      APPLY_SERVICE_URI: http://ffc-ahwr-farmer-apply:3000/apply
-      APPLICATION_API_URI: http://host.docker.internal:3001/api
+      CLAIM_SERVICE_URI: http://nginx/claim
+      APPLY_SERVICE_URI: http://nginx/apply
+      APPLICATION_API_URI: http://ffc-ahwr-application:3000/api
       DEFRA_ID_TENANT: random-value
       DEFRA_ID_POLICY: random-value
       DEFRA_ID_REDIRECT_URI: http://localhost:3003/signin-oidc
@@ -99,7 +100,6 @@ services:
       MESSAGE_QUEUE_USER: RootManageSharedAccessKey
       APPLICATIONREQUEST_QUEUE_ADDRESS: ffc-ahwr-application-request${MESSAGE_QUEUE_SUFFIX}
       APPLICATIONRESPONSE_QUEUE_ADDRESS: ffc-ahwr-application-response${MESSAGE_QUEUE_SUFFIX}
-      TEST_ENVIRONMENT_ROOT_URL: "http://host.docker.internal:3000"
       AZURE_STORAGE_CONNECTION_STRING: ValueComesFromEnv
       AZURE_STORAGE_ACCOUNT_NAME: "ffcahwr"
       AZURE_STORAGE_USERS_CONTAINER: "users"
@@ -173,27 +173,21 @@ services:
       REDIS_PORT: 6379
       REDIS_PASSWORD: ""
       SERVICE_URI: http://host.docker.internal:3000/apply
-      CLAIM_SERVICE_URI: http://host.docker.internal:3004/claim
+      CLAIM_SERVICE_URI: http://ffc-ahwr-farmer-claim:3000/claim
       URL_PREFIX: "/apply"
-      APPLICATION_API_URI: http://host.docker.internal:3001/api
+      APPLICATION_API_URI: http://ffc-ahwr-application:3000/api
       DEFRA_ID_SERVICE_ID: random-value
       NODE_ENV: development
-      DEV_LOGIN_ENABLED: true
       MESSAGE_QUEUE_HOST: SNDFFCINFSB2001.servicebus.windows.net
       MESSAGE_QUEUE_PASSWORD: AnyOldString
       MESSAGE_QUEUE_USER: RootManageSharedAccessKey
       APPLICATIONREQUEST_QUEUE_ADDRESS: ffc-ahwr-application-request${MESSAGE_QUEUE_SUFFIX}
       APPLICATIONRESPONSE_QUEUE_ADDRESS: ffc-ahwr-application-response${MESSAGE_QUEUE_SUFFIX}
-      TEST_ENVIRONMENT_ROOT_URL: "http://host.docker.internal:3000"
       AZURE_STORAGE_CONNECTION_STRING: UseDevelopmentStorage=true
       AZURE_STORAGE_ACCOUNT_NAME: "ffcahwr"
       EVENT_QUEUE_ADDRESS: ffc-ahwr-event${MESSAGE_QUEUE_SUFFIX}
       COOKIE_PASSWORD: important-this-is-the-same-across-front-ends
       DASHBOARD_SERVICE_URI: "http://ffc-ahwr-dashboard:3000"
-      DEFRA_ID_TENANT: random-value
-      DEFRA_ID_POLICY: random-value
-      DEFRA_ID_CLIENT_ID: random-value
-      DEFRA_ID_DASHBOARD_REDIRECT_URI: http://localhost:3003/signin-oidc
       TERMS_AND_CONDITIONS_URL: "http://localhost:3000/apply/terms/v3"
       APPLICATIONINSIGHTS_CONNECTION_STRING: random-value
 
@@ -224,16 +218,10 @@ services:
       REDIS_PORT: 6379
       REDIS_PASSWORD: ""
       SERVICE_URI: http://host.docker.internal:3004/claim
-      APPLY_SERVICE_URI: http://host.docker.internal:3000/apply
+      APPLY_SERVICE_URI: http://ffc-ahwr-farmer-apply:3000/apply
       DASHBOARD_SERVICE_URI: http://ffc-ahwr-dashboard:3000
       APPLICATION_API_URI: http://host.docker.internal:3001/api
-      DEFRA_ID_TENANT: random-value
-      DEFRA_ID_POLICY: random-value
-      DEFRA_ID_DASHBOARD_REDIRECT_URI: http://localhost:3003/signin-oidc
-      DEFRA_ID_CLIENT_ID: random-value
-      DEFRA_ID_SERVICE_ID: random-value
       NODE_ENV: development
-      DEV_LOGIN_ENABLED: true
       PIG_UPDATES_ENABLED: false
 
   ffc-ahwr-backoffice:
@@ -274,6 +262,19 @@ services:
     image: redis:4.0.14
     ports:
       - "6379:6379"
+
+  nginx:
+    image: nginx:alpine
+    expose:
+      - "80" # Important that this isnt ports: "80:80" because Jenkins is running something on port 80
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - ffc-ahwr-farmer-claim
+      - ffc-ahwr-farmer-apply
+      - ffc-ahwr-dashboard
+    networks:
+      - ffc-ahwr-network-auto
 
 networks:
   ffc-ahwr-network-auto:

@@ -30,7 +30,7 @@ import { approveClaim } from "../../utils/backoffice-common.js";
 describe("MH journeys when Pre-MH claims present", () => {
   it("can create a follow-up claim for a pre-MH sheep review claim if the follow-up visit date is after the MH release date - associating the pre-MH unnamed flock with a real flock", async () => {
     // This test uses data from the script located at changelog/insert_pre_post_mh_application_review.sql
-    await performDevLogin(PRE_POST_MULTIPLE_HERD_SBI, "claim");
+    await performDevLogin(PRE_POST_MULTIPLE_HERD_SBI);
 
     await createMultipleHerdSheepFollowUp({
       isUnnamedHerdClaimPresent: true,
@@ -41,7 +41,7 @@ describe("MH journeys when Pre-MH claims present", () => {
 
   it("cannot create a second follow-up claim, with visit date after MH release date and within 10 months of the first follow-up claim for pre-MH sheep review", async () => {
     // This test uses data from the script located at changelog/insert_pre_post_mh_application_review.sql
-    await performDevLogin(PRE_POST_MULTIPLE_HERD_SBI, "claim");
+    await performDevLogin(PRE_POST_MULTIPLE_HERD_SBI);
 
     await clickStartNewClaimButton();
     await clickOnElementAndContinue(getTypeOfLivestockSelector("sheep"));
@@ -58,7 +58,7 @@ describe("MH journeys when Pre-MH claims present", () => {
   });
 
   it("can create follow-up claim with a visit date after the MH release date for a pre-MH pigs review - associating the pre-MH unnamed herd with a real herd", async () => {
-    await performDevLogin(PRE_POST_MULTIPLE_HERD_SBI, "claim");
+    await performDevLogin(PRE_POST_MULTIPLE_HERD_SBI);
 
     const claimNumber = await createPigsReviewClaim({
       enterVisitDateAndContinueFunc: enterPreMHReleaseDateAndContinue,
@@ -67,7 +67,7 @@ describe("MH journeys when Pre-MH claims present", () => {
 
     await approveClaim(PRE__POST_MULTIPLE_HERD_AGREEMENT_REF, claimNumber);
 
-    await performDevLogin(PRE_POST_MULTIPLE_HERD_SBI, "claim");
+    await performDevLogin(PRE_POST_MULTIPLE_HERD_SBI);
 
     await createMultipleHerdPigsFollowUp({
       isUnnamedHerdClaimPresent: true,
@@ -77,7 +77,7 @@ describe("MH journeys when Pre-MH claims present", () => {
   });
 
   it("cannot create a second review claim for pigs unnamed herd when visit date is after MH release date and second review claim date is within 10 months of its pre-MH review claim", async () => {
-    await performDevLogin(PRE_POST_MULTIPLE_HERD_SBI, "claim");
+    await performDevLogin(PRE_POST_MULTIPLE_HERD_SBI);
 
     await clickStartNewClaimButton();
     await clickOnElementAndContinue(getTypeOfLivestockSelector("pigs"));

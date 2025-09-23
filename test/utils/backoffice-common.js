@@ -13,10 +13,10 @@ import {
   BO_PAY_CHECKBOX_ONE,
   BO_PAY_CHECKBOX_TWO,
 } from "./backoffice-selectors.js";
-import { getDevSignInUrl, swapBackOfficeUser } from "./common.js";
+import { swapBackOfficeUser, getBackOfficeUrl } from "./common.js";
 
 export async function approveClaim(agreementNumber, claimNumber) {
-  await browser.url(getDevSignInUrl("backoffice"));
+  await browser.url(getBackOfficeUrl());
   await $(BO_AGREEMENTS_TAB).click();
   const agreementRow = $(getAgreementNumberSelector(agreementNumber)).parentElement();
   await agreementRow.$(BO_VIEW_CLAIMS_LINK).click();

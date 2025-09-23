@@ -1,8 +1,5 @@
-import { expect, browser, $ } from "@wdio/globals";
+import { expect, $ } from "@wdio/globals";
 import {
-  getDevSignInUrl,
-  fillAndSubmitSBI,
-  clickSubmitButton,
   performDevLogin,
   clickOnElementAndContinue,
   enterVisitDateAndContinue,
@@ -22,7 +19,6 @@ import {
   getTypeOfLivestockSelector,
   getTypeOfReviewSelector,
   getSpeciesNumbersSelector,
-  getConfirmCheckDetailsSelector,
   CLAIMS_MAIN_HEADING_SELECTOR,
   LABORATORY_URN,
   EXTERNAL_GOV_LINK,
@@ -43,7 +39,7 @@ let claimNumber;
 
 describe("Multiple herds - review and follow-up claim journeys for a flock of sheep", () => {
   it("can create the first review claim for a flock of sheep for a business", async () => {
-    await performDevLogin(MULTIPLE_HERDS_SBI, "claim");
+    await performDevLogin(MULTIPLE_HERDS_SBI);
 
     claimNumber = await createSheepReviewClaim({
       multipleHerdFlag: true,
@@ -53,7 +49,7 @@ describe("Multiple herds - review and follow-up claim journeys for a flock of sh
   });
 
   it("cannot create a second review claim for the same flock of sheep for the same business", async () => {
-    await performDevLogin(MULTIPLE_HERDS_SBI, "claim");
+    await performDevLogin(MULTIPLE_HERDS_SBI);
 
     await clickStartNewClaimButton();
     await clickOnElementAndContinue(getTypeOfLivestockSelector("sheep"));
@@ -74,8 +70,7 @@ describe("Multiple herds - review and follow-up claim journeys for a flock of sh
   });
 
   it("cannot create a follow-up claim for a flock of sheep when its review claim is not approved", async () => {
-    await performDevLogin(MULTIPLE_HERDS_SBI, "claim");
-
+    await performDevLogin(MULTIPLE_HERDS_SBI);
     await clickStartNewClaimButton();
     await clickOnElementAndContinue(getTypeOfLivestockSelector("sheep"));
     await clickOnElementAndContinue(getTypeOfReviewSelector("endemics"));
@@ -93,10 +88,7 @@ describe("Multiple herds - review and follow-up claim journeys for a flock of sh
   });
 
   it("cannot create follow-up claim for a different flock of sheep when a review claim hasn't been created and approved for it", async () => {
-    await browser.url(getDevSignInUrl("claim"));
-    await fillAndSubmitSBI(MULTIPLE_HERDS_SBI);
-    await $(getConfirmCheckDetailsSelector("yes")).click();
-    await clickSubmitButton();
+    await performDevLogin(MULTIPLE_HERDS_SBI);
     await clickStartNewClaimButton();
     await clickOnElementAndContinue(getTypeOfLivestockSelector("sheep"));
     await clickOnElementAndContinue(getTypeOfReviewSelector("endemics"));
@@ -116,7 +108,7 @@ describe("Multiple herds - review and follow-up claim journeys for a flock of sh
   it("can create a follow-up claim when a review claim is approved for a flock of sheep", async () => {
     await approveClaim(MULTIPLE_HERD_SHEEP_AGREEMENT_REF, claimNumber);
 
-    await performDevLogin(MULTIPLE_HERDS_SBI, "claim");
+    await performDevLogin(MULTIPLE_HERDS_SBI);
 
     await createMultipleHerdSheepFollowUp();
 
@@ -124,7 +116,7 @@ describe("Multiple herds - review and follow-up claim journeys for a flock of sh
   });
 
   it("can create a review claim for a different flock of sheep for the same business", async () => {
-    await performDevLogin(MULTIPLE_HERDS_SBI, "claim");
+    await performDevLogin(MULTIPLE_HERDS_SBI);
 
     await clickStartNewClaimButton();
     await clickOnElementAndContinue(getTypeOfLivestockSelector("sheep"));

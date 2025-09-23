@@ -177,6 +177,11 @@ export const config = {
    * @param {Array.<Object>} capabilities list of capabilities details
    */
   onPrepare: function (config, capabilities) {
+    if (process.env.CI === "false") {
+      console.log("Skipping chmod since not running in pipeline");
+      return;
+    }
+
     function chmodRecursive(dirPath) {
       try {
         fs.chmodSync(dirPath, 0o777);
@@ -303,6 +308,7 @@ export const config = {
       );
 
       console.log(`Saving screenshot to ${screenshotPath}`);
+      console.log(`Current URL is ${await browser.getUrl()}`);
 
       // Ensure the directory exists
       fs.mkdirSync(path.dirname(screenshotPath), { recursive: true });
