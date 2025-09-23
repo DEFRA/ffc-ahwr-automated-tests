@@ -177,7 +177,7 @@ export const config = {
    * @param {Array.<Object>} capabilities list of capabilities details
    */
   onPrepare: function (config, capabilities) {
-    if (!process.env.CI) {
+    if (process.env.CI === "false") {
       console.log("Skipping chmod since not running in pipeline");
       return;
     }

@@ -13,6 +13,7 @@ services:
         condition: service_completed_successfully
     environment:
       DOCKER_MODE: true
+      CI: true
 
   ffc-ahwr-dashboard:
     platform: linux/amd64

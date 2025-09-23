@@ -47,7 +47,7 @@ pipeline {
                 timeout(time: 10, unit: 'MINUTES')
             }
             steps {
-                sh 'CI=true ./scripts/run_tests.sh mainSuite'
+                sh './scripts/run_tests.sh mainSuite'
             }
         }
 
@@ -56,7 +56,7 @@ pipeline {
                 timeout(time: 7, unit: 'MINUTES')
             }
             steps {
-                sh 'CI=true ./scripts/run_tests.sh comp 5'
+                sh './scripts/run_tests.sh comp 5'
             }
         }
 
@@ -65,7 +65,7 @@ pipeline {
                 timeout(time: 7, unit: 'MINUTES')
             }
             steps {
-                sh 'CI=true ./scripts/run_tests.sh compFA 5'
+                sh './scripts/run_tests.sh compFA 5'
             }
         }
     }
