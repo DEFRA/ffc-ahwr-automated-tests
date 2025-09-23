@@ -34,7 +34,7 @@ import {
 
 describe("Follow-up claim journeys for various species", () => {
   it("can create a follow-up claim for sheep", async () => {
-    await performDevLogin(SHEEP_ENDEMIC_CLAIM_SBI, "claim");
+    await performDevLogin(SHEEP_ENDEMIC_CLAIM_SBI);
 
     await clickStartNewClaimButton();
 
@@ -68,7 +68,7 @@ describe("Follow-up claim journeys for various species", () => {
   });
 
   it("can create a follow-up claim for beef", async () => {
-    await performDevLogin(BEEF_ENDEMIC_CLAIM_SBI, "claim");
+    await performDevLogin(BEEF_ENDEMIC_CLAIM_SBI);
 
     await clickStartNewClaimButton();
 

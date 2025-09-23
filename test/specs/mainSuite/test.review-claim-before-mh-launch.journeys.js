@@ -25,7 +25,7 @@ import { PRE_MH_REVIEWS_HERD_SBI } from "../../utils/constants.js";
 
 describe("Review claim journeys for various species", () => {
   it("can create a new review claim for Sheep", async () => {
-    await performDevLogin(PRE_MH_REVIEWS_HERD_SBI, "claim");
+    await performDevLogin(PRE_MH_REVIEWS_HERD_SBI);
 
     await clickStartNewClaimButton();
 
@@ -52,7 +52,7 @@ describe("Review claim journeys for various species", () => {
   });
 
   it("can create a new pre-MH launch review claim for Pigs", async () => {
-    await performDevLogin(PRE_MH_REVIEWS_HERD_SBI, "claim");
+    await performDevLogin(PRE_MH_REVIEWS_HERD_SBI);
 
     await clickStartNewClaimButton();
 
@@ -86,7 +86,7 @@ describe("Review claim journeys for various species", () => {
   });
 
   it("can create a new pre-MH launch review claim for Dairy cattle", async () => {
-    await performDevLogin(PRE_MH_REVIEWS_HERD_SBI, "claim");
+    await performDevLogin(PRE_MH_REVIEWS_HERD_SBI);
 
     await clickStartNewClaimButton();
 
@@ -113,7 +113,7 @@ describe("Review claim journeys for various species", () => {
   });
 
   it("can create a new pre-MH launch review claim for Beef cattle", async () => {
-    await performDevLogin(PRE_MH_REVIEWS_HERD_SBI, "claim");
+    await performDevLogin(PRE_MH_REVIEWS_HERD_SBI);
 
     await clickStartNewClaimButton();
 

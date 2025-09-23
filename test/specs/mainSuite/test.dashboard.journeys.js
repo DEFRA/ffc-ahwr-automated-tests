@@ -14,15 +14,14 @@ import {
   LIVESTOCK_DIARY_RADIO,
   LIVESTOCK_PIGS_RADIO,
   LIVESTOCK_SHEEP_RADIO,
-  MANAGE_YOUR_CLAIMS_LINK,
   AGREEMENT_NUMBER_SELECTOR,
 } from "../../utils/selectors.js";
 import { DASHBOARD_SBI } from "../../utils/constants.js";
 import { createSheepReviewClaim } from "../../utils/review-claim.js";
 
 describe("Vet-visits Dashboard journeys", () => {
-  it("can Verify agreement summary exists and a claim journey can be started from the dashboard", async () => {
-    await performDevLogin(DASHBOARD_SBI, "apply");
+  it("can verify agreement summary exists and a claim journey can be started from the dashboard", async () => {
+    await performDevLogin(DASHBOARD_SBI);
 
     // Create an agreement
     await clickSubmitButton();
@@ -35,15 +34,13 @@ describe("Vet-visits Dashboard journeys", () => {
     const agreementNumber = (await $(AGREEMENT_NUMBER_SELECTOR).getText()).trim();
 
     // Create a claim
-    await performDevLogin(DASHBOARD_SBI, "claim");
-    const claimNumber = await createSheepReviewClaim({
-      multipleHerdFlag: true,
-    });
+    await performDevLogin(DASHBOARD_SBI);
+    const claimNumber = await createSheepReviewClaim({ multipleHerdFlag: true });
 
     expect(claimNumber).toEqual(expect.stringContaining("RESH"));
 
     // Dashboard verifications
-    await $(MANAGE_YOUR_CLAIMS_LINK).click();
+    await performDevLogin(DASHBOARD_SBI);
     expect(await $(AGREEMENT_SUMMARY_LINK).getAttribute("href")).toContain(
       `download-application/${DASHBOARD_SBI}/${agreementNumber}`,
     );

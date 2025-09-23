@@ -17,7 +17,7 @@ const additionalHerd = "Beef additional herd 1";
 
 describe("Multiple herds - review and follow-up claim journeys for beef", () => {
   it("can create the first review claim with a positive test result for a beef herd for a farmer business", async () => {
-    await performDevLogin(MULTIPLE_HERDS_SBI, "claim");
+    await performDevLogin(MULTIPLE_HERDS_SBI);
 
     claimNumber = await createBeefReviewClaim({
       testResult: "positive",
@@ -29,7 +29,7 @@ describe("Multiple herds - review and follow-up claim journeys for beef", () => 
   it("can create a follow-up claim for an approved review claim with positive test result", async () => {
     await approveClaim(MULTIPLE_HERD_SHEEP_AGREEMENT_REF, claimNumber);
 
-    await performDevLogin(MULTIPLE_HERDS_SBI, "claim");
+    await performDevLogin(MULTIPLE_HERDS_SBI);
 
     await createMultipleHerdBeefFollowUpForFirstHerd();
 
@@ -37,7 +37,7 @@ describe("Multiple herds - review and follow-up claim journeys for beef", () => 
   });
 
   it("can create a review claim with negative test result for a different group (herd) of beef species for the same farmer business", async () => {
-    await performDevLogin(MULTIPLE_HERDS_SBI, "claim");
+    await performDevLogin(MULTIPLE_HERDS_SBI);
 
     claimNumber = await createBeefReviewForAdditionalHerd({
       herd: additionalHerd,
@@ -50,7 +50,7 @@ describe("Multiple herds - review and follow-up claim journeys for beef", () => 
   it("can create a follow-up claim for the approved beef review claim with negative test result", async () => {
     await approveClaim(MULTIPLE_HERD_SHEEP_AGREEMENT_REF, claimNumber);
 
-    await performDevLogin(MULTIPLE_HERDS_SBI, "claim");
+    await performDevLogin(MULTIPLE_HERDS_SBI);
 
     await createMultipleHerdBeefFollowUpForAdditionalHerd({
       herdName: additionalHerd,

@@ -1,10 +1,10 @@
 import { expect, browser, $, $$ } from "@wdio/globals";
 import {
-  getDevSignInUrl,
   fillInput,
   createAgreement,
   swapBackOfficeUser,
   performDevLogin,
+  getBackOfficeUrl,
 } from "../../utils/common.js";
 import {
   BO_AGREEMENTS_TAB,
@@ -50,7 +50,7 @@ describe("Backoffice journeys", () => {
   it("can move a claim from 'In check' to 'Recommend to pay' and then to 'Ready to pay'", async () => {
     const agreementNumber = await createAgreement(BACK_OFFICE_APPROVE_SBI);
 
-    await performDevLogin(BACK_OFFICE_APPROVE_SBI, "claim");
+    await performDevLogin(BACK_OFFICE_APPROVE_SBI);
 
     const claimNumber = await createSheepReviewClaim({
       multipleHerdFlag: true,
@@ -64,7 +64,7 @@ describe("Backoffice journeys", () => {
   it("can move a claim from 'In check' to 'Recommend to reject' and then to 'Rejected'", async () => {
     const agreementNumber = await createAgreement(BACK_OFFICE_REJECT_SBI);
 
-    await performDevLogin(BACK_OFFICE_REJECT_SBI, "claim");
+    await performDevLogin(BACK_OFFICE_REJECT_SBI);
 
     const claimNumber = await createSheepReviewClaim({
       multipleHerdFlag: true,
@@ -72,7 +72,7 @@ describe("Backoffice journeys", () => {
 
     expect(claimNumber).toEqual(expect.stringContaining("RESH"));
 
-    await browser.url(getDevSignInUrl("backoffice"));
+    await browser.url(getBackOfficeUrl());
     await $(BO_AGREEMENTS_TAB).click();
     const agreementRow = $(getAgreementNumberSelector(agreementNumber)).parentElement();
     await agreementRow.$(BO_VIEW_CLAIMS_LINK).click();
@@ -100,7 +100,7 @@ describe("Backoffice journeys", () => {
 
   it("creates and deletes a flag for an agreement", async () => {
     // Agreement flag creation
-    await browser.url(getDevSignInUrl("backoffice"));
+    await browser.url(getBackOfficeUrl());
     await $(BO_FLAGS_TAB).click();
     await $(BO_CREATE_AGREEMENT_FLAG_CTA).click();
     await fillInput(BO_AGREEMENT_REFERENCE, ON_HOLD_AGREEMENT_REF);
@@ -156,7 +156,7 @@ describe("Backoffice journeys", () => {
   });
 
   it("can search for a claim and view its information", async () => {
-    await browser.url(getDevSignInUrl("backoffice"));
+    await browser.url(getBackOfficeUrl());
     await $(BO_CLAIM_SEARCH).setValue(ON_HOLD_CLAIM_REF);
     await $(BO_SEARCH_BUTTON).click();
     await $(getClaimSelectorFromTable(ON_HOLD_CLAIM_REF)).click();
