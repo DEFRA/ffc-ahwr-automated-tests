@@ -118,6 +118,10 @@ export function getHerdVaccinationStatus(value) {
   return `input[name="herdVaccinationStatus"][value="${value}"]`;
 }
 
-export function getDiseaseStatusSelector(diseaseStatus) {
-  return `input[name="diseaseStatus"][value="${diseaseStatus}"]`;
+export function getPcrTestResultSelector(pcrResult) {
+  return `input[name="pcrResult"][value="${pcrResult}"]`;
+}
+
+export function getGeneticSequencingSelector(sequencingValue) {
+  return `input[name="geneticSequencing"][value="${sequencingValue}"]`;
 }
