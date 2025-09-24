@@ -46,6 +46,7 @@ else
   APPLICATIONINSIGHTS_CONNECTION_STRING=$(grep -E '^APPLICATIONINSIGHTS_CONNECTION_STRING=' "$ENV_FILE" | cut -d '=' -f2-)
   AZURE_STORAGE_CONNECTION_STRING=$(grep -E '^AZURE_STORAGE_CONNECTION_STRING=' "$ENV_FILE" | cut -d '=' -f2-)
   CLEANUP_FIRST=$(grep -E '^CLEANUP_FIRST=' "$ENV_FILE" | cut -d '=' -f2-)
+  USE_INSTANCES=$(grep -E '^USE_INSTANCES=' "$ENV_FILE" | cut -d '=' -f2-)
   CI="false"
 fi
 
@@ -59,15 +60,20 @@ if [[ "$CLEANUP_FIRST" == "true" ]]; then
   ./scripts/cleanup_outputs.sh
 fi
 
+if [[ -n "${USE_INSTANCES:-}" ]]; then
+  echo "Using multiple instances ($USE_INSTANCES) for pure speed 🔥"
+fi
+
 echo "🚀 Starting services..."
 
-# Run docker compose after injecting secrets and replacing host IP placeholder
+ #Run docker compose after injecting secrets and replacing host IP placeholder
 SED_ARGS=(
   -e "s|(MESSAGE_QUEUE_PASSWORD:).*|\1 ${MESSAGE_QUEUE_PASSWORD}|g"
   -e "s|(APPLICATIONINSIGHTS_CONNECTION_STRING:).*|\1 ${APPLICATIONINSIGHTS_CONNECTION_STRING}|g"
   -e "s|(AZURE_STORAGE_CONNECTION_STRING:).*|\1 ${AZURE_STORAGE_CONNECTION_STRING}|g"
   -e "s|host.docker.internal:JENKINS-PORT|host.docker.internal:${HOST_INTERNAL_IP}|g"
   -e "s|(CI:).*|\1 ${CI}|g"
+  -e "s|(USE_INSTANCES:).*|\1 ${USE_INSTANCES}|g"
 )
 
 if [[ -n "${CLAIM_COMPLIANCE_CHECK_RATIO:-}" ]]; then

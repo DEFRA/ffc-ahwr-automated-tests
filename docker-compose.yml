@@ -14,6 +14,7 @@ services:
     environment:
       DOCKER_MODE: true
       CI: true
+      USE_INSTANCES: "1"
 
   ffc-ahwr-dashboard:
     platform: linux/amd64
