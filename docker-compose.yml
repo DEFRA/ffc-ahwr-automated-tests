@@ -8,6 +8,8 @@ services:
       - ./wdio.conf.js:/app/wdio.conf.js
       - ./package-lock.json:/app.package-lock.json
       - ./screenshots:/app/screenshots
+      - ./allure-results:/app/allure-results
+      - ./allure-report:/app/allure-report
     depends_on:
       database-up:
         condition: service_completed_successfully

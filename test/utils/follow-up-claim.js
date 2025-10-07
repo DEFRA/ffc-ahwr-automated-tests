@@ -32,7 +32,8 @@ import {
   getPiHuntRecommendedByVetSelector,
   getPiHuntDoneForAllCattleSelector,
   getTestResultsSelector,
-  getPcrTestResultSelector, getGeneticSequencingSelector
+  getPcrTestResultSelector,
+  getGeneticSequencingSelector,
 } from "./selectors.js";
 import {
   PREVIOUSLY_CLAIMED_YES_ON_SELECT_THE_HERD_PAGE,

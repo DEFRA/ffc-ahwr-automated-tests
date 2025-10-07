@@ -70,7 +70,7 @@ describe("Journeys involving Pre-MH launch claims", () => {
   it("can create a review and its follow-up claim for pigs if the visit date is before the MH release date", async () => {
     await performDevLogin(PRE_MULTIPLE_HERD_SBI);
 
-    //note the review is positive - important when creating pig follow ups
+    // note the review is positive - important when creating pig follow ups
     const claimNumber = await createPigsReviewClaim({
       enterVisitDateAndContinueFunc: enterPreMHReleaseDateAndContinue,
     });

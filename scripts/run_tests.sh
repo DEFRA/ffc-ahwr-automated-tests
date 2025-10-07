@@ -105,7 +105,12 @@ mkdir -p "$LOG_DIR"
 
 docker image ls --format "{{.Repository}}" | grep '^ffc-ahwr-' | grep -v '^ffc-ahwr-application-development$' | xargs -I {} sh -c "docker compose logs -f \"{}\" > $LOG_DIR/{}.log 2>&1 &"
 
+# Run tests inside the container
 docker exec -i --user root "$WDIO_CONTAINER" npm run test:"$TEST_COMMAND" | tee "$LOG_DIR/wdio_test_output.log"
+
+# Generate Allure report inside the container
+docker exec -i --user root "$WDIO_CONTAINER" npx allure-commandline generate ./allure-results --clean -o ./allure-report
+
 EXIT_CODE=${PIPESTATUS[0]}
 
 echo "🛑 Stopping services..."
