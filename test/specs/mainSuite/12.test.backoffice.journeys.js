@@ -1,4 +1,5 @@
 import { expect, browser, $, $$ } from "@wdio/globals";
+import { addDescription, TYPE } from "@wdio/allure-reporter";
 import {
   fillInput,
   createAgreement,
@@ -46,7 +47,7 @@ import {
 import { approveClaim } from "../../utils/backoffice-common.js";
 import { createSheepReviewClaim } from "../../utils/review-claim.js";
 
-describe("Backoffice journeys", () => {
+describe("AHW backoffice journeys", () => {
   it("can move a claim from 'In check' to 'Recommend to pay' and then to 'Ready to pay'", async () => {
     const agreementNumber = await createAgreement(BACK_OFFICE_APPROVE_SBI);
 
@@ -171,5 +172,20 @@ describe("Backoffice journeys", () => {
 
     const rows = await $$("table.govuk-table tbody tr");
     await expect(rows.length).toBeGreaterThan(0);
+  });
+
+  it("can find an agreement by searching using agreement number, business, SBI, agreement date or status and verify the the agreement details are correct.", async function () {
+    addDescription("Test not implemented yet, Jira ticket: AHWR-1314", TYPE.MARKDOWN);
+    this.skip();
+  });
+
+  it("can find a claim by searching using visit type, SBI, claim date or status and verify the claim details are correct.", async function () {
+    addDescription("Test not implemented yet, Jira ticket: AHWR-1314", TYPE.MARKDOWN);
+    this.skip();
+  });
+
+  it("can use the option to exempt an agreement from PII redaction — that is, to toggle the exemption flag ON or OFF", async function () {
+    addDescription("Test not implemented yet, Jira ticket: AHWR-1314", TYPE.MARKDOWN);
+    this.skip();
   });
 });

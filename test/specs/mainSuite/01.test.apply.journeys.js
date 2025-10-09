@@ -1,11 +1,11 @@
 import { $ } from "@wdio/globals";
 import { addDescription, TYPE } from "@wdio/allure-reporter";
 
-import { clickSubmitButton, verifySubmission, performDevLogin } from "../utils/common.js";
-import { TERMS_AND_CONDITIONS_CHECKBOX } from "../utils/selectors.js";
-import { APPLY_REVIEW_CLAIM_SBI } from "../utils/constants.js";
+import { clickSubmitButton, verifySubmission, performDevLogin } from "../../utils/common.js";
+import { TERMS_AND_CONDITIONS_CHECKBOX } from "../../utils/selectors.js";
+import { APPLY_REVIEW_CLAIM_SBI } from "../../utils/constants.js";
 
-describe("Vet-visits apply journey", () => {
+describe("AHW apply journeys", () => {
   it("can create a new application", async () => {
     addDescription("Attempt to create a new application", TYPE.MARKDOWN);
 
@@ -21,12 +21,12 @@ describe("Vet-visits apply journey", () => {
   });
 
   it("can successfully reject an agreement", function () {
-    addDescription("Test not implemented yet", TYPE.MARKDOWN);
+    addDescription("Test not implemented yet, Jira ticket: AHWR-1315", TYPE.MARKDOWN);
     this.skip();
   });
 
-  it("can reject first and then create an agreement successfully", function () {
-    addDescription("Test not implemented yet", TYPE.MARKDOWN);
+  it("can reject first and then create an agreement successfully", async function () {
+    addDescription("Test not implemented yet, Jira ticket: AHWR-1315", TYPE.MARKDOWN);
     this.skip();
   });
 });

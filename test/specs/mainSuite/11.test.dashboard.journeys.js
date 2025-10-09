@@ -19,7 +19,7 @@ import {
 import { DASHBOARD_SBI } from "../../utils/constants.js";
 import { createSheepReviewClaim } from "../../utils/review-claim.js";
 
-describe("Vet-visits Dashboard journeys", () => {
+describe("AHW dashboard journeys", () => {
   it("can verify agreement summary exists and a claim journey can be started from the dashboard", async () => {
     await performDevLogin(DASHBOARD_SBI);
 

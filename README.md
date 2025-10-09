@@ -58,6 +58,10 @@ az login
 
 ```
 
+## 🧪 Test Reports
+
+At the end of the test run, an Allure html report will be generated summarizing all test results including passed, failed, and skipped tests (if any). The report will be available in the `allure-report` folder in the project root directory.
+
 ## 🙈 Gotchas
 
 - We use the -auto queues that have been created in the SND2 environment. When the tests run in the pipeline, they will use the -pipe queues. This

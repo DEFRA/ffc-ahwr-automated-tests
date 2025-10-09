@@ -22,7 +22,7 @@ import { approveClaim } from "../../utils/backoffice-common.js";
 
 // This test suite covers various claim journeys with a visit date before the MH release date
 
-describe("Journeys involving Pre-MH launch claims", () => {
+describe("AHW journeys involving Pre-multiple herds launch claims", () => {
   it("cannot create a second review claim for sheep species when visit date is before MH release date and within 10 months of its pre-MH review claim", async () => {
     // This test uses data from the script in changelog/insert_pre_mh_application_review.sql
     await performDevLogin(PRE_MULTIPLE_HERD_SBI);
