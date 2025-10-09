@@ -308,6 +308,11 @@ export const config = {
    * @param {object}  result.retries   information about spec related retries, e.g. `{ attempts: 0, limit: 0 }`
    */
   afterTest: async function (test, context, result) {
+    if (test.pending) {
+      console.log(`⚠️ Skipping screenshot for skipped test: ${test.title}`);
+      return;
+    }
+
     if (!result.passed) {
       const originalWindowSize = await browser.getWindowSize();
       // To set the window size to see the full screen when screenshot is taken

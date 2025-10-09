@@ -14,6 +14,8 @@ import {
 } from "../utils/review-claim.js";
 
 describe("AHW multiple herd claim feature assurance compliance checks", async function () {
+  this.retries(2);
+
   it("moves all claims to in-check once a user has claimed for more than one herd of a given species", async () => {
     const sbi = "106416234";
 

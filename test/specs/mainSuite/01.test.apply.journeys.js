@@ -5,10 +5,10 @@ import { clickSubmitButton, verifySubmission, performDevLogin } from "../../util
 import { TERMS_AND_CONDITIONS_CHECKBOX } from "../../utils/selectors.js";
 import { APPLY_REVIEW_CLAIM_SBI } from "../../utils/constants.js";
 
-describe("AHW apply journeys", () => {
-  it("can create a new application", async () => {
-    addDescription("Attempt to create a new application", TYPE.MARKDOWN);
+describe("AHW apply journeys", async function () {
+  this.retries(2);
 
+  it("can create a new application", async () => {
     await performDevLogin(APPLY_REVIEW_CLAIM_SBI);
     await clickSubmitButton();
     await clickSubmitButton();

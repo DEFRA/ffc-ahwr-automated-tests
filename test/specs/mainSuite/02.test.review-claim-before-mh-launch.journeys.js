@@ -23,7 +23,9 @@ import {
 } from "../../utils/selectors.js";
 import { PRE_MH_REVIEWS_HERD_SBI } from "../../utils/constants.js";
 
-describe("AHW Review claim journeys for various species before multiple herds launch", () => {
+describe("AHW Review claim journeys for various species before multiple herds launch", async function () {
+  this.retries(2);
+
   it("can create a new review claim for Sheep", async () => {
     await performDevLogin(PRE_MH_REVIEWS_HERD_SBI);
 

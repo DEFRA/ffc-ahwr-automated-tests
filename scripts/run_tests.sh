@@ -108,12 +108,18 @@ docker image ls --format "{{.Repository}}" | grep '^ffc-ahwr-' | grep -v '^ffc-a
 # Run tests inside the container
 docker exec -i --user root "$WDIO_CONTAINER" npm run test:"$TEST_COMMAND" | tee "$LOG_DIR/wdio_test_output.log"
 
-# Generate Allure report inside the container
-docker exec -i --user root "$WDIO_CONTAINER" npx allure-commandline generate ./allure-results --clean -o ./allure-report
+if [ "$CI" = "true" ]; then
+  echo "📁 Copying Allure results..."
+  mkdir -p ./allure-results/"$TEST_COMMAND"
+  docker cp "$WDIO_CONTAINER":/app/allure-results/. ./allure-results/"$TEST_COMMAND"/
+  echo "✅ Allure results copied to ./allure-results/$TEST_COMMAND/"
+else
+    echo "ℹ️ Not in CI environment — skipping Allure results copy."
+fi
 
 EXIT_CODE=${PIPESTATUS[0]}
 
-echo "🛑 Stopping services..."
+# echo "🛑 Stopping services..."
 docker compose down
 
 exit $EXIT_CODE

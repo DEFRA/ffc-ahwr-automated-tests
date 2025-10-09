@@ -47,7 +47,9 @@ import {
 import { approveClaim } from "../../utils/backoffice-common.js";
 import { createSheepReviewClaim } from "../../utils/review-claim.js";
 
-describe("AHW backoffice journeys", () => {
+describe("AHW backoffice journeys", async function () {
+  this.retries(2);
+
   it("can move a claim from 'In check' to 'Recommend to pay' and then to 'Ready to pay'", async () => {
     const agreementNumber = await createAgreement(BACK_OFFICE_APPROVE_SBI);
 

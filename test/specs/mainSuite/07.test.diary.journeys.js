@@ -4,24 +4,24 @@ import { addDescription, TYPE } from "@wdio/allure-reporter";
 
 describe("AHW multiple herds diary cattle claim journeys", async function () {
   it("can create the first review claim with a positive test result for a diary herd for a farmer business", async function () {
-    addDescription("Test not implemented yet, Jira ticket: TBC", TYPE.MARKDOWN);
+    addDescription("Test not implemented yet, Jira ticket: AHWR-1317", TYPE.MARKDOWN);
     this.skip();
   });
 
   it("can create a PI hunt follow-up claim for an approved diary review claim with positive test result", async function () {
     // Answer yes to all PI hunt questions
-    addDescription("Test not implemented yet, Jira ticket: TBC", TYPE.MARKDOWN);
+    addDescription("Test not implemented yet, Jira ticket: AHWR-1317", TYPE.MARKDOWN);
     this.skip();
   });
 
   it("can create a review claim with negative test result for a different group (herd) of diary species for the same farmer business", async function () {
-    addDescription("Test not implemented yet, Jira ticket: TBC", TYPE.MARKDOWN);
+    addDescription("Test not implemented yet, Jira ticket: AHWR-1317", TYPE.MARKDOWN);
     this.skip();
   });
 
   it("can create a PI hunt follow-up claim for the approved diary review claim with negative test result", async function () {
     // Answer yes to all PI hunt questions
-    addDescription("Test not implemented yet, Jira ticket: TBC", TYPE.MARKDOWN);
+    addDescription("Test not implemented yet, Jira ticket: AHWR-1317", TYPE.MARKDOWN);
     this.skip();
   });
 
