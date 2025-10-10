@@ -28,7 +28,7 @@ import { approveClaim } from "../../utils/backoffice-common.js";
 
 // This test suite covers various claim journeys with a visit date after the MH release date for the pre-MH claims
 
-describe("AHW multiple herds journeys when Pre-MH claims present", async function () {
+describe("Multiple herds journeys when Pre-MH claims present", async function () {
   this.retries(2);
 
   it("can create a follow-up claim for a pre-MH sheep review claim if the follow-up visit date is after the MH release date - associating the pre-MH unnamed flock with a real flock", async () => {

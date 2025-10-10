@@ -1,6 +1,6 @@
 import { addDescription, TYPE } from "@wdio/allure-reporter";
 
-describe("AHW multiple herds pigs claim journeys", async function () {
+describe("Multiple herds pigs claim journeys", async function () {
   it("can create the first review claim for a pigs herd for a farmer business with a positive test result", async function () {
     addDescription("Test not implemented yet, Jira ticket: AHWR-1202", TYPE.MARKDOWN);
     this.skip();

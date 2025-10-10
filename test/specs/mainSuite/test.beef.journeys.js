@@ -16,7 +16,7 @@ import {
 let claimNumber;
 const additionalHerd = "Beef additional herd 1";
 
-describe("AHW multiple herds beef cattle claim journeys", async function () {
+describe("Multiple herds beef cattle claim journeys", async function () {
   this.retries(2);
 
   it("can create the first review claim with a positive test result for a beef herd for a farmer business", async () => {

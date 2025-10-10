@@ -1,6 +1,6 @@
 import { addDescription, TYPE } from "@wdio/allure-reporter";
 
-describe("AHW claim session back navigation journeys", () => {
+describe("Claim session and back navigation journeys", () => {
   it("can clear the input field data when the user selects a different herd from the originally selected one for a follow-up journey", async function () {
     addDescription("Test not implemented yet, Jira ticket: AHWR-1054", TYPE.MARKDOWN);
     this.skip();

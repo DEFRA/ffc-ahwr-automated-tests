@@ -37,7 +37,7 @@ import { createMultipleHerdSheepFollowUp } from "../../utils/follow-up-claim.js"
 
 let claimNumber;
 
-describe("AHW multiple herd sheep claim journeys", async function () {
+describe("Multiple herd sheep claim journeys", async function () {
   this.retries(2);
 
   it("can create the first review claim for a flock of sheep for a business", async () => {

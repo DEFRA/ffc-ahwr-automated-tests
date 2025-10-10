@@ -1,8 +1,6 @@
 import { addDescription, TYPE } from "@wdio/allure-reporter";
 
-// TODO: Create a Jira ticket to implement the first four pending tests in this file
-
-describe("AHW multiple herds diary cattle claim journeys", async function () {
+describe("Multiple herds diary cattle claim journeys", async function () {
   it("can create the first review claim with a positive test result for a diary herd for a farmer business", async function () {
     addDescription("Test not implemented yet, Jira ticket: AHWR-1317", TYPE.MARKDOWN);
     this.skip();

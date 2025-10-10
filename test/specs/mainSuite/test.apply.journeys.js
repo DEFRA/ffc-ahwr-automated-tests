@@ -5,7 +5,7 @@ import { clickSubmitButton, verifySubmission, performDevLogin } from "../../util
 import { TERMS_AND_CONDITIONS_CHECKBOX } from "../../utils/selectors.js";
 import { APPLY_REVIEW_CLAIM_SBI } from "../../utils/constants.js";
 
-describe("AHW apply journeys", async function () {
+describe("Apply journeys", async function () {
   this.retries(2);
 
   it("can create a new application", async () => {
