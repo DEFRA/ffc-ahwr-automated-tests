@@ -6,7 +6,7 @@ export const CLAIMS_MAIN_HEADING_SELECTOR = "#main-content h1.govuk-heading-l";
 
 export const LIVESTOCK_BEEF_RADIO = 'input[value="beef"]';
 
-export const LIVESTOCK_DIARY_RADIO = 'input[value="dairy"]';
+export const LIVESTOCK_DAIRY_RADIO = 'input[value="dairy"]';
 
 export const LIVESTOCK_PIGS_RADIO = 'input[value="pigs"]';
 
