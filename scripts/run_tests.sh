@@ -119,7 +119,7 @@ fi
 
 EXIT_CODE=${PIPESTATUS[0]}
 
-# echo "🛑 Stopping services..."
+echo "🛑 Stopping services..."
 docker compose down
 
 exit $EXIT_CODE

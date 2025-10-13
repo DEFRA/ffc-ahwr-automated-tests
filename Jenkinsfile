@@ -3,6 +3,7 @@ pipeline {
     options {
         disableConcurrentBuilds()
     }
+
     environment {
         BRANCH_NAME = "${env.GIT_BRANCH}"
         RUN_NUMBER  = "${env.BUILD_NUMBER}"
@@ -12,27 +13,26 @@ pipeline {
         AZURE_STORAGE_CONNECTION_STRING = credentials('AZURE_STORAGE_CONNECTION_STRING')
         AZURE_STORAGE_CONNECTION_STRING_JENKINS_FAILURES = credentials('AZURE_STORAGE_CONNECTION_STRING_JENKINS_FAILURES')
         GIT_BRANCH_ALERTS = 'origin/main'
+        TEST_FAILURE = 'false'
+        FAILED_TEST_STAGES = ''
     }
+
     stages {
         stage('Pre-run Cleanup: Remove Alert') {
-            when {
-                branch "$GIT_BRANCH_ALERTS"
-            }
-            options {
-                timeout(time: 1, unit: 'MINUTES')
-            }
+            when { branch "$GIT_BRANCH_ALERTS" }
+            options { timeout(time: 1, unit: 'MINUTES') }
             steps {
                 sh './scripts/remove_alert.sh "$AZURE_STORAGE_CONNECTION_STRING_JENKINS_FAILURES" "main"'
             }
         }
+
         stage('Remove Allure report artifacts') {
-            options {
-                timeout(time: 3, unit: 'MINUTES')
-            }
+            options { timeout(time: 3, unit: 'MINUTES') }
             steps {
                 sh './scripts/cleanup_allure-results.sh'
             }
         }
+
         stage('Pull Service Images (ACR)') {
             options {
                 timeout(time: 3, unit: 'MINUTES')
@@ -42,71 +42,86 @@ pipeline {
                 sh './scripts/pull_latest_acr_images.sh'
             }
         }
+
         stage('Build WDIO (testing) Image') {
-            options {
-                timeout(time: 3, unit: 'MINUTES')
-            }
+            options { timeout(time: 3, unit: 'MINUTES') }
             steps {
                 sh './scripts/build_wdio_test_image.sh'
             }
         }
-        stage('Run mainSuite Tests') {
-            options {
-                timeout(time: 10, unit: 'MINUTES')
-            }
-            steps {
-                script {
-                    catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                        sh './scripts/run_tests.sh mainSuite'
+
+        stage('Run Test Suites') {
+            parallel {
+                stage('mainSuite') {
+                    steps {
+                        script {
+                            runTestStage('mainSuite', './scripts/run_tests.sh mainSuite')
+                        }
+                    }
+                }
+                stage('compliance') {
+                    steps {
+                        script {
+                            runTestStage('compliance', './scripts/run_tests.sh comp 5')
+                        }
+                    }
+                }
+                stage('complianceFA') {
+                    steps {
+                        script {
+                            runTestStage('complianceFA', './scripts/run_tests.sh compFA 5')
+                        }
                     }
                 }
             }
         }
 
-        stage('Run compliance Tests') {
-            options {
-                timeout(time: 7, unit: 'MINUTES')
-            }
-            steps {
-                script {
-                    catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                        sh './scripts/run_tests.sh comp 5'
-                    }
-                }
-            }
-        }
-
-        stage('Run compliance feature assurance Tests') {
-            options {
-                timeout(time: 7, unit: 'MINUTES')
-            }
-            steps {
-                script {
-                    catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                        sh './scripts/run_tests.sh compFA 5'
-                    }
-                }
-            }
-        }
         stage('Generate Allure test report') {
-            options {
-                timeout(time: 3, unit: 'MINUTES')
-            }
+            options { timeout(time: 3, unit: 'MINUTES') }
             steps {
                 sh './scripts/generate_allure_results.sh'
             }
         }
     }
+
     post {
+        always {
+            script {
+                echo 'ℹ️ Running final evaluation of test results...'
+                if (env.TEST_FAILURE == 'true') {
+                    echo "❌ One or more test stages failed: ${env.FAILED_TEST_STAGES}"
+                    currentBuild.result = 'FAILURE'
+                } else {
+                    echo '✅ All test stages passed successfully.'
+                }
+            }
+        }
+
         failure {
             script {
                 if (env.GIT_BRANCH == "$GIT_BRANCH_ALERTS") {
+                    echo '⚠️ Sending alert as tests failed...'
                     sh './scripts/send_alert.sh "$AZURE_STORAGE_CONNECTION_STRING_JENKINS_FAILURES" "main" "$RUN_NUMBER"'
-                    echo 'ℹ️ Sending alert as tests failed'
                 } else {
                     echo "ℹ️ Only send alert for branch: $GIT_BRANCH_ALERTS"
                 }
             }
         }
+    }
+}
+
+def runTestStage(stageName, command) {
+    catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+        sh command
+    }
+
+    // If the stage failed, mark the overall build flag
+    if (currentBuild.currentResult == 'FAILURE') {
+        env.TEST_FAILURE = 'true'
+        env.FAILED_TEST_STAGES = "${env.FAILED_TEST_STAGES}${stageName} "
+        echo "❌ Test stage failed: ${stageName}"
+        currentBuild.result = 'SUCCESS' // prevent early stop
+    } else {
+        echo "✅ Test stage passed: ${stageName}"
     }
 }
