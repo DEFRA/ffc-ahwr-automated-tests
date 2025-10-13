@@ -13,8 +13,6 @@ pipeline {
         AZURE_STORAGE_CONNECTION_STRING = credentials('AZURE_STORAGE_CONNECTION_STRING')
         AZURE_STORAGE_CONNECTION_STRING_JENKINS_FAILURES = credentials('AZURE_STORAGE_CONNECTION_STRING_JENKINS_FAILURES')
         GIT_BRANCH_ALERTS = 'origin/main'
-        TEST_FAILURE = 'false'
-        FAILED_TEST_STAGES = ''
     }
 
     stages {
@@ -50,28 +48,32 @@ pipeline {
             }
         }
 
-        stage('Run Test Suites') {
-            parallel {
-                stage('mainSuite') {
-                    steps {
-                        script {
-                            runTestStage('mainSuite', './scripts/run_tests.sh mainSuite')
-                        }
-                    }
+        stage('Run mainSuite Tests') {
+            options { timeout(time: 10, unit: 'MINUTES') }
+            steps {
+                script {
+                    if (!binding.hasVariable('testFailures')) { testFailures = [] }
+                    runTestStage('mainSuite', './scripts/run_tests.sh mainSuite', testFailures)
                 }
-                stage('compliance') {
-                    steps {
-                        script {
-                            runTestStage('compliance', './scripts/run_tests.sh comp 5')
-                        }
-                    }
+            }
+        }
+
+        stage('Run compliance Tests') {
+            options { timeout(time: 7, unit: 'MINUTES') }
+            steps {
+                script {
+                    if (!binding.hasVariable('testFailures')) { testFailures = [] }
+                    runTestStage('compliance', './scripts/run_tests.sh comp 5', testFailures)
                 }
-                stage('complianceFA') {
-                    steps {
-                        script {
-                            runTestStage('complianceFA', './scripts/run_tests.sh compFA 5')
-                        }
-                    }
+            }
+        }
+
+        stage('Run compliance feature assurance Tests') {
+            options { timeout(time: 7, unit: 'MINUTES') }
+            steps {
+                script {
+                    if (!binding.hasVariable('testFailures')) { testFailures = [] }
+                    runTestStage('complianceFA', './scripts/run_tests.sh compFA 5', testFailures)
                 }
             }
         }
@@ -87,9 +89,10 @@ pipeline {
     post {
         always {
             script {
-                echo 'ℹ️ Running final evaluation of test results...'
-                if (env.TEST_FAILURE == 'true') {
-                    echo "❌ One or more test stages failed: ${env.FAILED_TEST_STAGES}"
+                if (!binding.hasVariable('testFailures')) { testFailures = [] }
+                echo 'ℹ️ Evaluating overall test results...'
+                if (testFailures.size() > 0) {
+                    echo "❌ One or more test stages failed: ${testFailures.join(', ')}"
                     currentBuild.result = 'FAILURE'
                 } else {
                     echo '✅ All test stages passed successfully.'
@@ -110,18 +113,15 @@ pipeline {
     }
 }
 
-def runTestStage(stageName, command) {
-    catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-        sh command
-    }
-
-    // If the stage failed, mark the overall build flag
-    if (currentBuild.currentResult == 'FAILURE') {
-        env.TEST_FAILURE = 'true'
-        env.FAILED_TEST_STAGES = "${env.FAILED_TEST_STAGES}${stageName} "
-        echo "❌ Test stage failed: ${stageName}"
-        currentBuild.result = 'SUCCESS' // prevent early stop
-    } else {
-        echo "✅ Test stage passed: ${stageName}"
+def runTestStage(stageName, command, testFailures) {
+    catchError(stageResult: 'FAILURE', buildResult: 'SUCCESS') {
+        def status = sh(script: command, returnStatus: true)
+        if (status != 0) {
+            echo "❌ ${stageName} failed (exit code: ${status})"
+            testFailures << stageName
+            error("${stageName} failed")
+        } else {
+            echo "✅ ${stageName} passed"
+        }
     }
 }
