@@ -30,14 +30,17 @@ export const config = {
   // specs: [],
   suites: {
     mainSuite: [
-      "./test/specs/test.apply.journeys.js",
+      "./test/specs/mainSuite/test.apply.journeys.js",
       "./test/specs/mainSuite/test.review-claim-before-mh-launch.journeys.js",
       "./test/specs/mainSuite/test.follow-up-claim-before-mh-launch.journeys.js",
       "./test/specs/mainSuite/test.pre.mh.journeys.js",
       "./test/specs/mainSuite/test.pre.and.post.mh.journeys.js",
+      "./test/specs/mainSuite/test.beef.journeys.js",
+      "./test/specs/mainSuite/test.dairy.journeys.js",
+      "./test/specs/mainSuite/test.pigs.journeys.js",
+      "./test/specs/mainSuite/test.sheep.journeys.js",
+      "./test/specs/mainSuite/test.claim.session.journeys.js",
       "./test/specs/mainSuite/test.dashboard.journeys.js",
-      "./test/specs/mainSuite/test.sheep.mh.journeys.js",
-      "./test/specs/mainSuite/test.beef.mh.journeys.js",
       "./test/specs/mainSuite/test.backoffice.journeys.js",
     ],
     comp: ["./test/specs/test.claim-compliance.journeys.js"],
@@ -154,7 +157,17 @@ export const config = {
   // Test reporter for stdout.
   // The only one supported by default is 'dot'
   // see also: https://webdriver.io/docs/dot-reporter
-  reporters: ["spec"],
+  reporters: [
+    "spec",
+    [
+      "allure",
+      {
+        outputDir: "allure-results",
+        disableWebdriverStepsReporting: true,
+        disableWebdriverScreenshotsReporting: false,
+      },
+    ],
+  ],
 
   // Options to be passed to Mocha.
   // See the full list at http://mochajs.org/
@@ -295,6 +308,11 @@ export const config = {
    * @param {object}  result.retries   information about spec related retries, e.g. `{ attempts: 0, limit: 0 }`
    */
   afterTest: async function (test, context, result) {
+    if (test.pending) {
+      console.log(`⚠️ Skipping screenshot for skipped test: ${test.title}`);
+      return;
+    }
+
     if (!result.passed) {
       const originalWindowSize = await browser.getWindowSize();
       // To set the window size to see the full screen when screenshot is taken

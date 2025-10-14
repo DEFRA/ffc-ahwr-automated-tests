@@ -58,6 +58,24 @@ az login
 
 ```
 
+## 🧪 Test Reports
+
+### In CI (Jenkins):
+
+At the end of each test run, an Allure HTML report will be generated, summarizing all test results including passed, failed, and skipped tests. The report will be stored in the `allure-report` folder within the Jenkins workspace.
+
+### Locally:
+
+The Allure report can be generated using the command below following a test execution:
+
+`npx allure-commandline generate ./allure-results --clean -o ./allure-report`
+
+The generated report will be available in the `allure-report` folder in the project root directory.
+
+Run the command below from the project root directory to see the report in your default browser:
+
+`npx allure-commandline open allure-report`
+
 ## 🙈 Gotchas
 
 - We use the -auto queues that have been created in the SND2 environment. When the tests run in the pipeline, they will use the -pipe queues. This

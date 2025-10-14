@@ -3,7 +3,7 @@ FROM --platform=linux/amd64 selenium/standalone-chrome:133.0-20250222
 USER root
 
 # Install necessary dependencies and NVM
-RUN apt-get update && apt-get install -y curl bash \
+RUN apt-get update && apt-get install -y bash curl \
     && rm -rf /var/lib/apt/lists/* \
     && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
 
@@ -24,6 +24,9 @@ WORKDIR /app
 # Copy package files first to optimize caching
 COPY package.json package-lock.json ./
 RUN npm ci --omit=dev --ignore-scripts
+
+# Make Allure CLI globally accessible
+RUN ln -s /app/node_modules/.bin/allure /usr/local/bin/allure
 
 # Copy the rest of the application files
 COPY . .

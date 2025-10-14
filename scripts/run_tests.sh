@@ -105,7 +105,18 @@ mkdir -p "$LOG_DIR"
 
 docker image ls --format "{{.Repository}}" | grep '^ffc-ahwr-' | grep -v '^ffc-ahwr-application-development$' | xargs -I {} sh -c "docker compose logs -f \"{}\" > $LOG_DIR/{}.log 2>&1 &"
 
+# Run tests inside the container
 docker exec -i --user root "$WDIO_CONTAINER" npm run test:"$TEST_COMMAND" | tee "$LOG_DIR/wdio_test_output.log"
+
+if [ "$CI" = "true" ]; then
+  echo "📁 Copying Allure results..."
+  mkdir -p ./allure-results/"$TEST_COMMAND"
+  docker cp "$WDIO_CONTAINER":/app/allure-results/. ./allure-results/"$TEST_COMMAND"/
+  echo "✅ Allure results copied to ./allure-results/$TEST_COMMAND/"
+else
+    echo "ℹ️ Not in CI environment — skipping Allure results copy."
+fi
+
 EXIT_CODE=${PIPESTATUS[0]}
 
 echo "🛑 Stopping services..."

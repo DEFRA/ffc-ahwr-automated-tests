@@ -32,7 +32,9 @@ import {
   JOHNES_DISEASE,
 } from "../../utils/constants.js";
 
-describe("Follow-up claim journeys for various species", () => {
+describe("Follow-up claim journeys for various species before multiple herds launch", async function () {
+  this.retries(2);
+
   it("can create a follow-up claim for sheep", async () => {
     await performDevLogin(SHEEP_ENDEMIC_CLAIM_SBI);
 

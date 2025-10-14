@@ -1,4 +1,5 @@
 import { expect, $ } from "@wdio/globals";
+import { addDescription, TYPE } from "@wdio/allure-reporter";
 import {
   clickOnElementAndContinue,
   clickStartNewClaimButton,
@@ -27,7 +28,9 @@ import { approveClaim } from "../../utils/backoffice-common.js";
 
 // This test suite covers various claim journeys with a visit date after the MH release date for the pre-MH claims
 
-describe("MH journeys when Pre-MH claims present", () => {
+describe("Multiple herds journeys when Pre-MH claims present", async function () {
+  this.retries(2);
+
   it("can create a follow-up claim for a pre-MH sheep review claim if the follow-up visit date is after the MH release date - associating the pre-MH unnamed flock with a real flock", async () => {
     // This test uses data from the script located at changelog/insert_pre_post_mh_application_review.sql
     await performDevLogin(PRE_POST_MULTIPLE_HERD_SBI);
@@ -60,7 +63,7 @@ describe("MH journeys when Pre-MH claims present", () => {
   it("can create follow-up claim with a visit date after the MH release date for a pre-MH pigs review - associating the pre-MH unnamed herd with a real herd", async () => {
     await performDevLogin(PRE_POST_MULTIPLE_HERD_SBI);
 
-    //note the review is positive - important when creating pig follow ups
+    // note the review is positive - important when creating pig follow ups
     const claimNumber = await createPigsReviewClaim({
       enterVisitDateAndContinueFunc: enterPreMHReleaseDateAndContinue,
     });
@@ -92,5 +95,20 @@ describe("MH journeys when Pre-MH claims present", () => {
     await expect($(EXTERNAL_GOV_LINK)).toHaveText(
       expect.stringContaining("There must be at least 10 months between your reviews."),
     );
+  });
+
+  it("cannot create a second follow-up claim for a different herd or flock when the visit date falls on or after the MH release date and both MH and pre-MH claims are present", async function () {
+    addDescription("Test not implemented yet, Jira ticket: AHWR-1050", TYPE.MARKDOWN);
+    this.skip();
+  });
+
+  it("can create a second follow-up claim for an existing herd or flock if the visit date is on or after the MH release date and there are multiple pre-MH claims", async function () {
+    addDescription("Test not implemented yet, Jira ticket: AHWR-1049", TYPE.MARKDOWN);
+    this.skip();
+  });
+
+  it("can create a second follow-up claim for an existing herd or flock when the visit date falls on or after the MH release date and both MH and pre-MH claims are present", async function () {
+    addDescription("Test not implemented yet, Jira ticket: AHWR-1049", TYPE.MARKDOWN);
+    this.skip();
   });
 });

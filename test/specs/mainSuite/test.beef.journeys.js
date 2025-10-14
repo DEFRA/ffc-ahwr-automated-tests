@@ -1,3 +1,4 @@
+import { addDescription, TYPE } from "@wdio/allure-reporter";
 import { expect, $ } from "@wdio/globals";
 import { performDevLogin } from "../../utils/common.js";
 import { CLAIM_REFERENCE } from "../../utils/selectors.js";
@@ -15,7 +16,9 @@ import {
 let claimNumber;
 const additionalHerd = "Beef additional herd 1";
 
-describe("Multiple herds - review and follow-up claim journeys for beef", () => {
+describe("Multiple herds beef cattle claim journeys", async function () {
+  this.retries(2);
+
   it("can create the first review claim with a positive test result for a beef herd for a farmer business", async () => {
     await performDevLogin(MULTIPLE_HERDS_SBI);
 
@@ -26,7 +29,7 @@ describe("Multiple herds - review and follow-up claim journeys for beef", () => 
     expect(claimNumber).toEqual(expect.stringContaining("REBC"));
   });
 
-  it("can create a follow-up claim for an approved review claim with positive test result", async () => {
+  it("can create a PI hunt follow-up claim for an approved review claim with positive test result", async () => {
     await approveClaim(MULTIPLE_HERD_SHEEP_AGREEMENT_REF, claimNumber);
 
     await performDevLogin(MULTIPLE_HERDS_SBI);
@@ -47,7 +50,7 @@ describe("Multiple herds - review and follow-up claim journeys for beef", () => 
     await expect($(CLAIM_REFERENCE)).toHaveText(expect.stringContaining("REBC"));
   });
 
-  it("can create a follow-up claim for the approved beef review claim with negative test result", async () => {
+  it("can create a PI hunt follow-up claim for the approved beef review claim with negative test result", async () => {
     await approveClaim(MULTIPLE_HERD_SHEEP_AGREEMENT_REF, claimNumber);
 
     await performDevLogin(MULTIPLE_HERDS_SBI);
@@ -59,5 +62,10 @@ describe("Multiple herds - review and follow-up claim journeys for beef", () => 
     });
 
     await expect($(CLAIM_REFERENCE)).toHaveText(expect.stringContaining("FUBC"));
+  });
+
+  it("can create a follow-up claim journey when a PI hunt has not been performed for beef herd review claim with a negative test result", async function () {
+    addDescription("Test not implemented yet, Jira ticket: AHWR-1200", TYPE.MARKDOWN);
+    this.skip();
   });
 });

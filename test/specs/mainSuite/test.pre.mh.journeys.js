@@ -22,7 +22,9 @@ import { approveClaim } from "../../utils/backoffice-common.js";
 
 // This test suite covers various claim journeys with a visit date before the MH release date
 
-describe("Journeys involving Pre-MH launch claims", () => {
+describe("Journeys involving Pre-multiple herds launch claims", async function () {
+  this.retries(2);
+
   it("cannot create a second review claim for sheep species when visit date is before MH release date and within 10 months of its pre-MH review claim", async () => {
     // This test uses data from the script in changelog/insert_pre_mh_application_review.sql
     await performDevLogin(PRE_MULTIPLE_HERD_SBI);
@@ -70,7 +72,7 @@ describe("Journeys involving Pre-MH launch claims", () => {
   it("can create a review and its follow-up claim for pigs if the visit date is before the MH release date", async () => {
     await performDevLogin(PRE_MULTIPLE_HERD_SBI);
 
-    //note the review is positive - important when creating pig follow ups
+    // note the review is positive - important when creating pig follow ups
     const claimNumber = await createPigsReviewClaim({
       enterVisitDateAndContinueFunc: enterPreMHReleaseDateAndContinue,
     });

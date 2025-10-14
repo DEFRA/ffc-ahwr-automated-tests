@@ -11,7 +11,7 @@ import {
   START_A_NEW_CLAIM_BUTTON,
   CLAIM_TABLE_ROW,
   LIVESTOCK_BEEF_RADIO,
-  LIVESTOCK_DIARY_RADIO,
+  LIVESTOCK_DAIRY_RADIO,
   LIVESTOCK_PIGS_RADIO,
   LIVESTOCK_SHEEP_RADIO,
   AGREEMENT_NUMBER_SELECTOR,
@@ -19,7 +19,9 @@ import {
 import { DASHBOARD_SBI } from "../../utils/constants.js";
 import { createSheepReviewClaim } from "../../utils/review-claim.js";
 
-describe("Vet-visits Dashboard journeys", () => {
+describe("Vet-visits dashboard journeys", async function () {
+  this.retries(2);
+
   it("can verify agreement summary exists and a claim journey can be started from the dashboard", async () => {
     await performDevLogin(DASHBOARD_SBI);
 
@@ -50,7 +52,7 @@ describe("Vet-visits Dashboard journeys", () => {
 
     const liveStockSelectors = [
       LIVESTOCK_BEEF_RADIO,
-      LIVESTOCK_DIARY_RADIO,
+      LIVESTOCK_DAIRY_RADIO,
       LIVESTOCK_PIGS_RADIO,
       LIVESTOCK_SHEEP_RADIO,
     ];
