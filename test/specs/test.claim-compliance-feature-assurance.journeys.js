@@ -11,7 +11,7 @@ import {
 import {
   createSheepReviewClaim,
   createSheepReviewForAdditionalHerd,
-} from "../../utils/reviews/index.js";
+} from "../utils/reviews/index.js";
 
 describe("Multiple herd claim feature assurance compliance checks", async function () {
   this.retries(2);
