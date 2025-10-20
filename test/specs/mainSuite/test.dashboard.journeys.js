@@ -17,7 +17,7 @@ import {
   AGREEMENT_NUMBER_SELECTOR,
 } from "../../utils/selectors.js";
 import { DASHBOARD_SBI } from "../../utils/constants.js";
-import { createSheepReviewClaim } from "../../utils/review-claim.js";
+import { createSheepReviewClaim } from "../../utils/reviews/index.js";
 
 describe("Vet-visits dashboard journeys", async function () {
   this.retries(2);

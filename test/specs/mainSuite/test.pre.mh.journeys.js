@@ -8,8 +8,8 @@ import {
 import {
   createPreMultipleHerdPigsFollowUp,
   createPreMultipleHerdSheepFollowUp,
-} from "../../utils/follow-up-claim.js";
-import { createPigsReviewClaim } from "../../utils/review-claim.js";
+} from "../../utils/follow-ups/index.js";
+import { createPigsReviewClaim } from "../../utils/reviews/index.js";
 import {
   CLAIMS_MAIN_HEADING_SELECTOR,
   EXTERNAL_GOV_LINK,

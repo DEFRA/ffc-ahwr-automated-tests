@@ -45,7 +45,7 @@ import {
   ON_HOLD_CLAIM_REF,
 } from "../../utils/constants.js";
 import { approveClaim } from "../../utils/backoffice-common.js";
-import { createSheepReviewClaim } from "../../utils/review-claim.js";
+import { createSheepReviewClaim } from "../../utils/reviews/index.js";
 
 describe("Backoffice journeys", async function () {
   this.retries(2);

@@ -1,26 +1,66 @@
 import { addDescription, TYPE } from "@wdio/allure-reporter";
+import { expect, $ } from "@wdio/globals";
+import { performDevLogin } from "../../utils/common.js";
+import { CLAIM_REFERENCE } from "../../utils/selectors.js";
+import { MULTIPLE_HERDS_SBI, MULTIPLE_HERD_AGREEMENT_REF } from "../../utils/constants.js";
+import { approveClaim } from "../../utils/backoffice-common.js";
+import {
+  createDairyReviewClaim,
+  createDairyReviewForAdditionalHerd,
+} from "../../utils/reviews/index.js";
+import {
+  createMultipleHerdDairyFollowUpForFirstHerd,
+  createMultipleHerdDairyFollowUpForAdditionalHerd,
+} from "../../utils/follow-ups/index.js";
 
+let claimNumber;
+const additionalHerd = "Diary additional herd 1";
 describe("Multiple herds dairy cattle claim journeys", async function () {
   it("can create the first review claim with a positive test result for a dairy herd for a farmer business", async function () {
-    addDescription("Test not implemented yet, Jira ticket: AHWR-1317", TYPE.MARKDOWN);
-    this.skip();
+    await performDevLogin(MULTIPLE_HERDS_SBI);
+
+    claimNumber = await createDairyReviewClaim({
+      testResult: "positive",
+    });
+
+    expect(claimNumber).toEqual(expect.stringContaining("REDC"));
   });
 
   it("can create a PI hunt follow-up claim for an approved dairy review claim with positive test result", async function () {
     // Answer yes to all PI hunt questions
-    addDescription("Test not implemented yet, Jira ticket: AHWR-1317", TYPE.MARKDOWN);
-    this.skip();
+    await approveClaim(MULTIPLE_HERD_AGREEMENT_REF, claimNumber);
+
+    await performDevLogin(MULTIPLE_HERDS_SBI);
+
+    await createMultipleHerdDairyFollowUpForFirstHerd();
+
+    await expect($(CLAIM_REFERENCE)).toHaveText(expect.stringContaining("FUDC"));
   });
 
   it("can create a review claim with negative test result for a different group (herd) of dairy species for the same farmer business", async function () {
-    addDescription("Test not implemented yet, Jira ticket: AHWR-1317", TYPE.MARKDOWN);
-    this.skip();
+    await performDevLogin(MULTIPLE_HERDS_SBI);
+
+    claimNumber = await createDairyReviewForAdditionalHerd({
+      herd: additionalHerd,
+      testResult: "negative",
+    });
+
+    await expect($(CLAIM_REFERENCE)).toHaveText(expect.stringContaining("REDC"));
   });
 
   it("can create a PI hunt follow-up claim for the approved dairy review claim with negative test result", async function () {
     // Answer yes to all PI hunt questions
-    addDescription("Test not implemented yet, Jira ticket: AHWR-1317", TYPE.MARKDOWN);
-    this.skip();
+    await approveClaim(MULTIPLE_HERD_AGREEMENT_REF, claimNumber);
+
+    await performDevLogin(MULTIPLE_HERDS_SBI);
+
+    await createMultipleHerdDairyFollowUpForAdditionalHerd({
+      herdName: additionalHerd,
+      testResult: "negative",
+      urn: "dc-fu-521348",
+    });
+
+    await expect($(CLAIM_REFERENCE)).toHaveText(expect.stringContaining("FUDC"));
   });
 
   it("can create a dairy herd follow-up claim journey when PI hunt for bovine viral diarrhoea has not been done", async function () {

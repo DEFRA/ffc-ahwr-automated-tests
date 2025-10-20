@@ -2,16 +2,16 @@ import { addDescription, TYPE } from "@wdio/allure-reporter";
 import { expect, $ } from "@wdio/globals";
 import { performDevLogin } from "../../utils/common.js";
 import { CLAIM_REFERENCE } from "../../utils/selectors.js";
-import { MULTIPLE_HERDS_SBI, MULTIPLE_HERD_SHEEP_AGREEMENT_REF } from "../../utils/constants.js";
+import { MULTIPLE_HERDS_SBI, MULTIPLE_HERD_AGREEMENT_REF } from "../../utils/constants.js";
 import { approveClaim } from "../../utils/backoffice-common.js";
 import {
   createBeefReviewClaim,
   createBeefReviewForAdditionalHerd,
-} from "../../utils/review-claim.js";
+} from "../../utils/reviews/index.js";
 import {
   createMultipleHerdBeefFollowUpForFirstHerd,
   createMultipleHerdBeefFollowUpForAdditionalHerd,
-} from "../../utils/follow-up-claim.js";
+} from "../../utils/follow-ups/index.js";
 
 let claimNumber;
 const additionalHerd = "Beef additional herd 1";
@@ -30,7 +30,7 @@ describe("Multiple herds beef cattle claim journeys", async function () {
   });
 
   it("can create a PI hunt follow-up claim for an approved review claim with positive test result", async () => {
-    await approveClaim(MULTIPLE_HERD_SHEEP_AGREEMENT_REF, claimNumber);
+    await approveClaim(MULTIPLE_HERD_AGREEMENT_REF, claimNumber);
 
     await performDevLogin(MULTIPLE_HERDS_SBI);
 
@@ -51,7 +51,7 @@ describe("Multiple herds beef cattle claim journeys", async function () {
   });
 
   it("can create a PI hunt follow-up claim for the approved beef review claim with negative test result", async () => {
-    await approveClaim(MULTIPLE_HERD_SHEEP_AGREEMENT_REF, claimNumber);
+    await approveClaim(MULTIPLE_HERD_AGREEMENT_REF, claimNumber);
 
     await performDevLogin(MULTIPLE_HERDS_SBI);
 

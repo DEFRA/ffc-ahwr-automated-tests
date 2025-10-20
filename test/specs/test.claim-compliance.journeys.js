@@ -1,7 +1,7 @@
 import { browser, expect } from "@wdio/globals";
 import { getBackOfficeUrl, performDevLogin } from "../utils/common.js";
 import { assertClaimToBeInCheck, assertClaimToBeOnHold } from "../utils/common-assertions.js";
-import { createSheepReviewClaim } from "../utils/review-claim.js";
+import { createSheepReviewClaim } from "../../utils/reviews/index.js";
 
 const fillerSbis = ["106416234", "107361798", "107645299", "106258541", "107346082"];
 
