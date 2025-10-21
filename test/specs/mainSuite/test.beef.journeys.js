@@ -1,4 +1,3 @@
-import { addDescription, TYPE } from "@wdio/allure-reporter";
 import { expect, $ } from "@wdio/globals";
 import { performDevLogin } from "../../utils/common.js";
 import { CLAIM_REFERENCE } from "../../utils/selectors.js";
@@ -44,7 +43,7 @@ describe("Multiple herds beef cattle claim journeys", async function () {
 
     claimNumber = await createBeefReviewForAdditionalHerd({
       herd: additionalHerd,
-      testResult: "negative",
+      reviewTestResult: "negative",
     });
 
     await expect($(CLAIM_REFERENCE)).toHaveText(expect.stringContaining("REBC"));
@@ -64,8 +63,84 @@ describe("Multiple herds beef cattle claim journeys", async function () {
     await expect($(CLAIM_REFERENCE)).toHaveText(expect.stringContaining("FUBC"));
   });
 
-  it("can create a follow-up claim journey when a PI hunt has not been performed for beef herd review claim with a negative test result", async function () {
-    addDescription("Test not implemented yet, Jira ticket: AHWR-1200", TYPE.MARKDOWN);
-    this.skip();
+  it("can create a beef herd follow-up claim journey when PI hunt for bovine viral diarrhoea has not been done", async () => {
+    // This test is only applicable for review claim with negative test result
+    await performDevLogin(MULTIPLE_HERDS_SBI);
+    const herdName = "Beef additional herd 2";
+
+    claimNumber = await createBeefReviewForAdditionalHerd({
+      herd: herdName,
+      reviewTestResult: "negative",
+      urn: "bc-rr-511148",
+    });
+
+    await expect($(CLAIM_REFERENCE)).toHaveText(expect.stringContaining("REBC"));
+
+    await approveClaim(MULTIPLE_HERD_AGREEMENT_REF, claimNumber);
+
+    await performDevLogin(MULTIPLE_HERDS_SBI);
+
+    await createMultipleHerdBeefFollowUpForAdditionalHerd({
+      herdName,
+      reviewTestResult: "negative",
+      urn: "bc-fu-511248",
+      piHuntBvdDone: "no",
+    });
+
+    await expect($(CLAIM_REFERENCE)).toHaveText(expect.stringContaining("FUBC"));
+  });
+
+  it("can create a beef herd follow-up claim journey when PI hunt was not recommended by the vet", async () => {
+    // This test is only applicable for review claim with negative test result
+    await performDevLogin(MULTIPLE_HERDS_SBI);
+    const herdName = "Beef additional herd 3";
+
+    claimNumber = await createBeefReviewForAdditionalHerd({
+      herd: herdName,
+      reviewTestResult: "negative",
+      urn: "bc-rr-511149",
+    });
+
+    await expect($(CLAIM_REFERENCE)).toHaveText(expect.stringContaining("REBC"));
+
+    await approveClaim(MULTIPLE_HERD_AGREEMENT_REF, claimNumber);
+
+    await performDevLogin(MULTIPLE_HERDS_SBI);
+
+    await createMultipleHerdBeefFollowUpForAdditionalHerd({
+      herdName,
+      reviewTestResult: "negative",
+      urn: "bc-fu-511250",
+      piHuntRecommendedByVet: "no",
+    });
+
+    await expect($(CLAIM_REFERENCE)).toHaveText(expect.stringContaining("FUBC"));
+  });
+
+  it("can create a beef herd follow-up claim journey when PI hunt wasn't done on all beef cattle in the herd", async () => {
+    // This test is only applicable for review claim with negative test result
+    await performDevLogin(MULTIPLE_HERDS_SBI);
+    const herdName = "Beef additional herd 4";
+
+    claimNumber = await createBeefReviewForAdditionalHerd({
+      herd: herdName,
+      reviewTestResult: "negative",
+      urn: "bc-rr-511151",
+    });
+
+    await expect($(CLAIM_REFERENCE)).toHaveText(expect.stringContaining("REBC"));
+
+    await approveClaim(MULTIPLE_HERD_AGREEMENT_REF, claimNumber);
+
+    await performDevLogin(MULTIPLE_HERDS_SBI);
+
+    await createMultipleHerdBeefFollowUpForAdditionalHerd({
+      herdName,
+      reviewTestResult: "negative",
+      urn: "bc-fu-511252",
+      piHuntDoneForAllCattleHerd: "no",
+    });
+
+    await expect($(CLAIM_REFERENCE)).toHaveText(expect.stringContaining("FUBC"));
   });
 });

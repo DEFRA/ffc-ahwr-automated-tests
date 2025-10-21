@@ -64,7 +64,7 @@ export async function createBeefReviewClaim({
 
 export async function createBeefReviewForAdditionalHerd({
   herd = "Beef additional herd 1",
-  testResult = "positive",
+  reviewTestResult = "positive",
   urn = "bc-rr-534351",
 } = {}) {
   await clickStartNewClaimButton();
@@ -83,7 +83,7 @@ export async function createBeefReviewForAdditionalHerd({
   await fillInputAndContinue(VETS_NAME, "Mr Auto Test");
   await fillInputAndContinue(VET_RCVS_NUMBER, "1234567");
   await fillInputAndContinue(LABORATORY_URN, urn);
-  await clickOnElementAndContinue(getTestResultsSelector(testResult));
+  await clickOnElementAndContinue(getTestResultsSelector(reviewTestResult));
 
   await $(SUBMIT_CLAIM_BUTTON).click();
   await verifySubmission("Claim complete");

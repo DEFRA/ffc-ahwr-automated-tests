@@ -28,7 +28,7 @@ import {
 } from "../selectors.js";
 
 export async function createDairyReviewClaim({
-  testResult = "positive",
+  reviewTestResult = "positive",
   isUnnamedHerdClaimPresent = false,
   urn = "dc-rr-5343461",
 } = {}) {
@@ -52,7 +52,7 @@ export async function createDairyReviewClaim({
   await fillInputAndContinue(VETS_NAME, "Mr Auto Test");
   await fillInputAndContinue(VET_RCVS_NUMBER, "1234567");
   await fillInputAndContinue(LABORATORY_URN, urn);
-  await clickOnElementAndContinue(getTestResultsSelector(testResult));
+  await clickOnElementAndContinue(getTestResultsSelector(reviewTestResult));
 
   await $(SUBMIT_CLAIM_BUTTON).click();
   await verifySubmission("Claim complete");
@@ -62,7 +62,7 @@ export async function createDairyReviewClaim({
 
 export async function createDairyReviewForAdditionalHerd({
   herd = "Dairy additional herd 1",
-  testResult = "positive",
+  reviewTestResult = "positive",
   urn = "dc-rr-534351",
 } = {}) {
   await clickStartNewClaimButton();
@@ -77,11 +77,10 @@ export async function createDairyReviewForAdditionalHerd({
 
   await enterWhenTestingWasCarriedOutAndContinue("whenTheVetVisitedTheFarmToCarryOutTheReview");
   await clickOnElementAndContinue(getSpeciesNumbersSelector("yes"));
-  // await fillInputAndContinue(NUMBER_OF_ANIMALS_TESTED, "10");
   await fillInputAndContinue(VETS_NAME, "Mr Auto Test");
   await fillInputAndContinue(VET_RCVS_NUMBER, "1234567");
   await fillInputAndContinue(LABORATORY_URN, urn);
-  await clickOnElementAndContinue(getTestResultsSelector(testResult));
+  await clickOnElementAndContinue(getTestResultsSelector(reviewTestResult));
 
   await $(SUBMIT_CLAIM_BUTTON).click();
   await verifySubmission("Claim complete");

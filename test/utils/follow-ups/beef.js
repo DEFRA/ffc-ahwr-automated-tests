@@ -21,6 +21,7 @@ import {
   getPiHuntDoneForAllCattleSelector,
   LABORATORY_URN,
   getTestResultsSelector,
+  CONTINUE_YOUR_CLAIM,
   getBiosecuritySelector,
   SUBMIT_CLAIM_BUTTON,
 } from "../selectors.js";
@@ -67,9 +68,12 @@ export async function createMultipleHerdBeefFollowUpForFirstHerd({
 
 export async function createMultipleHerdBeefFollowUpForAdditionalHerd({
   herdName,
-  testResult = "negative",
+  reviewTestResult = "negative",
   isUnnamedHerdClaimPresent = false,
   urn = "bc-fu-521347",
+  piHuntBvdDone = "yes",
+  piHuntRecommendedByVet = "yes",
+  piHuntDoneForAllCattleHerd = "yes",
 } = {}) {
   await clickStartNewClaimButton();
   await clickOnElementAndContinue(getTypeOfLivestockSelector("beef"));
@@ -88,16 +92,27 @@ export async function createMultipleHerdBeefFollowUpForAdditionalHerd({
   await clickOnElementAndContinue(getSpeciesNumbersSelector("yes"));
   await fillInputAndContinue(VETS_NAME, "Mr Auto Test");
   await fillInputAndContinue(VET_RCVS_NUMBER, "1234567");
-  await clickOnElementAndContinue(getPiHuntForBvdDoneSelector("yes"));
 
-  if (testResult === "negative") {
-    await clickOnElementAndContinue(getPiHuntRecommendedByVetSelector("yes"));
+  await clickOnElementAndContinue(getPiHuntForBvdDoneSelector(piHuntBvdDone));
+
+  if (piHuntBvdDone === "yes") {
+    if (reviewTestResult === "negative") {
+      await clickOnElementAndContinue(getPiHuntRecommendedByVetSelector(piHuntRecommendedByVet));
+    }
+    if (piHuntRecommendedByVet === "yes") {
+      await clickOnElementAndContinue(
+        getPiHuntDoneForAllCattleSelector(piHuntDoneForAllCattleHerd),
+      );
+    }
+    if (piHuntRecommendedByVet === "no" || piHuntDoneForAllCattleHerd === "no") {
+      await clickOnElementAndContinue(CONTINUE_YOUR_CLAIM);
+    } else {
+      await enterWhenTestingWasCarriedOutAndContinue("whenTheVetVisitedTheFarmToCarryOutTheReview");
+      await fillInputAndContinue(LABORATORY_URN, urn);
+      await clickOnElementAndContinue(getTestResultsSelector("positive"));
+    }
   }
 
-  await clickOnElementAndContinue(getPiHuntDoneForAllCattleSelector("yes"));
-  await enterWhenTestingWasCarriedOutAndContinue("whenTheVetVisitedTheFarmToCarryOutTheReview");
-  await fillInputAndContinue(LABORATORY_URN, urn);
-  await clickOnElementAndContinue(getTestResultsSelector("positive"));
   await clickOnElementAndContinue(getBiosecuritySelector("yes"));
   await $(SUBMIT_CLAIM_BUTTON).click();
   await verifySubmission("Claim complete");

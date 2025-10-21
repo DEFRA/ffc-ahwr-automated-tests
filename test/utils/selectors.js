@@ -44,6 +44,8 @@ export const DISEASE_STATUS = "#diseaseStatus";
 
 export const ASSESSMENT_PERCENTAGE = "#assessmentPercentage";
 
+export const CONTINUE_YOUR_CLAIM = 'a[href*="/biosecurity"]';
+
 export const SUBMIT_CLAIM_BUTTON = "#submit-claim";
 
 export const SUBMIT_BUTTON = 'button[type="submit"]';
