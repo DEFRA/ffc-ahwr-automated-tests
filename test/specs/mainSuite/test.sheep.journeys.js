@@ -30,10 +30,10 @@ import {
   PREVIOUSLY_CLAIMED_NO_ON_SELECT_THE_HERD_PAGE,
   PREVIOUSLY_CLAIMED_YES_ON_SELECT_THE_HERD_PAGE,
 } from "../../utils/multiple-herd-selectors.js";
-import { MULTIPLE_HERDS_SBI, MULTIPLE_HERD_SHEEP_AGREEMENT_REF } from "../../utils/constants.js";
+import { MULTIPLE_HERDS_SBI, MULTIPLE_HERD_AGREEMENT_REF } from "../../utils/constants.js";
 import { approveClaim } from "../../utils/backoffice-common.js";
-import { createSheepReviewClaim } from "../../utils/review-claim.js";
-import { createMultipleHerdSheepFollowUp } from "../../utils/follow-up-claim.js";
+import { createSheepReviewClaim } from "../../utils/reviews/index.js";
+import { createMultipleHerdSheepFollowUp } from "../../utils/follow-ups/index.js";
 
 let claimNumber;
 
@@ -108,7 +108,7 @@ describe("Multiple herd sheep claim journeys", async function () {
   });
 
   it("can create a follow-up claim when a review claim is approved for a flock of sheep", async () => {
-    await approveClaim(MULTIPLE_HERD_SHEEP_AGREEMENT_REF, claimNumber);
+    await approveClaim(MULTIPLE_HERD_AGREEMENT_REF, claimNumber);
 
     await performDevLogin(MULTIPLE_HERDS_SBI);
 

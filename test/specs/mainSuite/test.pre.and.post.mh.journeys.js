@@ -18,8 +18,8 @@ import { PREVIOUSLY_CLAIMED_YES_ON_SELECT_THE_HERD_PAGE } from "../../utils/mult
 import {
   createMultipleHerdSheepFollowUp,
   createMultipleHerdPigsFollowUp,
-} from "../../utils/follow-up-claim.js";
-import { createPigsReviewClaim } from "../../utils/review-claim.js";
+} from "../../utils/follow-ups/index.js";
+import { createPigsReviewClaim } from "../../utils/reviews/index.js";
 import {
   PRE_POST_MULTIPLE_HERD_SBI,
   PRE__POST_MULTIPLE_HERD_AGREEMENT_REF,
