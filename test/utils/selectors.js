@@ -127,3 +127,7 @@ export function getPcrTestResultSelector(pcrResult) {
 export function getGeneticSequencingSelector(sequencingValue) {
   return `input[name="geneticSequencing"][value="${sequencingValue}"]`;
 }
+
+export function getElisaTestResultSelector(sequencingValue) {
+  return `input[name="elisaResult"][value="${sequencingValue}"]`;
+}

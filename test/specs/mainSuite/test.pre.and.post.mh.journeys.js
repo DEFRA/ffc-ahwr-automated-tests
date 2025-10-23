@@ -17,7 +17,7 @@ import {
 import { PREVIOUSLY_CLAIMED_YES_ON_SELECT_THE_HERD_PAGE } from "../../utils/multiple-herd-selectors.js";
 import {
   createMultipleHerdSheepFollowUp,
-  createMultipleHerdPigsFollowUp,
+  createMultipleHerdPigsFollowUpForFirstHerd,
 } from "../../utils/follow-ups/index.js";
 import { createPigsReviewClaim } from "../../utils/reviews/index.js";
 import {
@@ -73,7 +73,7 @@ describe("Multiple herds journeys when Pre-MH claims present", async function ()
 
     await performDevLogin(PRE_POST_MULTIPLE_HERD_SBI);
 
-    await createMultipleHerdPigsFollowUp({
+    await createMultipleHerdPigsFollowUpForFirstHerd({
       isUnnamedHerdClaimPresent: true,
     });
 

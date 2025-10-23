@@ -51,8 +51,8 @@ export async function createMultipleHerdBeefFollowUpForFirstHerd({
   } else {
     await clickOnElementAndContinue(PREVIOUSLY_CLAIMED_YES_ON_SELECT_THE_HERD_PAGE);
   }
-
   await clickContinueButton();
+
   await clickOnElementAndContinue(getSpeciesNumbersSelector("yes"));
   await fillInputAndContinue(VETS_NAME, "Mr Auto Test");
   await fillInputAndContinue(VET_RCVS_NUMBER, "1234567");
@@ -83,7 +83,7 @@ export async function createMultipleHerdBeefFollowUpForAdditionalHerd({
   await selectHerdAndContinue(herdName);
 
   if (isUnnamedHerdClaimPresent) {
-    await fillInputAndContinue(HERD_NAME, "Black Label Beef");
+    await fillInputAndContinue(HERD_NAME, herdName);
     await fillInputAndContinue(HERD_CPH, "33/123/1234");
     await chooseRandomHerdReasonsAndContinue();
   }
