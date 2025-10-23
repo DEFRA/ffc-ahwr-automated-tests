@@ -48,7 +48,7 @@ describe("Multiple herds dairy cattle claim journeys", async function () {
   });
 
   it("can create a PI hunt follow-up claim for the approved dairy review claim with negative test result", async () => {
-    // Answer yes to all PI hunt questions
+    // Use the review claim from the test above and answer yes to all PI hunt questions for doing the follow-up claim
     await approveClaim(MULTIPLE_HERD_AGREEMENT_REF, claimNumber);
 
     await performDevLogin(MULTIPLE_HERDS_SBI);
