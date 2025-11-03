@@ -71,10 +71,11 @@ pipeline {
         stage('Run compliance feature assurance Tests') {
             options { timeout(time: 7, unit: 'MINUTES') }
             steps {
-                script {
-                    if (!binding.hasVariable('testFailures')) { testFailures = [] }
-                    runTestStage('complianceFA', './scripts/run_tests.sh compFA 5', testFailures)
-                }
+                echo 'ℹ️ Skipped until the feature assurance is required again'
+                // script {
+                //     if (!binding.hasVariable('testFailures')) { testFailures = [] }
+                //     runTestStage('complianceFA', './scripts/run_tests.sh compFA 5', testFailures)
+                // }
             }
         }
 

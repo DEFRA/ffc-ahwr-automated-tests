@@ -72,6 +72,8 @@ services:
       MULTI_SPECIES_RELEASE_DATE: "2025-02-26"
       DEV_LOGIN_ENABLED: true
       NODE_ENV: development
+      LFS_UPDATE_ENABLED: ${LFS_UPDATE_ENABLED:-false}
+      LFS_UPDATE_URI: ${LFS_UPDATE_URI:-https://fcp-sfd-frontend.dev.cdp-int.defra.cloud/home?ssoOrgId=}
 
   ffc-ahwr-application:
     platform: linux/amd64
@@ -254,6 +256,8 @@ services:
       ON_HOLD_APP_PROCESS_ENABLED: true
       ON_HOLD_APP_PROCESS_SCHEDULE: "0 0 * * 2-5"
       DATA_REDACTION_PROCESS_SCHEDULE: "0 0 * * 2-5"
+      REMINDER_EMAIL_ENABLED: "false"
+      REMINDER_EMAIL_SCHEDULE: "0 5 * * 2"
       NODE_ENV: development
 
   redis:
