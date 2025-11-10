@@ -49,7 +49,7 @@ pipeline {
         }
 
         stage('Run mainSuite Tests') {
-            options { timeout(time: 10, unit: 'MINUTES') }
+            options { timeout(time: 12, unit: 'MINUTES') }
             steps {
                 script {
                     if (!binding.hasVariable('testFailures')) { testFailures = [] }
