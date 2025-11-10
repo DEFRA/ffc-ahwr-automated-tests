@@ -40,6 +40,9 @@
   <include file="changelog/db.changelog-1.37.xml" />
   <include file="changelog/db.changelog-1.38.xml" />
   <include file="changelog/db.changelog-1.39.xml" />
+  <include file="changelog/db.changelog-1.40.xml" />
+  <include file="changelog/db.changelog-1.41.xml" />
+  <include file="changelog/db.changelog-1.42.xml" />
   <include file="changelog/insert_sheep_apply_review_claim.sql" />
   <include file="changelog/insert_beef_apply_review_claim.sql" />
   <include file="changelog/insert_mh_application.sql" />

@@ -120,6 +120,7 @@ services:
       STORE_HISTORY_IN_DB_ENABLED: "true"
       FEATURE_ASSURANCE_ENABLED: false
       FEATURE_ASSURANCE_START: "2025-05-01"
+      REMINDER_EMAIL_MAX_BATCH_SIZE: ${REMINDER_EMAIL_MAX_BATCH_SIZE:-5000}
 
   ffc-ahwr-application-postgres:
     networks:
